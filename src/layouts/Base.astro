@@ -36,6 +36,7 @@ const analytics = site.ANALYTICS.key ? site.ANALYTICS : null;
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
   {noindex && <meta name="robots" content="noindex" />}
+  <link rel="preload" href="/fonts/source-serif-4-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title={`${name} updates`} href="/updates/rss.xml" />
   <meta name="color-scheme" content="light dark" />

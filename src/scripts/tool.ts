@@ -103,7 +103,7 @@ function calc() {
   const rows = row('Ideal tilt (20°)', r.ideal, best.ideal) + row('Vertical railing (90°)', r.vertical, best.vertical);
   if (!rows) { box.innerHTML = `<p class="muted">No solar data for ${esc(s.n)} yet, so we show no estimate.</p>`; return; }
   box.innerHTML = `<div class="table-wrap"><table class="stack"><thead><tr><th scope="col">${esc(s.n)}</th><th scope="col">Output / yr</th><th scope="col">Your share (${share}%): savings · payback</th><th scope="col">Best case (100%)</th></tr></thead><tbody>${rows}</tbody></table></div>
-    <p class="small muted">Payback needs a kit cost. Savings assume nothing is paid for power sent to the grid.</p>`;
+    <p class="small muted" style="margin-top:0.9rem">Payback uses the kit cost above. Savings assume nothing is paid for power sent to the grid.</p>`;
 }
 
 function fromHash(focus: boolean) {
