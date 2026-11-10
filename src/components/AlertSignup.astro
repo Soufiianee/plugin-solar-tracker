@@ -1,0 +1,26 @@
+---
+/**
+ * "Tell me when a certified kit is legal in my state" signup (MailerLite).
+ * Renders nothing when config/site.json MAILERLITE is empty.
+ * `deferred`: markup is present but hidden; a page script reveals it and loads MailerLite on demand.
+ */
+import { mailerlite, states } from '../lib/data';
+interface Props { id?: string; deferred?: boolean; state?: string }
+const { id = 'alert-signup', deferred = false, state } = Astro.props;
+const sorted = [...states].sort((a, b) => a.name.localeCompare(b.name));
+---
+{mailerlite && (
+  <section id={id} class="card signup" aria-labelledby={`${id}-h`} data-ml-account={mailerlite.account} hidden={deferred}>
+    <h2 id={`${id}-h`} style="margin-top:0">Tell me when a certified kit is legal in my state</h2>
+    <p class="small">We email you when a complete kit is confirmed for your state. We use your address only for these alerts.</p>
+    <div class="field" data-ml-state-wrap hidden>
+      <label for={`${id}-state`}>Your state</label>
+      <select id={`${id}-state`} data-ml-state>
+        <option value="">Choose a state…</option>
+        {sorted.map((s) => <option value={s.code} selected={s.code === state}>{s.name}</option>)}
+      </select>
+    </div>
+    <div class="ml-embedded" data-form={mailerlite.form_id}></div>
+    <p class="small muted" style="margin-bottom:0">The form is provided by MailerLite. Showing it loads files from MailerLite's servers; your email goes to MailerLite only if you subscribe. <a href="/privacy/">Privacy</a>.</p>
+  </section>
+)}

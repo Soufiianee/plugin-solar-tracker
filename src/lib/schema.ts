@@ -263,10 +263,12 @@ export const affiliatesFile = z.record(
   }),
 );
 export const siteFile = z.object({
-  SITE_NAME: z.string(),
   BASE_URL: z.string().url(),
+  /** "TBD" = not chosen yet; pages then show the working name "Plug-in Solar Tracker" */
+  SITE_NAME: z.string().min(1),
+  /** empty = no contact page and no footer link */
   CONTACT_EMAIL: z.string(),
-  EMAIL_SIGNUP_EMBED_URL: z.string(),
-  CERT_WATCH_SIGNUP_EMBED_URL: z.string(),
+  /** MailerLite embedded form; empty account or form_id = signup hidden everywhere */
+  MAILERLITE: z.object({ account: z.string().regex(/^\d*$/), form_id: z.string().regex(/^[A-Za-z0-9]*$/) }),
   ANALYTICS: z.object({ provider: z.string(), key: z.string() }),
 });

@@ -1,0 +1,57 @@
+---
+import Base from '../../layouts/Base.astro';
+import Disclaimer from '../../components/Disclaimer.astro';
+import { states, isEnacted, effectiveDate, fmtDate, lastCheckedAll, BUILD_DATE } from '../../lib/data';
+import { ruleValue } from '../../lib/labels';
+
+const enacted = states.filter(isEnacted).sort((a, b) => a.name.localeCompare(b.name));
+const protects = enacted.filter((s) => s.rules.landlord_provisions.value === 'protects_tenants');
+const silent = enacted.filter((s) => s.rules.landlord_provisions.value === 'not_addressed' || s.rules.landlord_provisions.value === 'notice_rules_only');
+const unknown = enacted.filter((s) => s.rules.landlord_provisions.value === 'unknown');
+const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headline: 'Plug-in solar for renters: what your landlord can and can\'t do', dateModified: lastCheckedAll() };
+---
+<Base title="Plug-in solar for renters: what your landlord can and can't do" description={`Which state plug-in solar laws protect renters (${protects.map((s) => s.name).join(', ')}), what notice you must give, and what to do where the law is silent.`} crumbs={[{ name: 'Guides', href: '/guides/' }, { name: 'Renters', href: '/guides/renters/' }]} jsonLd={[articleLd]}>
+  <article class="prose">
+    <h1>Plug-in solar for renters</h1>
+    <p style="font-size:1.1rem">Plug-in solar suits renters: it plugs into an outlet and can move with you. Whether your landlord can say no depends on your state.</p>
+
+    <h2>States where the law protects renters</h2>
+    <p>{protects.length} state laws limit a landlord's ability to ban plug-in solar. Each comes with conditions, usually advance notice to the landlord.</p>
+  </article>
+
+  {protects.map((s) => {
+    const r = s.rules.landlord_provisions;
+    const eff = effectiveDate(s);
+    return (
+      <section class="card" style="margin:0.8rem 0">
+        <h3 style="margin-top:0"><a href={`/states/${s.slug}/`}>{s.name}</a></h3>
+        <p style="margin-bottom:0.4rem">{r.detail}</p>
+        <p class="small muted" style="margin:0">{eff && (eff > BUILD_DATE ? `Law takes effect ${fmtDate(eff)}. ` : `Law in effect since ${fmtDate(eff)}. `)}{s.code === 'CO' && 'The renter and HOA protections start January 1, 2027. '}{r.rule_sources[0] && <a href={r.rule_sources[0].url} rel="noopener">Read the law</a>}</p>
+      </section>
+    );
+  })}
+
+  <article class="prose">
+    <h2>States where the law is silent on renters</h2>
+    <p>In {silent.map((s) => s.name).join(', ').replace(/, ([^,]*)$/, ', and $1')}, the plug-in law does not mention landlords, so it does not override your lease. A lease that bans alterations, wiring changes or items on balconies may still apply. {silent.some((s) => s.code === 'ME') && 'Maine adds one rule for anyone using a building they don\'t own: the system must not damage the structure or break building, fire or zoning codes, and you must restore the structure when you remove it.'}</p>
+    {unknown.length > 0 && <p>{unknown.map((s) => s.name).join(', ')}: we have not yet confirmed what the law says. See the state page.</p>}
+    <p>In states without a plug-in law, there is no state rule for landlords at all. Your lease and your utility's rules apply.</p>
+
+    <h2>Before you buy: a renter's checklist</h2>
+    <ol>
+      <li><strong>Read your lease</strong> for clauses on alterations, balconies, railings and electrical use.</li>
+      <li><strong>Tell your landlord in writing</strong>, even where the law doesn't require it. Include the product name, its certification, and where it will go. In Vermont (10 days), Virginia (7 days) and New Jersey (14 days), written notice is part of the law.</li>
+      <li><strong>Check who pays for electricity.</strong> New Jersey's protection covers tenants who pay for their own electricity. Virginia's excludes units billed by "ratio utility billing" (where the building's bill is split among tenants).</li>
+      <li><strong>Plan safe mounting.</strong> Vermont requires the device to be "temporarily but securely attached". Several laws let landlords set reasonable rules on size and placement.</li>
+      <li><strong>Don't do electrical work.</strong> Vermont bars tenants from electrical work without the landlord's permission. Virginia bars installs that alter wiring without written approval. A plug-in kit should need none.</li>
+      <li><strong>Check the rules for your utility.</strong> Maryland and Virginia require a notice to the utility before you install. <a href="/">See your state</a>.</li>
+      <li><strong>Ask your renters insurance</strong> whether it covers the device and any damage it could cause. Virginia's and New Jersey's laws make the tenant responsible for damage the device causes.</li>
+    </ol>
+
+    <h2>Moving out</h2>
+    <p>Unplug the kit, take it down and repair any mounting holes. If you move to another state, check that state's rules first: size limits and certification rules differ.</p>
+
+    <p class="small muted">Every statement about a state comes from that state's enacted law, linked above. Checked {fmtDate(lastCheckedAll())}. Laws change: see the <a href="/updates/">updates page</a>.</p>
+    <Disclaimer />
+  </article>
+</Base>

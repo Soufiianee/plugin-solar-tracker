@@ -11,7 +11,7 @@ Status as of **10 November 2026**. The site builds, validates and is ready to de
   - the key rules, each with a source link;
   - kits with conservative verdicts, and a link to Certification watch when no kit is confirmed.
   The savings estimator shows two scenarios (20° "ideal tilt" and 90° "vertical railing") with a payback range, and a "How we calculate" disclosure. A state can be shared as `/#state-xx`.
-- **Certification watch**: UL 3700 status for every kit, with scope (component vs complete system), certifier, conditions and evidence. It lists the states that require UL 3700 or complete-system certification. The email-alert embed reads `CERT_WATCH_SIGNUP_EMBED_URL`; while that is empty, the page points to the RSS feed instead.
+- **Certification watch**: UL 3700 status for every kit, with scope (component vs complete system), certifier, conditions and evidence. It lists the states that require UL 3700 or complete-system certification. The email alert uses MailerLite (account 2784312, form o2Ywz2, set in `config/site.json`). Our state dropdown fills MailerLite's "State" field, and MailerLite's script loads only on this page and in the tool when a state has no compatible kit.
 - **SEO**: a unique title and description per page from the data, canonical URLs, sitemap.xml, robots.txt and BreadcrumbList JSON-LD on every page. FAQPage JSON-LD appears only where a visible FAQ exists; Dataset JSON-LD is on the home page. Each state has a 1200×630 Open Graph image generated at build time. State pages link to bordering states.
 - **Data safety**: zod schemas, and `npm run build` runs validation first, so the build fails on invalid data. The rules are enforced in code:
   - a "certified" kit must have certificate evidence;
@@ -77,7 +77,7 @@ No kit is "compatible" anywhere. No complete system has a certificate, so in eve
 1. **NREL key**: the key saved for developer.nlr.gov is rejected (`API_KEY_INVALID`). It also overrides the public demo key, so no yield runs can happen until it is fixed. Re-enter a valid key, then run `npm run yield`.
 2. ~~New repository~~ Done: the project is the root of github.com/Soufiianee/plugin-solar-tracker.
 3. **New Hampshire**: waiting on your check of gc.nh.gov.
-4. **Signup provider**: choose one and paste its embed URL into `CERT_WATCH_SIGNUP_EMBED_URL`.
+4. ~~Signup provider~~ Done: MailerLite. In MailerLite, also edit the form's default copy ("Newsletter / Signup for news and special offers!"). The site hides that heading, but confirmation emails may reuse it.
 5. `SITE_NAME`, `BASE_URL` and `CONTACT_EMAIL` are still empty or placeholders.
 
 ## Known limits
@@ -86,13 +86,13 @@ No kit is "compatible" anywhere. No complete system has a certificate, so in eve
 - 14 "no bill found" states rely on trackers plus our own search outcome, not each legislature's own search (Florida was searched directly).
 - UL Product iQ and the CSA directory were unreachable, so certification evidence comes from manufacturer-hosted certificates.
 - Yields are modelled for the state capital only; real balconies vary by orientation and shade.
-- Guides (`/guides/...`) are not written yet. You allowed these to follow.
+- Guides: "Is it worth it?" and "Renters" are written. "How plug-in solar works", "HOA" and "UL 3700 explained" are still to do.
 - Dates printed on pages are fixed at build time, so redeploy weekly. Countdowns update in the browser.
 
 ## Top 5 next improvements
 
 1. Fix the NREL key and fill both yield scenarios for all 51 states.
-2. Write the five guides, starting with "UL 3700 explained" and "Renters", which matter most for 1 January.
+2. Write the remaining guides: UL 3700 explained, HOA, and how plug-in solar works.
 3. Confirm the 6 unconfirmed states and the 14 "no bill" states on their own legislature search pages.
 4. Add a per-kit "what the certificate covers" explainer, and a state-specific checklist (forms, notice periods) to each enacted state page.
 5. Add a ZIP-to-utility lookup for the notification forms (VA SCC form, MD and ME utility notices), from official utility commission pages.
@@ -123,3 +123,12 @@ bills.nhliberty.org  documents.ncsl.org  sd11.senate.ca.gov  www.gov.ca.gov  cer
 **Package installs**: `registry.npmjs.org`.
 
 **The deployed site** makes no third-party requests unless you turn on analytics (`plausible.io`) or a signup embed (your provider's domain).
+
+## Update (session 2)
+
+- Moved to its own repository: github.com/Soufiianee/plugin-solar-tracker (branch `main`).
+- `SITE_NAME`, `BASE_URL` and `CONTACT_EMAIL` are each one value in `config/site.json`. The "TBD" fallback name is handled in one place (`src/lib/data.ts`).
+- MailerLite alerts added; `/privacy` names MailerLite.
+- Guides: `/guides/is-it-worth-it/` (numbers built from the data) and `/guides/renters/`.
+- **Compatibility audit** (`npm run compat-audit` → `research/COMPAT_AUDIT.md`): a proposed model for "lab-listed" states, awaiting the owner's approval. **The site's verdicts are unchanged.**
+- NREL key: still returns `API_KEY_INVALID` through the proxy. Yields are unchanged.

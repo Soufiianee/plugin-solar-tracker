@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { site, absUrl } from '../lib/data';
+import { site, siteName, absUrl } from '../lib/data';
 
 interface Crumb { name: string; href: string }
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 const { title, description, crumbs = [], ogImage = '/og/default.png', jsonLd = [], noindex = false } = Astro.props;
 const path = Astro.url.pathname;
 const canonical = absUrl(path);
-const name = site.SITE_NAME === 'TBD' ? 'Plug-in Solar Tracker' : site.SITE_NAME;
+const name = siteName;
 const fullTitle = path === '/' ? `${name}: ${title}` : `${title} | ${name}`;
 const allCrumbs = [{ name: 'Home', href: '/' }, ...crumbs];
 const breadcrumbLd = {
@@ -23,7 +23,7 @@ const breadcrumbLd = {
 };
 const nav = [
   ['/', 'Check your state'], ['/kits/', 'Kits'], ['/certification-watch/', 'Certification watch'],
-  ['/updates/', 'Updates'], ['/how-we-verify/', 'How we verify'],
+  ['/guides/', 'Guides'], ['/updates/', 'Updates'], ['/how-we-verify/', 'How we verify'],
 ];
 const analytics = site.ANALYTICS.key ? site.ANALYTICS : null;
 ---
@@ -81,6 +81,7 @@ const analytics = site.ANALYTICS.key ? site.ANALYTICS : null;
       <p><strong>{name}</strong> is an independent information site. It is not a government website and is not legal or electrical advice.</p>
       <ul>
         <li><a href="/about/">About</a></li>
+        <li><a href="/guides/">Guides</a></li>
         <li><a href="/how-we-verify/">How we verify</a></li>
         <li><a href="/updates/">Updates</a></li>
         <li><a href="/disclaimer/">Disclaimer</a></li>

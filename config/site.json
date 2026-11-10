@@ -2,10 +2,12 @@
   "SITE_NAME": "TBD",
   "BASE_URL": "https://example.com",
   "CONTACT_EMAIL": "",
-  "EMAIL_SIGNUP_EMBED_URL": "",
+  "MAILERLITE": {
+    "account": "2784312",
+    "form_id": "o2Ywz2"
+  },
   "ANALYTICS": {
     "provider": "plausible",
     "key": ""
-  },
-  "CERT_WATCH_SIGNUP_EMBED_URL": ""
+  }
 }

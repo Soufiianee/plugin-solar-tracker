@@ -149,3 +149,7 @@ summary { cursor: pointer; font-weight: 600; }
 @media (max-width: 40rem) {
   table.stack td[data-label]::before { content: attr(data-label) ": "; font-weight: 600; color: var(--ink-2); }
 }
+
+/* MailerLite embed: our card supplies the heading and promise, so hide the form's generic built-in heading. */
+.signup .ml-embedded .ml-form-embedContent { display: none !important; }
+.signup .ml-embedded .ml-form-embedWrapper { margin: 0 !important; max-width: 100% !important; }

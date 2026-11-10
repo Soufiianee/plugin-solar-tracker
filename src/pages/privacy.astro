@@ -1,8 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
-import { site } from '../lib/data';
+import { site, mailerlite } from '../lib/data';
 const analytics = Boolean(site.ANALYTICS.key);
-const signup = Boolean(site.CERT_WATCH_SIGNUP_EMBED_URL || site.EMAIL_SIGNUP_EMBED_URL);
+const signup = Boolean(mailerlite);
 ---
 <Base title="Privacy" description="No accounts, no cookies, no personal data collected by this site." crumbs={[{ name: 'Privacy', href: '/privacy/' }]}>
   <article class="prose">
@@ -16,7 +16,10 @@ const signup = Boolean(site.CERT_WATCH_SIGNUP_EMBED_URL || site.EMAIL_SIGNUP_EMB
       : <p>No analytics are running on this site.</p>}
     <h2>Email alerts</h2>
     {signup
-      ? <p>If you sign up for alerts, the form is run by our email provider, and your address is stored by that provider. We use it only to send the alerts you asked for, and you can unsubscribe from any email.</p>
+      ? <>
+          <p>Our email alerts ("tell me when a certified kit is legal in my state") use <strong>MailerLite</strong> (MailerLite Limited) as the email provider. The form appears only on the Certification watch page, and in the state checker when your state has no confirmed kit. It does not appear on any other page.</p>
+          <p>When one of those forms is shown, your browser loads it from MailerLite's servers, so MailerLite receives the technical details any website sees (such as your IP address). <strong>Only if you subscribe</strong> does MailerLite receive and store your email address and the state you chose. We use them only to send the alerts you asked for. Every email has an unsubscribe link. MailerLite's own privacy policy applies to the data it holds.</p>
+        </>
       : <p>Email alerts are not running yet. If we add them, they will use a separate email provider, and we will update this page first.</p>}
     <h2>Links to other sites</h2>
     <p>We link to legislatures, government data and sellers. Those sites have their own privacy policies.</p>

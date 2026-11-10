@@ -1,0 +1,83 @@
+---
+import Base from '../../layouts/Base.astro';
+import Disclaimer from '../../components/Disclaimer.astro';
+import { states, kits, isEnacted, priceFor, yieldFor, prices, yields, effectiveDate, fmtDate, BUILD_DATE } from '../../lib/data';
+import { scenario, fmtUsd } from '../../lib/calc';
+
+// Worked example: a real kit from our data (EcoFlow STREAM Microinverter + 2 x 400 W panels).
+const ex = kits.find((k) => k.slug === 'ecoflow-stream-microinverter-2x400w')!;
+const W = ex.panel_w_total as number;
+const COST = ex.price_usd as number;
+
+const rows = states.filter(isEnacted).sort((a, b) => a.name.localeCompare(b.name)).map((s) => {
+  const price = priceFor(s.code);
+  const y = yieldFor(s.code);
+  const run = (yy: number | 'unknown') => (typeof yy === 'number' && typeof price === 'number' ? scenario(W, yy, price, 100, COST) : null);
+  return { s, price, y, ideal: run(y.ideal), vertical: run(y.vertical) };
+});
+const ideals = rows.filter((r) => r.ideal);
+const best = [...ideals].sort((a, b) => a.ideal!.paybackYears! - b.ideal!.paybackYears!)[0];
+const worst = [...ideals].sort((a, b) => b.ideal!.paybackYears! - a.ideal!.paybackYears!)[0];
+const anyVertical = rows.some((r) => r.vertical);
+const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headline: 'Is plug-in solar worth it? Real numbers by state', dateModified: prices.last_checked };
+---
+<Base title="Is plug-in solar worth it? Real numbers by state" description={`What a ${W} W plug-in solar kit could save in each state with a plug-in law, using EIA electricity prices and NREL solar data, and how long it takes to pay back.`} crumbs={[{ name: 'Guides', href: '/guides/' }, { name: 'Is it worth it?', href: '/guides/is-it-worth-it/' }]} jsonLd={[articleLd]}>
+  <article class="prose">
+    <h1>Is plug-in solar worth it?</h1>
+    <p style="font-size:1.1rem">It depends on three numbers: what you pay for electricity, how much sun your panels get, and what the kit costs. Here they are for each state with a plug-in law.</p>
+
+    <h2>The short answer</h2>
+    {best && worst ? (
+      <p>For an {W} W kit costing {fmtUsd(COST)} in ideal sun, payback ranges from about <strong>{best.ideal!.paybackYears} years in {best.s.name}</strong> to about <strong>{worst.ideal!.paybackYears} years in {worst.s.name}</strong>. The difference is mostly the price of electricity: {best.s.name} averages {best.price}¢ per kWh and {worst.s.name} {worst.price}¢. Panels hung flat on a railing produce less, so expect a longer payback there.</p>
+    ) : <p>We are still adding solar data for these states.</p>}
+
+    <h2>Our example</h2>
+    <p>We use a real product from our kit list: the <a href={`/kits/${ex.slug}/`}>{ex.brand} {ex.model}</a>, {W} W of panels, listed at {fmtUsd(COST)} on {fmtDate(ex.price_checked_on!)}. We assume you use all the power at home and earn nothing for power sent to the grid. Most of these laws exclude plug-in systems from net metering, and the rest do not promise any payment. Two cases:</p>
+    <ul>
+      <li><strong>Ideal tilt</strong>: panels at 20°, facing south. Think of a sunny patio or a yard.</li>
+      <li><strong>Vertical railing</strong>: panels hanging flat (90°), facing south. Think of a balcony rail.</li>
+    </ul>
+  </article>
+
+  <div class="table-wrap" style="margin:1rem 0">
+    <table class="stack">
+      <caption class="visually-hidden">Yearly savings and payback for a {W} W kit costing {fmtUsd(COST)}</caption>
+      <thead><tr><th scope="col">State</th><th scope="col">Price</th><th scope="col">Ideal tilt: savings / payback</th><th scope="col">Vertical railing: savings / payback</th></tr></thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr>
+            <th scope="row"><a href={`/states/${r.s.slug}/`}>{r.s.name}</a>{r.s.verification === 'secondary_only' && <span class="small muted"><br />law being verified</span>}</th>
+            <td data-label="Price" class="num">{typeof r.price === 'number' ? `${r.price}¢/kWh` : 'Unknown'}</td>
+            <td data-label="Ideal tilt" class="num">{r.ideal ? `${fmtUsd(r.ideal.dollars)} a year · ${r.ideal.paybackYears} yrs` : 'Solar data pending'}</td>
+            <td data-label="Vertical railing" class="num">{r.vertical ? `${fmtUsd(r.vertical.dollars)} a year · ${r.vertical.paybackYears} yrs` : 'Solar data pending'}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  {!anyVertical && <p class="small muted">The vertical-railing figures are not added yet. We show "pending" rather than guess. Panels hung vertically usually produce less than tilted ones.</p>}
+
+  <article class="prose">
+    <h2>What makes it better or worse</h2>
+    <ul>
+      <li><strong>Your electricity price.</strong> This matters most. Check your bill's price per kWh, including delivery charges, and use it in the <a href="/#tool">calculator</a>.</li>
+      <li><strong>Using the power yourself.</strong> Savings come from power you use while the sun shines: the fridge, a router, things on standby. Power sent back to the grid usually earns nothing. Vermont's law says so directly. Connecticut's law requires devices to warn that exports may be <em>charged</em> to you as usage, unless your meter supports net metering.</li>
+      <li><strong>Direction and shade.</strong> East- or west-facing balconies and shade from buildings cut output. The figures above assume south-facing panels with no shade.</li>
+      <li><strong>The kit's real price.</strong> Prices change often. Kits that bundle a battery cost more and pay back more slowly unless you can shift power into the evening.</li>
+      <li><strong>Size limits.</strong> Most state laws cap output at 1,200 W, and Colorado at 1,920 W. A kit over the cap is not covered by the law.</li>
+    </ul>
+
+    <h2>Is it legal where you live?</h2>
+    <p>Savings mean little if the system isn't allowed. {rows.filter((r) => effectiveDate(r.s) && effectiveDate(r.s)! > BUILD_DATE).map((r) => `${r.s.name} (from ${fmtDate(effectiveDate(r.s)!)})`).join(', ')} have laws that are not in effect yet{rows.some((r) => r.s.verification === 'secondary_only') ? `, and ${rows.filter((r) => r.s.verification === 'secondary_only').map((r) => r.s.name).join(', ')} reportedly signed one that we are still verifying` : ''}. Several states require a specific safety certification, and no complete kit has shown us that certificate yet. <a href="/certification-watch/">See Certification watch</a>.</p>
+
+    <h2>How we worked it out</h2>
+    <p>Yearly savings = panel watts ÷ 1,000 × yearly output per kW × price. Payback = kit cost ÷ yearly savings.</p>
+    <ul class="small">
+      <li>Prices: {prices.source.title}, residential average for {prices.period}.</li>
+      <li>Solar output: {yields.model}, run for each state capital with {yields.common.losses_pct}% system losses (<a href="https://developer.nlr.gov/docs/solar/pvwatts/v8/" rel="noopener">PVWatts documentation</a>).</li>
+      <li>No incentives, no payment for exports, no change in electricity prices, and no inverter clipping.</li>
+    </ul>
+    <p class="small muted">Numbers update automatically when we refresh prices or solar data. Last price update: {fmtDate(prices.last_checked)}.</p>
+    <Disclaimer />
+  </article>
+</Base>

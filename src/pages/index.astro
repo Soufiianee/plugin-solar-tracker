@@ -3,9 +3,10 @@ import Base from '../layouts/Base.astro';
 import TileMap from '../components/TileMap.astro';
 import StatusPill from '../components/StatusPill.astro';
 import Disclaimer from '../components/Disclaimer.astro';
+import AlertSignup from '../components/AlertSignup.astro';
 import {
   states, kits, updates, STATUS, statusLabel, effectiveDate, mainBill, kitVerdict, isEnacted, priceFor, yieldFor,
-  prices, yields, fmtDate, absUrl, site,
+  prices, yields, fmtDate, absUrl, siteName, mailerlite,
 } from '../lib/data';
 import { verdictLabel, needsSystemCert } from '../lib/compat';
 import { RULE_NAMES, ruleValue } from '../lib/labels';
@@ -39,7 +40,7 @@ const datasetLd = {
   name: 'US plug-in (balcony) solar state law tracker',
   description: 'Status of plug-in solar legislation in all 50 US states and DC, with enacted rules (size limits, utility notification, landlord and HOA provisions, certification requirements) traced to official legislature sources, and kit certification status.',
   url: absUrl('/'), isAccessibleForFree: true, dateModified: states.map((s) => s.last_checked).sort().reverse()[0],
-  spatialCoverage: 'United States', creator: { '@type': 'Organization', name: site.SITE_NAME === 'TBD' ? 'Plug-in Solar Tracker' : site.SITE_NAME },
+  spatialCoverage: 'United States', creator: { '@type': 'Organization', name: siteName },
   variableMeasured: ['legal status', 'maximum watts', 'utility notification', 'certification requirement'],
 };
 ---
@@ -73,6 +74,7 @@ const datasetLd = {
         <div id="result" class="card" aria-live="polite" tabindex="-1">
           <p class="muted" style="margin:0">Choose a state to see its rules and kits.</p>
         </div>
+        <div style="margin-top:1rem"><AlertSignup id="tool-signup" deferred /></div>
       </div>
     </div>
 

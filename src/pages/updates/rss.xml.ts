@@ -1,10 +1,10 @@
 import type { APIRoute } from 'astro';
-import { updates, site, absUrl, byCode } from '../../lib/data';
+import { updates, siteName, absUrl, byCode } from '../../lib/data';
 
 const x = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 export const GET: APIRoute = () => {
-  const name = site.SITE_NAME === 'TBD' ? 'Plug-in Solar Tracker' : site.SITE_NAME;
+  const name = siteName;
   const items = updates.slice(0, 50).map((u) => {
     const link = u.state ? absUrl(`/states/${byCode[u.state].slug}/`) : absUrl('/updates/');
     return `<item><title>${x(u.title)}</title><link>${link}</link><guid isPermaLink="false">${x(`${u.date}-${u.state ?? 'site'}-${u.kind}`)}</guid><pubDate>${new Date(u.date + 'T12:00:00Z').toUTCString()}</pubDate><description>${x(u.body)}</description></item>`;

@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
-import { states, isEnacted, site } from '../lib/data';
-const name = site.SITE_NAME === 'TBD' ? 'Plug-in Solar Tracker' : site.SITE_NAME;
+import { states, isEnacted, siteName } from '../lib/data';
+const name = siteName;
 ---
 <Base title="About" description={`${name} tracks US plug-in (balcony) solar laws and kit certification, checked against official sources.`} crumbs={[{ name: 'About', href: '/about/' }]}>
   <article class="prose">

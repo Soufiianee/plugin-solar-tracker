@@ -3,7 +3,7 @@ import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
-import { states, statusLabel, effectiveDate, fmtDate, site, STATUS } from '../../lib/data';
+import { states, statusLabel, effectiveDate, fmtDate, siteName, STATUS } from '../../lib/data';
 
 const require = createRequire(import.meta.url);
 const font = (w: number) => readFileSync(require.resolve(`@fontsource/inter/files/inter-latin-${w}-normal.woff`));
@@ -23,7 +23,7 @@ export function getStaticPaths() {
 const h = (type: string, style: Record<string, unknown>, children?: unknown) => ({ type, props: { style, children } });
 
 export const GET: APIRoute = async ({ params }) => {
-  const name = site.SITE_NAME === 'TBD' ? 'Plug-in Solar Tracker' : site.SITE_NAME;
+  const name = siteName;
   const s = states.find((x) => x.slug === params.slug);
   let title = 'Is plug-in solar legal in your state?';
   let line = 'State laws and kit certification, checked against official sources';

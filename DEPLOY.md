@@ -20,11 +20,10 @@ Edit `config/site.json`:
 
 | Setting | What to put |
 |---|---|
-| `SITE_NAME` | Your site's name. While it says `TBD`, the site shows "Plug-in Solar Tracker". |
-| `BASE_URL` | Your final address, e.g. `https://example.org`. It is used for canonical links, the sitemap and social images. |
+| `SITE_NAME` | Your site's name. `TBD` (the current placeholder) shows the working name "Plug-in Solar Tracker" everywhere. This is the only place the name is set. |
+| `BASE_URL` | Your final address, e.g. `https://example.org`. It is used for canonical links, the sitemap, RSS and social images. Currently the placeholder `https://example.com`. |
 | `CONTACT_EMAIL` | Leave empty to hide the contact page and its footer link. Fill it in to publish it. |
-| `CERT_WATCH_SIGNUP_EMBED_URL` | The embed URL of a hosted signup form (Buttondown, ConvertKit, MailerLite and similar). Empty means the form is hidden. |
-| `EMAIL_SIGNUP_EMBED_URL` | Same, for a general newsletter (optional). |
+| `MAILERLITE.account`, `MAILERLITE.form_id` | Your MailerLite account number and embedded form code (set to `2784312` / `o2Ywz2`). Empty values hide the signup everywhere. MailerLite's script loads only on Certification watch, and in the tool when a state has no compatible kit. |
 | `ANALYTICS` | `{"provider": "plausible", "key": "your-domain.org"}` turns on Plausible. An empty key means no analytics. |
 
 Affiliate links: in `config/affiliates.json`, a link becomes sponsored only when **both** `affiliate_id` and `link_template` are set. Example template: `{raw_url}?ref={id}`. Commit and push after editing.

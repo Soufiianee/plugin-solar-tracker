@@ -1,4 +1,5 @@
 import { estimate, fmtUsd, fmtKwh } from '../lib/calc';
+import { loadMailerLite, wireStateField } from './signup-loader';
 
 type Rule = [string, string, string | null];
 interface SD {
@@ -43,7 +44,7 @@ function render(code: string, focus: boolean) {
   if (s.enacted) {
     kitsHtml = compatible.length
       ? `<p><strong>Compatible kits:</strong></p><ul>${compatible.map((f) => `<li><a href="/kits/${f.k.slug}/">${esc(f.k.name)}</a></li>`).join('')}</ul>`
-      : `<div class="note"><strong>No kit is confirmed compatible here yet.</strong> ${s.strict ? 'This state requires UL 3700 or complete-system certification, and no complete kit has shown us that certificate.' : 'We have not seen a certificate for any complete kit.'} <a href="/certification-watch/">Get Certification watch alerts</a>.</div>`;
+      : `<div class="note"><strong>No kit is confirmed compatible here yet.</strong> ${s.strict ? 'This state requires UL 3700 or complete-system certification, and no complete kit has shown us that certificate.' : 'We have not seen a certificate for any complete kit.'} <a href="/certification-watch/">See Certification watch</a>.</div>`;
     if (near.length)
       kitsHtml += `<p class="small">Within the size limit but not confirmed:</p><ul class="small">${near.map((f) => `<li><a href="/kits/${f.k.slug}/">${esc(f.k.name)}</a>: ${esc(D.verdictLabel[f.v])}</li>`).join('')}</ul>`;
   }
@@ -59,10 +60,24 @@ function render(code: string, focus: boolean) {
     ${kitsHtml}
     <p><a href="/states/${s.slug}/">Full ${esc(s.n)} page, sources and FAQ</a> · <span class="small muted">Checked ${fmtDate(s.checked)}</span></p>
     <p class="small muted" style="margin:0">Information, not legal advice. Check the official sources before you buy.</p>`;
+  showSignup(code, compatible.length === 0);
   if (focus) out.focus({ preventScroll: false });
   const price = $<HTMLInputElement>('c-price');
   if (typeof s.price === 'number') { price.value = String(s.price); $('c-price-hint').textContent = `${s.n} average residential price, ${D.pricePeriod} (EIA). Change it to match your bill.`; }
   calc();
+}
+
+/** Email alert form: shown (and MailerLite loaded) only when the chosen state has no compatible kit. */
+function showSignup(code: string, show: boolean) {
+  const box = document.getElementById('tool-signup');
+  if (!box) return;
+  box.hidden = !show;
+  if (!show) return;
+  const sel = box.querySelector<HTMLSelectElement>('select[data-ml-state]');
+  if (sel) { sel.value = code; sel.dispatchEvent(new Event('change')); }
+  loadMailerLite(box.dataset.mlAccount!);
+  wireStateField(box);
+  sel?.dispatchEvent(new Event('change'));
 }
 
 function calc() {

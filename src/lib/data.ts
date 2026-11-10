@@ -19,6 +19,9 @@ export const yields = yieldFile.parse(yieldRaw);
 export const updates = updatesFile.parse(updatesRaw).sort((a, b) => b.date.localeCompare(a.date));
 export const affiliates = affiliatesFile.parse(affiliatesRaw);
 export const site = siteFile.parse(siteRaw);
+/** Display name: the one place that handles the "TBD" placeholder. */
+export const siteName = site.SITE_NAME === 'TBD' ? 'Plug-in Solar Tracker' : site.SITE_NAME;
+export const mailerlite = site.MAILERLITE.account && site.MAILERLITE.form_id ? site.MAILERLITE : null;
 
 export const byCode = Object.fromEntries(states.map((s) => [s.code, s])) as Record<string, State>;
 export const bySlug = Object.fromEntries(states.map((s) => [s.slug, s])) as Record<string, State>;
