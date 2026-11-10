@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { states, isEnacted, siteName } from '../lib/data';
+import { states, isEnacted, siteName, site } from '../lib/data';
 const name = siteName;
 ---
 <Base title="About" description={`${name} tracks US plug-in (balcony) solar laws and kit certification, checked against official sources.`} crumbs={[{ name: 'About', href: '/about/' }]}>
@@ -10,6 +10,8 @@ const name = siteName;
     <p>This site answers one question: is plug-in solar legal where you live, what are the rules, and which kits qualify? We keep a state-by-state record of the laws and a record of which kits have the certificates those laws require. Every fact links to its official source.</p>
     <h2>Independence</h2>
     <p>We are an independent information site. We are not a government agency, a utility, or a solar company, and we are not affiliated with any of them. We may later earn commissions from some retailer links. Those links will be marked, and they will never change what we publish about a law or a kit. See our <a href="/affiliate-disclosure/">affiliate disclosure</a>.</p>
+    <h2>Contact</h2>
+    <p>Corrections, questions and press: <strong>{site.CONTACT_EMAIL}</strong>. For a correction, please include the page and a link to the official source. See the <a href="/contact/">contact page</a>.</p>
     <h2>What we are not</h2>
     <p>We do not give legal or electrical advice. Read the <a href="/disclaimer/">disclaimer</a> and <a href="/how-we-verify/">how we verify</a>.</p>
   </article>

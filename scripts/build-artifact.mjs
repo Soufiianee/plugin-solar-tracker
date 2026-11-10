@@ -25,7 +25,7 @@ const pages = walk(dist).filter((f) => f.endsWith('.html'));
 const font = readFileSync(join(dist, 'fonts/source-serif-4-700-latin.woff2')).toString('base64');
 const fontUri = `data:font/woff2;base64,${font}`;
 const site = JSON.parse(readFileSync(join(root, 'config/site.json'), 'utf8'));
-const siteName = site.SITE_NAME === 'TBD' ? 'Plug-in Solar Tracker' : site.SITE_NAME;
+const siteName = site.SITE_NAME;
 
 // bundle each referenced module script once
 const bundles = new Map();

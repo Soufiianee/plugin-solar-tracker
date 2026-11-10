@@ -26,6 +26,15 @@ const nav = [
   ['/guides/', 'Guides'], ['/updates/', 'Updates'], ['/how-we-verify/', 'How we verify'],
 ];
 const analytics = site.ANALYTICS.key ? site.ANALYTICS : null;
+// Site identity (home page only): WebSite + Organization
+const origin = site.BASE_URL;
+const siteLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'Organization', '@id': `${origin}/#organization`, name: siteName, alternateName: site.SITE_ALTERNATE_NAME, url: `${origin}/`, email: site.CONTACT_EMAIL, logo: `${origin}/favicon.svg` },
+    { '@type': 'WebSite', '@id': `${origin}/#website`, name: siteName, alternateName: site.SITE_ALTERNATE_NAME, url: `${origin}/`, inLanguage: 'en-US', publisher: { '@id': `${origin}/#organization` } },
+  ],
+};
 ---
 <!doctype html>
 <html lang="en">
@@ -53,6 +62,7 @@ const analytics = site.ANALYTICS.key ? site.ANALYTICS : null;
     try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
   </script>
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
+  {path === '/' && <script type="application/ld+json" set:html={JSON.stringify(siteLd)} />}
   {jsonLd.map((j) => <script type="application/ld+json" set:html={JSON.stringify(j)} />)}
   {analytics && analytics.provider === 'plausible' && <script defer data-domain={analytics.key} src="https://plausible.io/js/script.js"></script>}
 </head>

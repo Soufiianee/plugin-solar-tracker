@@ -1,4 +1,6 @@
-# Plug-in Solar Tracker (working name; set `SITE_NAME` in config/site.json)
+# Balcony Solar Rules
+
+Live at https://balconysolarrules.com (Cloudflare Pages project `plugin-solar-tracker`).
 
 A static Astro site that answers: *is plug-in (balcony) solar legal in my state, what are the rules, and which kits qualify?* Every legal fact is traced to an official source.
 

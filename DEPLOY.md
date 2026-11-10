@@ -20,9 +20,10 @@ Edit `config/site.json`:
 
 | Setting | What to put |
 |---|---|
-| `SITE_NAME` | Your site's name. `TBD` (the current placeholder) shows the working name "Plug-in Solar Tracker" everywhere. This is the only place the name is set. |
-| `BASE_URL` | Your final address, e.g. `https://example.org`. It is used for canonical links, the sitemap, RSS and social images. Currently the placeholder `https://example.com`. |
-| `CONTACT_EMAIL` | Leave empty to hide the contact page and its footer link. Fill it in to publish it. |
+| `SITE_NAME` | The site's name, "Balcony Solar Rules". This is the only place the name is set; the build refuses the old `TBD` placeholder. |
+| `SITE_ALTERNATE_NAME` | Other name used in structured data ("Plug-in Solar Tracker"). |
+| `BASE_URL` | `https://balconysolarrules.com` (https, no www, no trailing slash; the build checks the form). Used for canonical links, Open Graph, the sitemap, robots.txt, RSS and structured data. |
+| `CONTACT_EMAIL` | `contact@balconysolarrules.com`, shown as text on /contact/ and /about/. Empty hides the contact page. |
 | `MAILERLITE.account`, `MAILERLITE.form_id` | Your MailerLite account number and embedded form code (set to `2784312` / `o2Ywz2`). Empty values hide the signup everywhere. MailerLite's script loads only on Certification watch, and in the tool when a state has no compatible kit. |
 | `ANALYTICS` | `{"provider": "plausible", "key": "your-domain.org"}` turns on Plausible. An empty key means no analytics. |
 
@@ -65,3 +66,9 @@ Netlify works the same way: build command `npm run build`, publish directory `di
 - Once a week, run the prompt in `MAINTENANCE_PROMPT.md` in Claude Code. It re-checks the sources, updates the data and pushes. Cloudflare redeploys automatically.
 - `npm run staleness` shows what is due for a re-check.
 - The page countdowns ("takes effect in N days") are computed in the browser. Dates printed on pages are fixed at build time, so redeploy at least weekly.
+
+## Indexing
+
+- `public/_headers` sends `X-Robots-Tag: noindex` on `plugin-solar-tracker.pages.dev` and its preview subdomains, so only https://balconysolarrules.com is indexed.
+- `robots.txt` allows every crawler (search and AI search included) and points to `https://balconysolarrules.com/sitemap.xml`.
+- If Cloudflare's "managed robots.txt" or AI-crawler blocking is switched on for the zone, it can change what crawlers see. Check https://balconysolarrules.com/robots.txt after any Cloudflare setting change.

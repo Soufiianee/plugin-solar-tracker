@@ -51,7 +51,7 @@ const datasetLd = {
   name: 'US plug-in (balcony) solar state law tracker',
   description: 'Status of plug-in solar legislation in all 50 US states and DC, with enacted rules (size limits, utility notification, landlord and HOA provisions, certification requirements) traced to official legislature sources, and kit certification status.',
   url: absUrl('/'), isAccessibleForFree: true, dateModified: states.map((s) => s.last_checked).sort().reverse()[0],
-  spatialCoverage: 'United States', creator: { '@type': 'Organization', name: siteName },
+  spatialCoverage: 'United States', creator: { '@type': 'Organization', '@id': `${absUrl('/')}#organization`, name: siteName },
   variableMeasured: ['legal status', 'maximum watts', 'utility notification', 'certification requirement'],
 };
 ---

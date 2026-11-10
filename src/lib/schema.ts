@@ -270,9 +270,12 @@ export const affiliatesFile = z.record(
   }),
 );
 export const siteFile = z.object({
-  BASE_URL: z.string().url(),
-  /** "TBD" = not chosen yet; pages then show the working name "Plug-in Solar Tracker" */
-  SITE_NAME: z.string().min(1),
+  /** canonical origin, https, no trailing slash, no www */
+  BASE_URL: z.string().url().regex(/^https:\/\/[^/]+$/, 'BASE_URL must be https://host with no trailing slash'),
+  /** the site's name, shown in the header, titles, Open Graph and structured data */
+  SITE_NAME: z.string().min(1).refine((v) => v !== 'TBD', 'SITE_NAME is still the placeholder'),
+  /** other name the site is known by (structured data alternateName) */
+  SITE_ALTERNATE_NAME: z.string(),
   /** empty = no contact page and no footer link */
   CONTACT_EMAIL: z.string(),
   /** MailerLite embedded form; empty account or form_id = signup hidden everywhere */

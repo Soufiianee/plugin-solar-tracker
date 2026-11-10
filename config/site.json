@@ -1,7 +1,8 @@
 {
-  "SITE_NAME": "TBD",
-  "BASE_URL": "https://example.com",
-  "CONTACT_EMAIL": "",
+  "SITE_NAME": "Balcony Solar Rules",
+  "SITE_ALTERNATE_NAME": "Plug-in Solar Tracker",
+  "BASE_URL": "https://balconysolarrules.com",
+  "CONTACT_EMAIL": "contact@balconysolarrules.com",
   "MAILERLITE": {
     "account": "2784312",
     "form_id": "o2Ywz2"

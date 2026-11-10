@@ -21,8 +21,8 @@ export const updates = updatesFile.parse(updatesRaw).sort((a, b) => b.date.local
 export const affiliates = affiliatesFile.parse(affiliatesRaw);
 export const assumptions = assumptionsFile.parse(assumptionsRaw);
 export const site = siteFile.parse(siteRaw);
-/** Display name: the one place that handles the "TBD" placeholder. */
-export const siteName = site.SITE_NAME === 'TBD' ? 'Plug-in Solar Tracker' : site.SITE_NAME;
+/** Display name (config/site.json SITE_NAME is the single source). */
+export const siteName = site.SITE_NAME;
 /** Off in the claude.ai Artifact copy (ARTIFACT_BUILD=1), whose host blocks third-party scripts. */
 export const mailerlite = site.MAILERLITE.account && site.MAILERLITE.form_id && !process.env.ARTIFACT_BUILD ? site.MAILERLITE : null;
 

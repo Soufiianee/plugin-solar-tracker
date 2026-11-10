@@ -1,0 +1,7 @@
+# Cloudflare Pages headers. Keep the pages.dev copies (production and preview deployments) out of search indexes;
+# the canonical site is https://balconysolarrules.com.
+https://plugin-solar-tracker.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:deployment.plugin-solar-tracker.pages.dev/*
+  X-Robots-Tag: noindex
