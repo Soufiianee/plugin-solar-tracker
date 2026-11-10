@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { scenario, estimate } from '../src/lib/calc';
+import { scenario, estimate, fmtYears } from '../src/lib/calc';
 
 // Expected numbers below were worked out by hand:
 //   kWh = W/1000 × yield;  $ = kWh × share × ¢/100;  payback = cost / $
@@ -43,5 +43,9 @@ describe('savings calculator (hand-checked cases)', () => {
   it('6. rejects nonsense input', () => {
     expect(estimate({ panelWatts: 0, priceCentsPerKwh: 15, sharePct: 100, yields: { ideal: 1500, vertical: 1000 } }).error).toBeTruthy();
     expect(estimate({ panelWatts: 800, priceCentsPerKwh: 15, sharePct: 120, yields: { ideal: 1500, vertical: 1000 } }).error).toBeTruthy();
+  });
+  it('7. payback is always shown with one decimal', () => {
+    expect(fmtYears(4)).toBe('4.0 yrs');
+    expect(fmtYears(10.1)).toBe('10.1 yrs');
   });
 });

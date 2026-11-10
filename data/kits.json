@@ -57,7 +57,8 @@
     ],
     "last_checked": "2026-11-10",
     "ac_output_basis": "manufacturer_stated",
-    "inverter_count": 1
+    "inverter_count": 1,
+    "short_name": "APsystems EZ1-LV (inverter)"
   },
   {
     "brand": "EcoFlow",
@@ -111,7 +112,8 @@
     ],
     "last_checked": "2026-11-10",
     "ac_output_basis": "manufacturer_stated",
-    "inverter_count": 1
+    "inverter_count": 1,
+    "short_name": "EcoFlow STREAM Microinverter"
   },
   {
     "brand": "EcoFlow",
@@ -165,7 +167,8 @@
     ],
     "last_checked": "2026-11-10",
     "ac_output_basis": "manufacturer_stated",
-    "inverter_count": 1
+    "inverter_count": 1,
+    "short_name": "EcoFlow STREAM + 2×400 W panels"
   },
   {
     "brand": "EcoFlow",
@@ -219,7 +222,8 @@
     ],
     "last_checked": "2026-11-10",
     "ac_output_basis": "manufacturer_stated",
-    "inverter_count": 1
+    "inverter_count": 1,
+    "short_name": "EcoFlow STREAM Ultra (battery)"
   },
   {
     "brand": "Hoymiles",
@@ -273,7 +277,8 @@
     ],
     "last_checked": "2026-11-10",
     "ac_output_basis": "manufacturer_stated",
-    "inverter_count": 1
+    "inverter_count": 1,
+    "short_name": "Hoymiles HiFlow Pro 391"
   },
   {
     "brand": "Hoymiles",
@@ -321,7 +326,8 @@
     ],
     "last_checked": "2026-11-10",
     "ac_output_basis": "manufacturer_stated",
-    "inverter_count": 1
+    "inverter_count": 1,
+    "short_name": "Hoymiles HiFlow Pro 420"
   },
   {
     "brand": "Bright Saver",
@@ -375,7 +381,8 @@
     ],
     "last_checked": "2026-11-10",
     "ac_output_basis": "unknown",
-    "inverter_count": 1
+    "inverter_count": 1,
+    "short_name": "Bright Saver 180 W kit"
   },
   {
     "brand": "Bright Saver",
@@ -429,7 +436,8 @@
     ],
     "last_checked": "2026-11-10",
     "ac_output_basis": "unknown",
-    "inverter_count": "unknown"
+    "inverter_count": "unknown",
+    "short_name": "Bright Saver 360 W kit"
   },
   {
     "brand": "CraftStrom",
@@ -483,7 +491,8 @@
     ],
     "last_checked": "2026-11-10",
     "ac_output_basis": "estimated",
-    "inverter_count": 2
+    "inverter_count": 2,
+    "short_name": "CraftStrom 800 W kit"
   },
   {
     "brand": "CraftStrom",
@@ -537,6 +546,7 @@
     ],
     "last_checked": "2026-11-10",
     "ac_output_basis": "estimated",
-    "inverter_count": 3
+    "inverter_count": 3,
+    "short_name": "CraftStrom 1200 W kit"
   }
 ]

@@ -2,6 +2,20 @@
   {
     "date": "2026-11-10",
     "state": null,
+    "kind": "data_correction",
+    "title": "Solar output added for every state, including vertical railing panels",
+    "body": "NREL PVWatts figures are now available for all 50 states and DC in two cases: panels tilted at 20° facing south, and panels hung vertically on a south-facing railing. Savings estimates now show both.",
+    "source": {
+      "title": "NREL/NLR PVWatts v8: Denver (capital), vertical railing (90°, facing south)",
+      "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+      "accessed": "2026-11-10",
+      "type": "government_data",
+      "note": "API query: lat=39.74&lon=-104.99&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 484137.csv; API key omitted from URL."
+    }
+  },
+  {
+    "date": "2026-11-10",
+    "state": null,
     "kind": "kit_update",
     "title": "Kit verdicts: lab-listed states judged separately from UL 3700 states",
     "body": "In Utah, Maryland, Colorado, Connecticut and Virginia, whose laws ask for lab certification without naming UL 3700, a kit with a lab certificate we have seen for its inverter is now shown as \"Likely compatible: confirm with seller\" (APsystems EZ1-LV). Claims without certificates are labelled as claims. Connecticut and Maryland kits with several inverters carry a device-count note.",

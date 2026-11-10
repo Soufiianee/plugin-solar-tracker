@@ -1,4 +1,4 @@
-import { estimate, fmtUsd, fmtKwh } from '../lib/calc';
+import { estimate, fmtUsd, fmtKwh, fmtYears } from '../lib/calc';
 import { loadMailerLite, wireStateField } from './signup-loader';
 
 type Rule = [string, string, string | null];
@@ -96,7 +96,7 @@ function calc() {
   const r = estimate({ ...base, sharePct: share });
   const best = estimate({ ...base, sharePct: 100 });
   if (r.error) { box.innerHTML = `<p role="alert">${esc(r.error)}</p>`; return; }
-  const yrs = (x: number | null) => (x === null ? '—' : `${x} yrs`);
+  const yrs = (x: number | null) => (x === null ? '—' : fmtYears(x));
   const row = (label: string, x: typeof r.ideal, b: typeof r.ideal) => (x && b
     ? `<tr><th scope="row">${label}</th><td data-label="Output" class="num">${fmtKwh(x.kwh)}</td><td data-label="Your share (${share}%)" class="num">${fmtUsd(x.dollars)} · ${yrs(x.paybackYears)}</td><td data-label="Best case (100%)" class="num">${fmtUsd(b.dollars)} · ${yrs(b.paybackYears)}</td></tr>`
     : '');

@@ -54,3 +54,6 @@ export function estimate(i: CalcInput): CalcResult {
 
 export const fmtUsd = (n: number) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 export const fmtKwh = (n: number) => n.toLocaleString('en-US') + ' kWh';
+
+/** Payback always shown with one decimal, e.g. "4.0 yrs". */
+export const fmtYears = (n: number) => `${n.toFixed(1)} yrs`;

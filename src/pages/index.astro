@@ -41,7 +41,7 @@ const ref = kits.find((k) => k.slug === 'ecoflow-stream-microinverter-2x400w')!;
 const refWatts = typeof ref.panel_w_total === 'number' ? ref.panel_w_total : 800;
 const refCost = typeof ref.price_usd === 'number' ? ref.price_usd : null;
 const refCostHint = refCost
-  ? `Starts at the ${ref.brand} ${ref.model} price listed by the seller on ${fmtDate(ref.price_checked_on!)} ($${refCost.toLocaleString('en-US')}). Change it to your kit's price.`
+  ? `Starts at the ${ref.short_name} price listed by the seller on ${fmtDate(ref.price_checked_on!)} ($${refCost.toLocaleString('en-US')}). Change it to your kit's price.`
   : 'Enter your kit price to see payback.';
 const anyVertical = toolData.anyVertical;
 const sorted = [...states].sort((a, b) => a.name.localeCompare(b.name));
@@ -94,7 +94,7 @@ const datasetLd = {
       <form id="calc" class="grid-2" onsubmit="return false">
         <div>
           <div class="field"><label for="c-kit">Kit (optional)</label>
-            <select id="c-kit"><option value="">Custom size</option>{kits.map((k) => <option value={k.slug} selected={k.slug === ref.slug}>{k.brand} {k.model}</option>)}</select>
+            <select id="c-kit"><option value="">Custom size</option>{kits.map((k) => <option value={k.slug} selected={k.slug === ref.slug}>{k.short_name}</option>)}</select>
             <p class="hint">Fills in panel size and price where the seller lists them.</p></div>
           <div class="field"><label for="c-watts">Panel size (watts, DC)</label><input id="c-watts" type="number" inputmode="numeric" min="1" max="5000" step="1" value={refWatts} /></div>
           <div class="field"><label for="c-cost">Kit cost ($)</label><input id="c-cost" type="number" inputmode="decimal" min="0" step="1" value={refCost ?? ''} aria-describedby="c-cost-hint" />

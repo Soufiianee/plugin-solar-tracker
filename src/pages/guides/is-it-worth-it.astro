@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Disclaimer from '../../components/Disclaimer.astro';
 import { states, kits, isEnacted, priceFor, yieldFor, prices, yields, effectiveDate, fmtDate, BUILD_DATE, assumptions } from '../../lib/data';
-import { scenario, fmtUsd } from '../../lib/calc';
+import { scenario, fmtUsd, fmtYears } from '../../lib/calc';
 
 // Worked example: a real kit from our data (EcoFlow STREAM Microinverter + 2 x 400 W panels).
 const ex = kits.find((k) => k.slug === 'ecoflow-stream-microinverter-2x400w')!;
@@ -23,7 +23,7 @@ const fastest = [...ideals].sort((a, b) => a.ideal!.typ.paybackYears! - b.ideal!
 const slowest = [...ideals].sort((a, b) => b.ideal!.typ.paybackYears! - a.ideal!.typ.paybackYears!)[0];
 // vertical columns appear only when every state in the table has the figure (no "pending" cells)
 const showVertical = rows.length > 0 && rows.every((r) => r.vertical);
-const cell = (c: NonNullable<Case>['typ']) => `${fmtUsd(c.dollars)} a year · ${c.paybackYears} yrs`;
+const cell = (c: NonNullable<Case>['typ']) => `${fmtUsd(c.dollars)} a year · ${fmtYears(c.paybackYears!)}`;
 const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headline: 'Is plug-in solar worth it? Real numbers by state', dateModified: prices.last_checked };
 ---
 <Base title="Is plug-in solar worth it? Real numbers by state" description={`What a ${W} W plug-in solar kit could save in each state with a plug-in law, using EIA electricity prices and NREL solar data, and how long it takes to pay back.`} crumbs={[{ name: 'Guides', href: '/guides/' }, { name: 'Is it worth it?', href: '/guides/is-it-worth-it/' }]} jsonLd={[articleLd]}>
@@ -33,7 +33,7 @@ const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headli
 
     <h2>The short answer</h2>
     {fastest && slowest ? (
-      <p>For an {W} W kit costing {fmtUsd(COST)}, with panels tilted toward the sun and a typical share of the power used at home ({TYP}%), payback ranges from about <strong>{fastest.ideal!.typ.paybackYears} years in {fastest.s.name}</strong> to about <strong>{slowest.ideal!.typ.paybackYears} years in {slowest.s.name}</strong>. If you used every kilowatt-hour yourself (the best case), it would be {fastest.ideal!.best.paybackYears} and {slowest.ideal!.best.paybackYears} years. The gap between states is mostly the price of electricity: {fastest.s.name} averages {fastest.price}¢ per kWh, {slowest.s.name} {slowest.price}¢.</p>
+      <p>For an {W} W kit costing {fmtUsd(COST)}, with panels tilted toward the sun and a typical share of the power used at home ({TYP}%), payback ranges from about <strong>{(fastest.ideal!.typ.paybackYears!).toFixed(1)} years in {fastest.s.name}</strong> to about <strong>{(slowest.ideal!.typ.paybackYears!).toFixed(1)} years in {slowest.s.name}</strong>. If you used every kilowatt-hour yourself (the best case), it would be {fastest.ideal!.best.paybackYears!.toFixed(1)} and {slowest.ideal!.best.paybackYears!.toFixed(1)} years. The gap between states is mostly the price of electricity: {fastest.s.name} averages {fastest.price}¢ per kWh, {slowest.s.name} {slowest.price}¢.</p>
     ) : <p>We are still adding solar data for these states.</p>}
 
     <h2>Our example</h2>
@@ -51,7 +51,7 @@ const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headli
       <thead><tr>
         <th scope="col">State</th><th scope="col">Price</th>
         <th scope="col">Tilted: typical ({TYP}%)</th><th scope="col">Tilted: best case (100%)</th>
-        {showVertical && <><th scope="col">Railing: typical ({TYP}%)</th><th scope="col">Railing: best case</th></>}
+        {showVertical && <><th scope="col">Railing: typical ({TYP}%)</th><th scope="col">Railing: best case (100%)</th></>}
       </tr></thead>
       <tbody>
         {rows.filter((r) => r.ideal).map((r) => (

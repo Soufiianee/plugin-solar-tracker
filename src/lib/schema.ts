@@ -181,6 +181,8 @@ export const kit = z
     brand: z.string().min(2),
     model: z.string().min(2),
     slug: z.string().regex(/^[a-z0-9-]+$/),
+    /** short label for dropdowns (max 32 characters) */
+    short_name: z.string().min(3).max(32),
     product_type: z.enum(['complete_kit', 'inverter_only', 'inverter_with_battery']),
     ac_output_w: z.union([z.number().int().positive(), UNKNOWN]),
     ac_output_basis: z.enum(['manufacturer_stated', 'estimated', 'unknown']),

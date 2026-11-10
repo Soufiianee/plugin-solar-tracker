@@ -145,3 +145,10 @@ bills.nhliberty.org  documents.ncsl.org  sd11.senate.ca.gov  www.gov.ca.gov  cer
 - **Vertical-railing figures** are hidden everywhere until the yield data exists.
 - **MailerLite form** restyled with our design tokens in both themes; the default heading is hidden.
 - **NREL**: `npm run yield` now also reads a gitignored `.env`. The proxy-injected key still returns `API_KEY_INVALID`, so yields are unchanged (10 states, ideal tilt only).
+
+## Update (session 4)
+
+- **Solar yield complete**: NREL PVWatts v8 for all 50 states and DC, both scenarios (20° tilt and vertical 90°, facing south), 102 values with no unknowns. The key is held only in the environment's network secret (injected by the proxy); it is not in `.env`, the data, the logs or git. Verification call (Salt Lake City, 1 kW, 20°) returned ac_annual = 1492.62.
+- Vertical-railing figures now appear in the guide, the tool and state pages.
+- Calculator: starts on the reference kit (EcoFlow STREAM + 2×400 W, $1,099 as listed); short kit names in the dropdown; payback always shown with one decimal.
+- Headings: self-hosted Source Serif 4 (OFL, one weight, Latin subset, preloaded).

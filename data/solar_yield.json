@@ -2,12 +2,12 @@
   "model": "NREL (National Laboratory of the Rockies) PVWatts v8, typical meteorological year weather",
   "scenario_definitions": {
     "ideal": {
-      "label": "ideal tilt (20\u00b0, facing south)",
+      "label": "ideal tilt (20°, facing south)",
       "tilt_deg": 20,
       "azimuth_deg": 180
     },
     "vertical": {
-      "label": "vertical railing (90\u00b0, facing south)",
+      "label": "vertical railing (90°, facing south)",
       "tilt_deg": 90,
       "azimuth_deg": 180
     }
@@ -26,12 +26,24 @@
       "lon": -134.42,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 689,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Juneau (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=58.3&lon=-134.42&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 433674.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 544,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Juneau (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=58.3&lon=-134.42&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 433674.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -41,12 +53,24 @@
       "lon": -86.3,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1481,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Montgomery (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=32.38&lon=-86.3&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 930676.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 867,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Montgomery (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=32.38&lon=-86.3&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 930676.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -56,12 +80,24 @@
       "lon": -92.29,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1419,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Little Rock (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=34.75&lon=-92.29&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 797515.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 859,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Little Rock (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=34.75&lon=-92.29&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 797515.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -71,12 +107,24 @@
       "lon": -112.07,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1767,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Phoenix (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=33.45&lon=-112.07&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 78206.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1066,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Phoenix (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=33.45&lon=-112.07&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 78206.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -96,8 +144,14 @@
           }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 990,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Sacramento (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=38.58&lon=-121.49&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 131636.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -117,8 +171,14 @@
           }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1105,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Denver (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=39.74&lon=-104.99&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 484137.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -138,8 +198,14 @@
           }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 886,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Hartford (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=41.76&lon=-72.67&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 1287563.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -149,12 +215,24 @@
       "lon": -77.04,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1368,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Washington, DC, ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=38.9&lon=-77.04&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 1144614.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 888,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Washington, DC, vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=38.9&lon=-77.04&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 1144614.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -164,12 +242,24 @@
       "lon": -75.52,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1400,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Dover (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=39.16&lon=-75.52&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 1195311.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 936,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Dover (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=39.16&lon=-75.52&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 1195311.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -179,12 +269,24 @@
       "lon": -84.28,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1421,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Tallahassee (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=30.44&lon=-84.28&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 971739.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 823,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Tallahassee (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=30.44&lon=-84.28&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 971739.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -194,12 +296,24 @@
       "lon": -84.39,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1410,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Atlanta (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=33.75&lon=-84.39&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 970331.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 844,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Atlanta (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=33.75&lon=-84.39&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 970331.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -209,12 +323,24 @@
       "lon": -157.86,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1622,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Honolulu (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=21.31&lon=-157.86&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 17573.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 698,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Honolulu (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=21.31&lon=-157.86&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 17573.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -224,12 +350,24 @@
       "lon": -93.62,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1370,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Des Moines (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=41.59&lon=-93.62&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 770504.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 950,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Des Moines (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=41.59&lon=-93.62&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 770504.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -239,12 +377,24 @@
       "lon": -116.2,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1461,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Boise (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=43.62&lon=-116.2&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 192942.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 980,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Boise (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=43.62&lon=-116.2&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 192942.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -254,12 +404,24 @@
       "lon": -89.65,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1378,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Springfield (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=39.8&lon=-89.65&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 857101.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 916,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Springfield (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=39.8&lon=-89.65&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 857101.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -269,12 +431,24 @@
       "lon": -86.16,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1335,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Indianapolis (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=39.77&lon=-86.16&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 933061.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 882,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Indianapolis (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=39.77&lon=-86.16&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 933061.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -284,12 +458,24 @@
       "lon": -95.68,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1449,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Topeka (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=39.05&lon=-95.68&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 727631.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 980,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Topeka (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=39.05&lon=-95.68&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 727631.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -299,12 +485,24 @@
       "lon": -84.87,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1326,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Frankfort (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=38.2&lon=-84.87&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 959922.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 851,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Frankfort (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=38.2&lon=-84.87&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 959922.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -314,12 +512,24 @@
       "lon": -91.19,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1462,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Baton Rouge (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=30.45&lon=-91.19&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 822131.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 823,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Baton Rouge (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=30.45&lon=-91.19&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 822131.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -329,12 +539,24 @@
       "lon": -71.06,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1312,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Boston (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=42.36&lon=-71.06&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 1340489.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 922,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Boston (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=42.36&lon=-71.06&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 1340489.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -354,8 +576,14 @@
           }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 912,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Annapolis (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=38.98&lon=-76.49&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 1162861.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -375,8 +603,14 @@
           }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 979,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Augusta (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=44.31&lon=-69.78&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 1382311.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -386,12 +620,24 @@
       "lon": -84.56,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1276,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Lansing (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=42.73&lon=-84.56&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 965865.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 878,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Lansing (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=42.73&lon=-84.56&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 965865.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -401,12 +647,24 @@
       "lon": -93.09,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1326,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Saint Paul (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=44.95&lon=-93.09&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 781091.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1008,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Saint Paul (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=44.95&lon=-93.09&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 781091.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -416,12 +674,24 @@
       "lon": -92.17,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1343,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Jefferson City (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=38.58&lon=-92.17&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 800328.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 898,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Jefferson City (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=38.58&lon=-92.17&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 800328.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -431,12 +701,24 @@
       "lon": -90.18,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1423,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Jackson (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=32.3&lon=-90.18&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 844989.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 827,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Jackson (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=32.3&lon=-90.18&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 844989.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -446,12 +728,24 @@
       "lon": -112.04,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1332,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Helena (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=46.59&lon=-112.04&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 229193.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1023,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Helena (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=46.59&lon=-112.04&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 229193.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -461,12 +755,24 @@
       "lon": -78.64,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1393,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Raleigh (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=35.78&lon=-78.64&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 1096398.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 888,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Raleigh (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=35.78&lon=-78.64&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 1096398.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -476,12 +782,24 @@
       "lon": -100.78,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1382,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Bismarck (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=46.81&lon=-100.78&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 594962.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1053,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Bismarck (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=46.81&lon=-100.78&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 594962.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -491,12 +809,24 @@
       "lon": -96.7,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1464,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Lincoln (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=40.81&lon=-96.7&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 703999.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1039,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Lincoln (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=40.81&lon=-96.7&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 703999.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -516,8 +846,14 @@
           }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 935,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Concord (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=43.21&lon=-71.54&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 1324465.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -537,8 +873,14 @@
           }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 911,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Trenton (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=40.22&lon=-74.76&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 1219930.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -548,12 +890,24 @@
       "lon": -105.94,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1771,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Santa Fe (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=35.69&lon=-105.94&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 100293.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1141,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Santa Fe (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=35.69&lon=-105.94&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 100293.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -563,12 +917,24 @@
       "lon": -119.77,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1700,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Carson City (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=39.16&lon=-119.77&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 138778.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1192,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Carson City (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=39.16&lon=-119.77&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 138778.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -578,27 +944,51 @@
       "lon": -73.76,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1235,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Albany (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=42.65&lon=-73.76&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 1252757.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 875,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Albany (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=42.65&lon=-73.76&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 1252757.csv; API key omitted from URL."
+          }
         }
       }
     },
     "OH": {
       "location": "Columbus (capital)",
       "lat": 39.96,
-      "lon": -83.0,
+      "lon": -83,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1310,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Columbus (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=39.96&lon=-83&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 998885.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 856,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Columbus (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=39.96&lon=-83&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 998885.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -608,12 +998,24 @@
       "lon": -97.52,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1531,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Oklahoma City (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=35.47&lon=-97.52&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 684478.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 957,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Oklahoma City (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=35.47&lon=-97.52&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 684478.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -623,12 +1025,24 @@
       "lon": -123.04,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1199,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Salem (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=44.94&lon=-123.04&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 208723.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 768,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Salem (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=44.94&lon=-123.04&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 208723.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -638,12 +1052,24 @@
       "lon": -76.88,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1285,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Harrisburg (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=40.27&lon=-76.88&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 1150299.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 871,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Harrisburg (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=40.27&lon=-76.88&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 1150299.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -653,27 +1079,51 @@
       "lon": -71.41,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1304,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Providence (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=41.82&lon=-71.41&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 1327951.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 918,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Providence (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=41.82&lon=-71.41&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 1327951.csv; API key omitted from URL."
+          }
         }
       }
     },
     "SC": {
       "location": "Columbia (capital)",
-      "lat": 34.0,
+      "lat": 34,
       "lon": -81.03,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1454,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Columbia (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=34&lon=-81.03&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 1041469.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 885,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Columbia (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=34&lon=-81.03&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 1041469.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -683,12 +1133,24 @@
       "lon": -100.35,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1421,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Pierre (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=44.37&lon=-100.35&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 606877.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1039,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Pierre (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=44.37&lon=-100.35&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 606877.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -698,12 +1160,24 @@
       "lon": -86.78,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1343,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Nashville (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=36.16&lon=-86.78&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 920545.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 828,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Nashville (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=36.16&lon=-86.78&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 920545.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -713,12 +1187,24 @@
       "lon": -97.74,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1486,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Austin (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=30.27&lon=-97.74&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 677404.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 810,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Austin (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=30.27&lon=-97.74&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 677404.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -738,8 +1224,14 @@
           }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 995,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Salt Lake City (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=40.76&lon=-111.89&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 158327.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -759,8 +1251,14 @@
           }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 867,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Richmond (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=37.54&lon=-77.44&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 1131745.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -780,8 +1278,14 @@
           }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 903,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Montpelier (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=44.26&lon=-72.58&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 1290449.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -791,12 +1295,24 @@
       "lon": -122.9,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1053,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Olympia (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=47.04&lon=-122.9&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 234249.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 693,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Olympia (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=47.04&lon=-122.9&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 234249.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -806,12 +1322,24 @@
       "lon": -89.4,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1334,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Madison (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=43.07&lon=-89.4&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 862955.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 950,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Madison (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=43.07&lon=-89.4&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 862955.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -821,12 +1349,24 @@
       "lon": -81.63,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1243,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Charleston (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=38.35&lon=-81.63&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 1028163.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 794,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Charleston (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=38.35&lon=-81.63&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 1028163.csv; API key omitted from URL."
+          }
         }
       }
     },
@@ -836,12 +1376,24 @@
       "lon": -104.82,
       "scenarios": {
         "ideal": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1535,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Cheyenne (capital), ideal tilt (20°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=41.14&lon=-104.82&system_capacity=1&azimuth=180&tilt=20&array_type=0&module_type=0&losses=14. Solar resource file 488884.csv; API key omitted from URL."
+          }
         },
         "vertical": {
-          "kwh_per_kw_year": "unknown",
-          "source": null
+          "kwh_per_kw_year": 1106,
+          "source": {
+            "title": "NREL/NLR PVWatts v8: Cheyenne (capital), vertical railing (90°, facing south)",
+            "url": "https://developer.nlr.gov/docs/solar/pvwatts/v8/",
+            "accessed": "2026-11-10",
+            "type": "government_data",
+            "note": "API query: lat=41.14&lon=-104.82&system_capacity=1&azimuth=180&tilt=90&array_type=0&module_type=0&losses=14. Solar resource file 488884.csv; API key omitted from URL."
+          }
         }
       }
     }
