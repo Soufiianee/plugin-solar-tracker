@@ -1,0 +1,79 @@
+---
+import Base from '../../layouts/Base.astro';
+import Disclaimer from '../../components/Disclaimer.astro';
+import { states, yields, isEnacted, fmtDate } from '../../lib/data';
+
+const KIT_W = 800; // same panel size as the "Is it worth it?" guide
+const defs = yields.scenario_definitions;
+const rows = [...states].sort((a, b) => a.name.localeCompare(b.name)).flatMap((s) => {
+  const y = yields.states[s.code];
+  const t = y.scenarios.ideal.kwh_per_kw_year;
+  const v = y.scenarios.vertical.kwh_per_kw_year;
+  if (typeof t !== 'number' || typeof v !== 'number') return [];
+  return [{ s, loc: y.location, t, v, pct: Math.round((v / t) * 100), kitT: Math.round((KIT_W / 1000) * t), kitV: Math.round((KIT_W / 1000) * v) }];
+});
+const byPct = [...rows].sort((a, b) => a.pct - b.pct);
+const least = byPct[byPct.length - 1];
+const most = byPct[0];
+const lawRows = rows.filter((r) => isEnacted(r.s));
+const lawMin = Math.min(...lawRows.map((r) => r.pct));
+const lawMax = Math.max(...lawRows.map((r) => r.pct));
+const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headline: 'Balcony railing vs tilted panels: how much do you lose?', dateModified: yields.last_checked };
+---
+<Base title="Balcony railing vs tilted panels: how much do you lose?" description={`Panels hung flat on a railing make ${most.pct}–${least.pct}% of what tilted panels make, depending on the state. Per-state figures from NREL PVWatts.`} crumbs={[{ name: 'Guides', href: '/guides/' }, { name: 'Railing vs tilted', href: '/guides/railing-vs-tilted/' }]} jsonLd={[articleLd]}>
+  <article class="prose">
+    <h1>Balcony railing vs tilted panels: how much do you lose?</h1>
+    <p style="font-size:1.1rem">Hanging panels flat on a balcony railing is often the only option in an apartment. It works, but you get less power than from panels tilted toward the sun.</p>
+
+    <h2>The short answer</h2>
+    <p>A vertical panel facing south makes <strong>{most.pct}% to {least.pct}%</strong> of what the same panel tilted at 20° makes, depending on the state. The smallest loss is in {least.s.name} ({least.pct}%) and the largest in {most.s.name} ({most.pct}%). In the {lawRows.length} states with a plug-in law, the range is {lawMin}–{lawMax}%.</p>
+
+    <h2>Why tilt matters</h2>
+    <p>A panel makes the most power when sunlight hits it head-on. For much of the year, and above all in summer, the midday sun is high in the sky. It strikes a vertical panel at a steep, glancing angle, so less light lands on each square foot. A panel tilted back toward the sky catches that high sun far better.</p>
+    <p>Vertical panels do relatively well where and when the sun stays low: farther north, and in winter. Where the sun climbs high for much of the year, they lose more. In our data, {least.s.name} loses the least and {most.s.name} the most.</p>
+    <p>Direction matters too. These figures assume panels face due south with no shade. East- or west-facing balconies, and shade from buildings or the balcony above, cut output further.</p>
+  </article>
+
+  <div class="table-wrap" style="margin:1rem 0">
+    <table class="stack">
+      <caption class="visually-hidden">Yearly solar output for tilted and vertical panels, by state</caption>
+      <thead><tr>
+        <th scope="col">State</th>
+        <th scope="col">Tilted 20° (kWh per kW a year)</th>
+        <th scope="col">Railing 90° (kWh per kW a year)</th>
+        <th scope="col">Railing as % of tilted</th>
+        <th scope="col">An {KIT_W} W kit: tilted / railing</th>
+      </tr></thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr>
+            <th scope="row"><a href={`/states/${r.s.slug}/`}>{r.s.name}</a>{isEnacted(r.s) && <span class="small muted"><br />has a plug-in law</span>}</th>
+            <td data-label="Tilted 20°" class="num">{r.t.toLocaleString('en-US')}</td>
+            <td data-label="Railing 90°" class="num">{r.v.toLocaleString('en-US')}</td>
+            <td data-label="Railing as % of tilted" class="num"><strong>{r.pct}%</strong></td>
+            <td data-label={`${KIT_W} W kit`} class="num">{r.kitT.toLocaleString('en-US')} / {r.kitV.toLocaleString('en-US')} kWh</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <article class="prose">
+    <h2>What to do with this</h2>
+    <ul>
+      <li><strong>If you can tilt, tilt.</strong> A bracket that angles the panel back toward the sky, where your lease or HOA allows it, recovers much of the loss.</li>
+      <li><strong>Check your state's numbers.</strong> The <a href="/#tool">state checker and calculator</a> show savings and payback for both cases. You can enter your own price and kit cost.</li>
+      <li><strong>Mount it securely.</strong> Some laws require it: Vermont's law says the device must be "temporarily but securely attached". See the <a href="/guides/renters/">renters guide</a>.</li>
+    </ul>
+    <p>See also: <a href="/guides/is-it-worth-it/">Is plug-in solar worth it?</a></p>
+
+    <h2>How we worked it out</h2>
+    <ul class="small">
+      <li>Solar output: {yields.model}, run for each state capital with {yields.common.losses_pct}% system losses, {defs.ideal.label} and {defs.vertical.label} (<a href="https://developer.nlr.gov/docs/solar/pvwatts/v8/" rel="noopener">PVWatts documentation</a>).</li>
+      <li>The {KIT_W} W kit figures are panel watts ÷ 1,000 × output per kW, before any inverter limit.</li>
+      <li>One location per state (the capital). Output varies within a state, especially in large states.</li>
+    </ul>
+    <p class="small muted">Solar data last checked {fmtDate(yields.last_checked)}.</p>
+    <Disclaimer />
+  </article>
+</Base>

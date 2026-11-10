@@ -23,6 +23,15 @@ const fastest = [...ideals].sort((a, b) => a.ideal!.typ.paybackYears! - b.ideal!
 const slowest = [...ideals].sort((a, b) => b.ideal!.typ.paybackYears! - a.ideal!.typ.paybackYears!)[0];
 // vertical columns appear only when every state in the table has the figure (no "pending" cells)
 const showVertical = rows.length > 0 && rows.every((r) => r.vertical);
+// Railing (vertical) figures for the short answer, all computed from the data.
+const ratioPct = (code: string) => {
+  const y = yieldFor(code);
+  return typeof y.ideal === 'number' && typeof y.vertical === 'number' ? Math.round((y.vertical / y.ideal) * 100) : null;
+};
+const ratios = rows.map((r) => ratioPct(r.s.code)).filter((x): x is number => x !== null);
+const verts = rows.filter((r) => r.vertical);
+const vFast = [...verts].sort((a, b) => a.vertical!.typ.paybackYears! - b.vertical!.typ.paybackYears!)[0];
+const vSlow = [...verts].sort((a, b) => b.vertical!.typ.paybackYears! - a.vertical!.typ.paybackYears!)[0];
 const cell = (c: NonNullable<Case>['typ']) => `${fmtUsd(c.dollars)} a year · ${fmtYears(c.paybackYears!)}`;
 const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headline: 'Is plug-in solar worth it? Real numbers by state', dateModified: prices.last_checked };
 ---
@@ -35,6 +44,9 @@ const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headli
     {fastest && slowest ? (
       <p>For an {W} W kit costing {fmtUsd(COST)}, with panels tilted toward the sun and a typical share of the power used at home ({TYP}%), payback ranges from about <strong>{(fastest.ideal!.typ.paybackYears!).toFixed(1)} years in {fastest.s.name}</strong> to about <strong>{(slowest.ideal!.typ.paybackYears!).toFixed(1)} years in {slowest.s.name}</strong>. If you used every kilowatt-hour yourself (the best case), it would be {fastest.ideal!.best.paybackYears!.toFixed(1)} and {slowest.ideal!.best.paybackYears!.toFixed(1)} years. The gap between states is mostly the price of electricity: {fastest.s.name} averages {fastest.price}¢ per kWh, {slowest.s.name} {slowest.price}¢.</p>
     ) : <p>We are still adding solar data for these states.</p>}
+    {showVertical && vFast && vSlow && ratios.length > 0 && (
+      <p>Panels hung flat on a balcony railing produce about {Math.min(...ratios)}–{Math.max(...ratios)}% of what tilted panels make in these states, so at the typical share payback stretches to about <strong>{vFast.vertical!.typ.paybackYears!.toFixed(1)} years in {vFast.s.name}</strong> and <strong>{vSlow.vertical!.typ.paybackYears!.toFixed(1)} years in {vSlow.s.name}</strong>. <a href="/guides/railing-vs-tilted/">Railing vs tilted panels, state by state</a>.</p>
+    )}
 
     <h2>Our example</h2>
     <p>We use a real product from our kit list: the <a href={`/kits/${ex.slug}/`}>{ex.brand} {ex.model}</a>, {W} W of panels, listed at {fmtUsd(COST)} on {fmtDate(ex.price_checked_on!)}. We assume you earn nothing for power sent to the grid: most of these laws exclude plug-in systems from net metering, and the rest do not promise any payment. So what matters is how much of the output you use at home:</p>

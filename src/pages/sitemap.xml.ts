@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { states, kits, absUrl, site } from '../lib/data';
 
-const STATIC = ['/', '/states/', '/kits/', '/certification-watch/', '/guides/', '/guides/is-it-worth-it/', '/guides/renters/', '/updates/', '/about/', '/how-we-verify/', '/disclaimer/', '/privacy/', '/affiliate-disclosure/', ...(site.CONTACT_EMAIL ? ['/contact/'] : [])];
+const STATIC = ['/', '/states/', '/kits/', '/certification-watch/', '/guides/', '/guides/is-it-worth-it/', '/guides/railing-vs-tilted/', '/guides/renters/', '/updates/', '/about/', '/how-we-verify/', '/disclaimer/', '/privacy/', '/affiliate-disclosure/', ...(site.CONTACT_EMAIL ? ['/contact/'] : [])];
 
 export const GET: APIRoute = () => {
   const urls = [
