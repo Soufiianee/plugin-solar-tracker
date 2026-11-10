@@ -132,3 +132,16 @@ bills.nhliberty.org  documents.ncsl.org  sd11.senate.ca.gov  www.gov.ca.gov  cer
 - Guides: `/guides/is-it-worth-it/` (numbers built from the data) and `/guides/renters/`.
 - **Compatibility audit** (`npm run compat-audit` → `research/COMPAT_AUDIT.md`): a proposed model for "lab-listed" states, awaiting the owner's approval. **The site's verdicts are unchanged.**
 - NREL key: still returns `API_KEY_INVALID` through the proxy. Yields are unchanged.
+
+## Update (session 3)
+
+- **Compatibility model applied** (owner-approved):
+  - **Lab-listed states** (UT, MD, CO, CT, VA): a lab certificate seen for the inverter gives "Likely compatible: confirm with seller" (APsystems EZ1-LV). A maker claim gives "Listing claimed, no certificate seen".
+  - **UL 3700 states** (VT, ME, NJ, CA): unchanged. "Component certificate only: check with seller" and "UL 3700 claimed, no certificate seen".
+  - Every label has a one-line explanation (tooltip and legend) and links to the certificate or the maker's claim.
+  - Device-count caveat for multi-inverter kits in CT and MD. Maine page notes the National Electrical Code route.
+  - `npm run compat-audit` prints the live matrix.
+- **Savings**: typical share used at home is 69%, from the HTW Berlin Stecker-Solar-Simulator (800 W, no battery, vertical, 3,000 kWh/yr home). The other runs gave 56% at 2,100 kWh and 88% at 5,000 kWh. The best case is 100%. The calculator has a slider. Sources and limits are in `data/assumptions.json`.
+- **Vertical-railing figures** are hidden everywhere until the yield data exists.
+- **MailerLite form** restyled with our design tokens in both themes; the default heading is hidden.
+- **NREL**: `npm run yield` now also reads a gitignored `.env`. The proxy-injected key still returns `API_KEY_INVALID`, so yields are unchanged (10 states, ideal tilt only).

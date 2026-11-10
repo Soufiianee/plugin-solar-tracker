@@ -2,7 +2,6 @@
 import Base from '../../layouts/Base.astro';
 import Disclaimer from '../../components/Disclaimer.astro';
 import { states, isEnacted, effectiveDate, fmtDate, lastCheckedAll, BUILD_DATE } from '../../lib/data';
-import { ruleValue } from '../../lib/labels';
 
 const enacted = states.filter(isEnacted).sort((a, b) => a.name.localeCompare(b.name));
 const protects = enacted.filter((s) => s.rules.landlord_provisions.value === 'protects_tenants');

@@ -10,7 +10,7 @@
     "build": "npm run validate && astro check && astro build",
     "preview": "astro preview",
     "test": "vitest run",
-    "yield": "tsx scripts/pvwatts.ts",
+    "yield": "NODE_USE_ENV_PROXY=1 tsx scripts/pvwatts.ts",
     "staleness": "tsx scripts/staleness.ts",
     "linkcheck": "tsx scripts/linkcheck.ts",
     "check": "astro check",

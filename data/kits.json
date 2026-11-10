@@ -56,7 +56,8 @@
       }
     ],
     "last_checked": "2026-11-10",
-    "ac_output_basis": "manufacturer_stated"
+    "ac_output_basis": "manufacturer_stated",
+    "inverter_count": 1
   },
   {
     "brand": "EcoFlow",
@@ -109,7 +110,8 @@
       }
     ],
     "last_checked": "2026-11-10",
-    "ac_output_basis": "manufacturer_stated"
+    "ac_output_basis": "manufacturer_stated",
+    "inverter_count": 1
   },
   {
     "brand": "EcoFlow",
@@ -162,7 +164,8 @@
       }
     ],
     "last_checked": "2026-11-10",
-    "ac_output_basis": "manufacturer_stated"
+    "ac_output_basis": "manufacturer_stated",
+    "inverter_count": 1
   },
   {
     "brand": "EcoFlow",
@@ -215,7 +218,8 @@
       }
     ],
     "last_checked": "2026-11-10",
-    "ac_output_basis": "manufacturer_stated"
+    "ac_output_basis": "manufacturer_stated",
+    "inverter_count": 1
   },
   {
     "brand": "Hoymiles",
@@ -268,7 +272,8 @@
       }
     ],
     "last_checked": "2026-11-10",
-    "ac_output_basis": "manufacturer_stated"
+    "ac_output_basis": "manufacturer_stated",
+    "inverter_count": 1
   },
   {
     "brand": "Hoymiles",
@@ -315,7 +320,8 @@
       }
     ],
     "last_checked": "2026-11-10",
-    "ac_output_basis": "manufacturer_stated"
+    "ac_output_basis": "manufacturer_stated",
+    "inverter_count": 1
   },
   {
     "brand": "Bright Saver",
@@ -340,13 +346,13 @@
       },
       {
         "standard": "UL 1741",
-        "status": "unknown",
-        "scope": "unknown",
+        "status": "pending_or_claimed",
+        "scope": "component",
         "certifier": "unknown",
-        "evidence_url": "unknown",
-        "evidence_type": "unknown",
+        "evidence_url": "https://www.hoymiles.com/uploadfile/1/202607/76ba93c782.pdf",
+        "evidence_type": "manufacturer_page",
         "checked_on": "2026-11-10",
-        "conditions": "See the Hoymiles HiFlow Pro LV entries for the inverter's own claims."
+        "conditions": "Claim by the inverter maker: the kit uses a Hoymiles HiFlow Pro LV (model not stated by the seller), and Hoymiles lists UL 1741 on the North America datasheet for that family. No certificate found."
       }
     ],
     "price_usd": 299.0,
@@ -368,7 +374,8 @@
       }
     ],
     "last_checked": "2026-11-10",
-    "ac_output_basis": "unknown"
+    "ac_output_basis": "unknown",
+    "inverter_count": 1
   },
   {
     "brand": "Bright Saver",
@@ -393,12 +400,13 @@
       },
       {
         "standard": "UL 1741",
-        "status": "unknown",
-        "scope": "unknown",
+        "status": "pending_or_claimed",
+        "scope": "component",
         "certifier": "unknown",
-        "evidence_url": "unknown",
-        "evidence_type": "unknown",
-        "checked_on": "2026-11-10"
+        "evidence_url": "https://www.hoymiles.com/uploadfile/1/202607/76ba93c782.pdf",
+        "evidence_type": "manufacturer_page",
+        "checked_on": "2026-11-10",
+        "conditions": "Claim by the inverter maker: the kit uses a Hoymiles HiFlow Pro LV (model not stated by the seller), and Hoymiles lists UL 1741 on the North America datasheet for that family. No certificate found."
       }
     ],
     "price_usd": 432.0,
@@ -420,7 +428,8 @@
       }
     ],
     "last_checked": "2026-11-10",
-    "ac_output_basis": "unknown"
+    "ac_output_basis": "unknown",
+    "inverter_count": "unknown"
   },
   {
     "brand": "CraftStrom",
@@ -473,7 +482,8 @@
       }
     ],
     "last_checked": "2026-11-10",
-    "ac_output_basis": "estimated"
+    "ac_output_basis": "estimated",
+    "inverter_count": 2
   },
   {
     "brand": "CraftStrom",
@@ -526,6 +536,7 @@
       }
     ],
     "last_checked": "2026-11-10",
-    "ac_output_basis": "estimated"
+    "ac_output_basis": "estimated",
+    "inverter_count": 3
   }
 ]

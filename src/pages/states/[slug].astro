@@ -52,6 +52,7 @@ const VER: Record<string, string> = {
     <p><StatusPill state={s} /> <span class="small muted">Checked {fmtDate(s.last_checked)}</span></p>
     {VER[s.verification] && <div class="note"><strong>{s.verification === 'secondary_only' ? 'Being verified.' : 'Note.'}</strong> {VER[s.verification]}</div>}
     <p class="prose" style="font-size:1.1rem">{s.summary_plain}</p>
+    {s.page_note && <div class="note info"><strong>Note.</strong> {s.page_note}</div>}
     {eff && (
       <p><strong>Effective date:</strong> {fmtDate(eff)}
         {s.bills.find((b) => b.effective_date_basis === 'derived') && <span class="small muted"> (derived from the law's effective-date clause)</span>}</p>

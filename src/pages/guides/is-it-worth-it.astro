@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Disclaimer from '../../components/Disclaimer.astro';
-import { states, kits, isEnacted, priceFor, yieldFor, prices, yields, effectiveDate, fmtDate, BUILD_DATE } from '../../lib/data';
+import { states, kits, isEnacted, priceFor, yieldFor, prices, yields, effectiveDate, fmtDate, BUILD_DATE, assumptions } from '../../lib/data';
 import { scenario, fmtUsd } from '../../lib/calc';
 
 // Worked example: a real kit from our data (EcoFlow STREAM Microinverter + 2 x 400 W panels).
@@ -9,16 +9,21 @@ const ex = kits.find((k) => k.slug === 'ecoflow-stream-microinverter-2x400w')!;
 const W = ex.panel_w_total as number;
 const COST = ex.price_usd as number;
 
+const sc = assumptions.self_consumption;
+const TYP = sc.typical_pct;
+type Case = { typ: ReturnType<typeof scenario>; best: ReturnType<typeof scenario> } | null;
 const rows = states.filter(isEnacted).sort((a, b) => a.name.localeCompare(b.name)).map((s) => {
   const price = priceFor(s.code);
   const y = yieldFor(s.code);
-  const run = (yy: number | 'unknown') => (typeof yy === 'number' && typeof price === 'number' ? scenario(W, yy, price, 100, COST) : null);
-  return { s, price, y, ideal: run(y.ideal), vertical: run(y.vertical) };
+  const run = (yy: number | 'unknown'): Case => (typeof yy === 'number' && typeof price === 'number' ? { typ: scenario(W, yy, price, TYP, COST), best: scenario(W, yy, price, 100, COST) } : null);
+  return { s, price, ideal: run(y.ideal), vertical: run(y.vertical) };
 });
 const ideals = rows.filter((r) => r.ideal);
-const best = [...ideals].sort((a, b) => a.ideal!.paybackYears! - b.ideal!.paybackYears!)[0];
-const worst = [...ideals].sort((a, b) => b.ideal!.paybackYears! - a.ideal!.paybackYears!)[0];
-const anyVertical = rows.some((r) => r.vertical);
+const fastest = [...ideals].sort((a, b) => a.ideal!.typ.paybackYears! - b.ideal!.typ.paybackYears!)[0];
+const slowest = [...ideals].sort((a, b) => b.ideal!.typ.paybackYears! - a.ideal!.typ.paybackYears!)[0];
+// vertical columns appear only when every state in the table has the figure (no "pending" cells)
+const showVertical = rows.length > 0 && rows.every((r) => r.vertical);
+const cell = (c: NonNullable<Case>['typ']) => `${fmtUsd(c.dollars)} a year · ${c.paybackYears} yrs`;
 const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headline: 'Is plug-in solar worth it? Real numbers by state', dateModified: prices.last_checked };
 ---
 <Base title="Is plug-in solar worth it? Real numbers by state" description={`What a ${W} W plug-in solar kit could save in each state with a plug-in law, using EIA electricity prices and NREL solar data, and how long it takes to pay back.`} crumbs={[{ name: 'Guides', href: '/guides/' }, { name: 'Is it worth it?', href: '/guides/is-it-worth-it/' }]} jsonLd={[articleLd]}>
@@ -27,35 +32,40 @@ const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headli
     <p style="font-size:1.1rem">It depends on three numbers: what you pay for electricity, how much sun your panels get, and what the kit costs. Here they are for each state with a plug-in law.</p>
 
     <h2>The short answer</h2>
-    {best && worst ? (
-      <p>For an {W} W kit costing {fmtUsd(COST)} in ideal sun, payback ranges from about <strong>{best.ideal!.paybackYears} years in {best.s.name}</strong> to about <strong>{worst.ideal!.paybackYears} years in {worst.s.name}</strong>. The difference is mostly the price of electricity: {best.s.name} averages {best.price}¢ per kWh and {worst.s.name} {worst.price}¢. Panels hung flat on a railing produce less, so expect a longer payback there.</p>
+    {fastest && slowest ? (
+      <p>For an {W} W kit costing {fmtUsd(COST)}, with panels tilted toward the sun and a typical share of the power used at home ({TYP}%), payback ranges from about <strong>{fastest.ideal!.typ.paybackYears} years in {fastest.s.name}</strong> to about <strong>{slowest.ideal!.typ.paybackYears} years in {slowest.s.name}</strong>. If you used every kilowatt-hour yourself (the best case), it would be {fastest.ideal!.best.paybackYears} and {slowest.ideal!.best.paybackYears} years. The gap between states is mostly the price of electricity: {fastest.s.name} averages {fastest.price}¢ per kWh, {slowest.s.name} {slowest.price}¢.</p>
     ) : <p>We are still adding solar data for these states.</p>}
 
     <h2>Our example</h2>
-    <p>We use a real product from our kit list: the <a href={`/kits/${ex.slug}/`}>{ex.brand} {ex.model}</a>, {W} W of panels, listed at {fmtUsd(COST)} on {fmtDate(ex.price_checked_on!)}. We assume you use all the power at home and earn nothing for power sent to the grid. Most of these laws exclude plug-in systems from net metering, and the rest do not promise any payment. Two cases:</p>
+    <p>We use a real product from our kit list: the <a href={`/kits/${ex.slug}/`}>{ex.brand} {ex.model}</a>, {W} W of panels, listed at {fmtUsd(COST)} on {fmtDate(ex.price_checked_on!)}. We assume you earn nothing for power sent to the grid: most of these laws exclude plug-in systems from net metering, and the rest do not promise any payment. So what matters is how much of the output you use at home:</p>
     <ul>
-      <li><strong>Ideal tilt</strong>: panels at 20°, facing south. Think of a sunny patio or a yard.</li>
-      <li><strong>Vertical railing</strong>: panels hanging flat (90°), facing south. Think of a balcony rail.</li>
+      <li><strong>Typical ({TYP}%)</strong>: from HTW Berlin's plug-in solar model for an 800 W system without a battery, in a home using 3,000 kWh a year. That is well below every US state's average household use, so most homes will use at least this share.</li>
+      <li><strong>Best case (100%)</strong>: you use every kilowatt-hour yourself, for example because something always runs in the daytime.</li>
     </ul>
+    <p>Panels are assumed tilted at 20° facing south, as on a sunny patio{showVertical ? ', with a second case for panels hung vertically on a south-facing railing' : ''}.</p>
   </article>
 
   <div class="table-wrap" style="margin:1rem 0">
     <table class="stack">
       <caption class="visually-hidden">Yearly savings and payback for a {W} W kit costing {fmtUsd(COST)}</caption>
-      <thead><tr><th scope="col">State</th><th scope="col">Price</th><th scope="col">Ideal tilt: savings / payback</th><th scope="col">Vertical railing: savings / payback</th></tr></thead>
+      <thead><tr>
+        <th scope="col">State</th><th scope="col">Price</th>
+        <th scope="col">Tilted: typical ({TYP}%)</th><th scope="col">Tilted: best case (100%)</th>
+        {showVertical && <><th scope="col">Railing: typical ({TYP}%)</th><th scope="col">Railing: best case</th></>}
+      </tr></thead>
       <tbody>
-        {rows.map((r) => (
+        {rows.filter((r) => r.ideal).map((r) => (
           <tr>
             <th scope="row"><a href={`/states/${r.s.slug}/`}>{r.s.name}</a>{r.s.verification === 'secondary_only' && <span class="small muted"><br />law being verified</span>}</th>
             <td data-label="Price" class="num">{typeof r.price === 'number' ? `${r.price}¢/kWh` : 'Unknown'}</td>
-            <td data-label="Ideal tilt" class="num">{r.ideal ? `${fmtUsd(r.ideal.dollars)} a year · ${r.ideal.paybackYears} yrs` : 'Solar data pending'}</td>
-            <td data-label="Vertical railing" class="num">{r.vertical ? `${fmtUsd(r.vertical.dollars)} a year · ${r.vertical.paybackYears} yrs` : 'Solar data pending'}</td>
+            <td data-label={`Tilted, typical (${TYP}%)`} class="num">{cell(r.ideal!.typ)}</td>
+            <td data-label="Tilted, best case" class="num">{cell(r.ideal!.best)}</td>
+            {showVertical && <><td data-label={`Railing, typical (${TYP}%)`} class="num">{cell(r.vertical!.typ)}</td><td data-label="Railing, best case" class="num">{cell(r.vertical!.best)}</td></>}
           </tr>
         ))}
       </tbody>
     </table>
   </div>
-  {!anyVertical && <p class="small muted">The vertical-railing figures are not added yet. We show "pending" rather than guess. Panels hung vertically usually produce less than tilted ones.</p>}
 
   <article class="prose">
     <h2>What makes it better or worse</h2>
@@ -75,6 +85,7 @@ const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headli
     <ul class="small">
       <li>Prices: {prices.source.title}, residential average for {prices.period}.</li>
       <li>Solar output: {yields.model}, run for each state capital with {yields.common.losses_pct}% system losses (<a href="https://developer.nlr.gov/docs/solar/pvwatts/v8/" rel="noopener">PVWatts documentation</a>).</li>
+      <li>Share used at home: HTW Berlin, Stecker-Solar-Simulator: 800 W, no battery, vertical, facing south, German weather and household patterns. It gave {sc.runs.map((r) => `${r.pct}% at ${r.household_kwh.toLocaleString('en-US')} kWh/yr`).join(', ')} (<a href="https://solar.htw-berlin.de/rechner/stecker-solar-simulator/" rel="noopener">simulator</a>, <a href="https://solar.htw-berlin.de/wp-content/uploads/ORTH-2024-Stecker-Solar-Simulator-Dokumentation.pdf" rel="noopener">method</a>). Average US household use is 10,499 kWh/yr (EIA Form 861M).</li>
       <li>No incentives, no payment for exports, no change in electricity prices, and no inverter clipping.</li>
     </ul>
     <p class="small muted">Numbers update automatically when we refresh prices or solar data. Last price update: {fmtDate(prices.last_checked)}.</p>

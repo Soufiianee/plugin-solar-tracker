@@ -8,9 +8,10 @@ import pricesRaw from '../../data/electricity_prices.json';
 import yieldRaw from '../../data/solar_yield.json';
 import updatesRaw from '../../data/updates.json';
 import affiliatesRaw from '../../config/affiliates.json';
+import assumptionsRaw from '../../data/assumptions.json';
 import siteRaw from '../../config/site.json';
-import { statesFile, kitsFile, pricesFile, yieldFile, updatesFile, affiliatesFile, siteFile, type State, type Kit } from './schema';
-import { verdict, type CompatState, type Verdict } from './compat';
+import { statesFile, kitsFile, pricesFile, yieldFile, updatesFile, affiliatesFile, siteFile, assumptionsFile, type State, type Kit } from './schema';
+import { assess, type CompatState, type Verdict, type Assessment } from './compat';
 
 export const states = statesFile.parse(statesRaw);
 export const kits = kitsFile.parse(kitsRaw);
@@ -18,6 +19,7 @@ export const prices = pricesFile.parse(pricesRaw);
 export const yields = yieldFile.parse(yieldRaw);
 export const updates = updatesFile.parse(updatesRaw).sort((a, b) => b.date.localeCompare(a.date));
 export const affiliates = affiliatesFile.parse(affiliatesRaw);
+export const assumptions = assumptionsFile.parse(assumptionsRaw);
 export const site = siteFile.parse(siteRaw);
 /** Display name: the one place that handles the "TBD" placeholder. */
 export const siteName = site.SITE_NAME === 'TBD' ? 'Plug-in Solar Tracker' : site.SITE_NAME;
@@ -46,12 +48,14 @@ export const effectiveDate = (s: State): string | null => {
 
 export function compatState(s: State): CompatState {
   return {
+    code: s.code,
     enacted: isEnacted(s),
     cap: s.rules.max_watts_ac.value as CompatState['cap'],
     certReq: s.rules.certification_required.value,
   };
 }
-export const kitVerdict = (s: State, k: Kit): Verdict => verdict(compatState(s), k);
+export const kitAssess = (s: State, k: Kit): Assessment => assess(compatState(s), k);
+export const kitVerdict = (s: State, k: Kit): Verdict => kitAssess(s, k).verdict;
 
 export const ul3700 = (k: Kit) => k.certifications.find((c) => c.standard === 'UL 3700');
 

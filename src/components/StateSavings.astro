@@ -1,22 +1,27 @@
 ---
 import type { State } from '../lib/schema';
-import { priceFor, yieldFor, prices, yields } from '../lib/data';
-import { estimate, fmtUsd, fmtKwh } from '../lib/calc';
+import { priceFor, yieldFor, prices, yields, assumptions } from '../lib/data';
+import { scenario, fmtUsd, fmtKwh } from '../lib/calc';
 interface Props { state: State; panelWatts?: number }
 const { state, panelWatts = 800 } = Astro.props;
 const price = priceFor(state.code);
 const y = yieldFor(state.code);
-const r = typeof price === 'number' ? estimate({ panelWatts, priceCentsPerKwh: price, sharePct: 100, yields: y }) : null;
+const typ = assumptions.self_consumption.typical_pct;
+const cases = [
+  { label: 'Ideal tilt (20°, south)', y: y.ideal },
+  { label: 'Vertical railing (90°, south)', y: y.vertical },
+].filter((c): c is { label: string; y: number } => typeof c.y === 'number');
+const rows = typeof price === 'number' ? cases.map((c) => ({ label: c.label, kwh: scenario(panelWatts, c.y, price, 100).kwh, typical: scenario(panelWatts, c.y, price, typ).dollars, best: scenario(panelWatts, c.y, price, 100).dollars })) : [];
 const loc = yields.states[state.code].location;
 ---
 <div class="card">
   <p style="margin-top:0">For an <strong>{panelWatts} W</strong> panel kit at {state.name}'s average residential price of <strong>{typeof price === 'number' ? `${price}¢/kWh` : 'unknown'}</strong> ({prices.period}):</p>
-  {r && (r.ideal || r.vertical) ? (
+  {rows.length > 0 ? (
     <dl class="kv">
-      {r.ideal && <><dt>Ideal tilt (20°, south)</dt><dd><span class="num">{fmtKwh(r.ideal.kwh)}</span> a year, about <strong class="num">{fmtUsd(r.ideal.dollars)}</strong></dd></>}
-      {r.vertical && <><dt>Vertical railing (90°, south)</dt><dd><span class="num">{fmtKwh(r.vertical.kwh)}</span> a year, about <strong class="num">{fmtUsd(r.vertical.dollars)}</strong></dd></>}
+      {rows.map((r) => <><dt>{r.label}</dt><dd><span class="num">{fmtKwh(r.kwh)}</span> a year: about <strong class="num">{fmtUsd(r.typical)}</strong> typical ({typ}% used at home), up to <span class="num">{fmtUsd(r.best)}</span> best case (100%)</dd></>)}
     </dl>
-  ) : null}
-  {(!r || !r.ideal || !r.vertical) && <p class="small muted" style="margin-bottom:0">{!r?.ideal && !r?.vertical ? 'Solar production figures for this state are not added yet, so we show no estimate.' : 'One scenario is not added yet; we do not estimate it.'} We never substitute a guessed figure.</p>}
-  <p class="small muted" style="margin:0.6rem 0 0">Assumes you use all the power at home and get nothing for exports. Solar data: NREL PVWatts for {loc}. <a href="/#tool">Try your own numbers</a>.</p>
+  ) : (
+    <p class="small muted" style="margin-bottom:0">Solar production figures for this state are not added yet, so we show no estimate. We never substitute a guessed figure.</p>
+  )}
+  <p class="small muted" style="margin:0.6rem 0 0">"Typical" uses HTW Berlin's model for an 800 W system without a battery; exports are assumed to earn nothing. Solar data: NREL PVWatts for {loc}. <a href="/#tool">Try your own numbers</a> · <a href="/guides/is-it-worth-it/">Is it worth it?</a></p>
 </div>

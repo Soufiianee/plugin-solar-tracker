@@ -2,8 +2,9 @@
 import Base from '../../layouts/Base.astro';
 import SourceList from '../../components/SourceList.astro';
 import Disclaimer from '../../components/Disclaimer.astro';
-import { kits, states, isEnacted, kitVerdict, retailerLink, fmtDate } from '../../lib/data';
-import { verdictLabel } from '../../lib/compat';
+import { kits, states, isEnacted, kitAssess, retailerLink, fmtDate } from '../../lib/data';
+import VerdictCell from '../../components/VerdictCell.astro';
+import VerdictLegend from '../../components/VerdictLegend.astro';
 import { CERT_STATUS, SCOPE, PRODUCT_TYPE } from '../../lib/labels';
 import type { Kit } from '../../lib/schema';
 
@@ -13,7 +14,7 @@ export function getStaticPaths() {
 const { kit: k } = Astro.props as { kit: Kit };
 const name = `${k.brand} ${k.model}`;
 const enacted = states.filter(isEnacted).sort((a, b) => a.name.localeCompare(b.name));
-const fit = enacted.map((s) => ({ s, v: kitVerdict(s, k) }));
+const fit = enacted.map((s) => ({ s, a: kitAssess(s, k) }));
 const ac = typeof k.ac_output_w === 'number' ? `${k.ac_output_w.toLocaleString('en-US')} W` : 'Not stated by the seller';
 const productLd = {
   '@context': 'https://schema.org', '@type': 'Product', name, brand: { '@type': 'Brand', name: k.brand },
@@ -50,9 +51,10 @@ const productLd = {
   <h2>Which state limits it fits</h2>
   <div class="table-wrap"><table class="stack">
     <thead><tr><th scope="col">State</th><th scope="col">Result</th></tr></thead>
-    <tbody>{fit.map(({ s, v }) => <tr><th scope="row"><a href={`/states/${s.slug}/`}>{s.name}</a></th><td class={`v-${v}`}>{verdictLabel[v]}</td></tr>)}</tbody>
+    <tbody>{fit.map(({ s, a }) => <tr><th scope="row"><a href={`/states/${s.slug}/`}>{s.name}</a></th><td data-label="Result"><VerdictCell a={a} /></td></tr>)}</tbody>
   </table></div>
-  <p class="small muted">Only states with an enacted law are listed. "Compatible" needs a certificate for the complete system and output within the limit. <a href="/how-we-verify/#kits">How we judge kits</a>.</p>
+  <p class="small muted">Only states with an enacted law are listed.</p>
+  <VerdictLegend only={[...new Set(fit.map((f) => f.a.verdict))]} />
 
   {k.retailers.length > 0 && (
     <>

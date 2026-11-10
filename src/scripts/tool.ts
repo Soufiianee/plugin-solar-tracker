@@ -5,11 +5,11 @@ type Rule = [string, string, string | null];
 interface SD {
   n: string; slug: string; st: string; cls: string; enacted: boolean; eff: string | null; effDerived: boolean;
   bill: string | null; summary: string; checked: string; strict: boolean; rules: Rule[];
-  price: number | 'unknown'; y: { ideal: number | 'unknown'; vertical: number | 'unknown' }; kits: string[];
+  price: number | 'unknown'; y: { ideal: number | 'unknown'; vertical: number | 'unknown' }; kits: [string, string | null, string[], string][];
 }
 interface KD { slug: string; name: string; ac: number | 'unknown'; est: boolean; panel: number | null; price: number | null }
 const D = JSON.parse(document.getElementById('tool-data')!.textContent!) as {
-  pricePeriod: string; states: Record<string, SD>; kits: KD[]; verdictLabel: Record<string, string>;
+  pricePeriod: string; states: Record<string, SD>; kits: KD[]; verdictLabel: Record<string, string>; verdictHelp: Record<string, string>; typicalShare: number; anyVertical: boolean;
 };
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -37,16 +37,20 @@ function render(code: string, focus: boolean) {
   document.querySelectorAll('.tilemap rect').forEach((r) => r.setAttribute('stroke-width', '1.5'));
   document.querySelector(`.tilemap a[data-state="${code}"] rect`)?.setAttribute('stroke-width', '4');
 
-  const fits = s.kits.map((v, i) => ({ v, k: D.kits[i] }));
+  const fits = s.kits.map(([v, ev, cav, evl], i) => ({ v, ev, cav, evl, k: D.kits[i] }));
+  const label = (v: string) => `<strong class="vhelp v-${v}" title="${esc(D.verdictHelp[v])}">${esc(D.verdictLabel[v])}</strong>`;
+  const item = (f: (typeof fits)[number]) => `<li><a href="/kits/${f.k.slug}/">${esc(f.k.name)}</a>: ${label(f.v)}${f.ev ? ` <a class="small" href="${esc(f.ev)}" rel="noopener">${esc(f.evl)}</a>` : ''}${f.cav.map((c) => `<span class="caveat">${esc(c)}</span>`).join('')}</li>`;
   const compatible = fits.filter((f) => f.v === 'compatible');
-  const near = fits.filter((f) => f.v === 'check_with_seller' || f.v === 'unverified_claim');
+  const likely = fits.filter((f) => f.v === 'likely_compatible');
+  const near = fits.filter((f) => ['component_only', 'listing_claimed', 'ul3700_claimed'].includes(f.v));
   let kitsHtml = '';
-  if (s.enacted) {
-    kitsHtml = compatible.length
-      ? `<p><strong>Compatible kits:</strong></p><ul>${compatible.map((f) => `<li><a href="/kits/${f.k.slug}/">${esc(f.k.name)}</a></li>`).join('')}</ul>`
-      : `<div class="note"><strong>No kit is confirmed compatible here yet.</strong> ${s.strict ? 'This state requires UL 3700 or complete-system certification, and no complete kit has shown us that certificate.' : 'We have not seen a certificate for any complete kit.'} <a href="/certification-watch/">See Certification watch</a>.</div>`;
-    if (near.length)
-      kitsHtml += `<p class="small">Within the size limit but not confirmed:</p><ul class="small">${near.map((f) => `<li><a href="/kits/${f.k.slug}/">${esc(f.k.name)}</a>: ${esc(D.verdictLabel[f.v])}</li>`).join('')}</ul>`;
+  if (s.enacted && s.rules.length) {
+    if (compatible.length) kitsHtml += `<p><strong>Compatible kits:</strong></p><ul>${compatible.map(item).join('')}</ul>`;
+    else if (s.strict) kitsHtml += `<div class="note"><strong>No complete kit is confirmed here yet.</strong> This state requires UL 3700 or complete-system certification, and no complete kit has shown us that certificate. <a href="/certification-watch/">See Certification watch</a>.</div>`;
+    else if (likely.length) kitsHtml += `<div class="note info"><strong>No complete kit is confirmed, but ${likely.length} ${likely.length === 1 ? 'product is' : 'products are'} likely compatible.</strong> This state asks for lab certification without naming a standard, and we have seen a lab certificate for the inverter. Confirm with the seller.</div>`;
+    else kitsHtml += `<div class="note"><strong>No kit is confirmed here yet.</strong> <a href="/certification-watch/">See Certification watch</a>.</div>`;
+    if (likely.length) kitsHtml += `<ul class="small">${likely.map(item).join('')}</ul>`;
+    if (near.length) kitsHtml += `<p class="small">Within the size limit, not confirmed:</p><ul class="small">${near.map(item).join('')}</ul>`;
   }
   const rules = s.rules.length
     ? `<div class="table-wrap"><table><tbody>${s.rules.map(([k, v, u]) => `<tr><th scope="row">${esc(k)}</th><td>${esc(v)}</td><td class="src">${u ? `<a href="${esc(u)}" rel="noopener">source</a>` : ''}</td></tr>`).join('')}</tbody></table></div>`
@@ -85,15 +89,21 @@ function calc() {
   if (!current) return;
   const s = D.states[current];
   const num = (id: string) => { const v = $<HTMLInputElement>(id).value; return v === '' ? NaN : Number(v); };
+  const share = num('c-share');
+  $('c-share-out').textContent = `${share}%`;
   const cost = num('c-cost');
-  const r = estimate({ panelWatts: num('c-watts'), priceCentsPerKwh: num('c-price'), sharePct: num('c-share'), kitCostUsd: Number.isFinite(cost) ? cost : null, yields: s.y });
+  const base = { panelWatts: num('c-watts'), priceCentsPerKwh: num('c-price'), kitCostUsd: Number.isFinite(cost) ? cost : null, yields: s.y };
+  const r = estimate({ ...base, sharePct: share });
+  const best = estimate({ ...base, sharePct: 100 });
   if (r.error) { box.innerHTML = `<p role="alert">${esc(r.error)}</p>`; return; }
-  const row = (label: string, x: typeof r.ideal) => x
-    ? `<tr><th scope="row">${label}</th><td class="num">${fmtKwh(x.kwh)}</td><td class="num">${fmtUsd(x.dollars)}</td><td class="num">${x.paybackYears === null ? '—' : x.paybackYears + ' yrs'}</td></tr>`
-    : `<tr><th scope="row">${label}</th><td colspan="3" class="muted">No solar data for ${esc(s.n)} yet; no estimate.</td></tr>`;
-  const pb = r.paybackRange ? `<p>Payback: <strong>${r.paybackRange[0] === r.paybackRange[1] ? r.paybackRange[0] : r.paybackRange[0] + ' to ' + r.paybackRange[1]} years</strong>.</p>` : '';
-  box.innerHTML = `<div class="table-wrap"><table><thead><tr><th scope="col">${esc(s.n)}</th><th scope="col">Per year</th><th scope="col">Savings / yr</th><th scope="col">Payback</th></tr></thead><tbody>
-    ${row('Ideal tilt (20°)', r.ideal)}${row('Vertical railing (90°)', r.vertical)}</tbody></table></div>${pb}`;
+  const yrs = (x: number | null) => (x === null ? '—' : `${x} yrs`);
+  const row = (label: string, x: typeof r.ideal, b: typeof r.ideal) => (x && b
+    ? `<tr><th scope="row">${label}</th><td data-label="Output" class="num">${fmtKwh(x.kwh)}</td><td data-label="Your share (${share}%)" class="num">${fmtUsd(x.dollars)} · ${yrs(x.paybackYears)}</td><td data-label="Best case (100%)" class="num">${fmtUsd(b.dollars)} · ${yrs(b.paybackYears)}</td></tr>`
+    : '');
+  const rows = row('Ideal tilt (20°)', r.ideal, best.ideal) + row('Vertical railing (90°)', r.vertical, best.vertical);
+  if (!rows) { box.innerHTML = `<p class="muted">No solar data for ${esc(s.n)} yet, so we show no estimate.</p>`; return; }
+  box.innerHTML = `<div class="table-wrap"><table class="stack"><thead><tr><th scope="col">${esc(s.n)}</th><th scope="col">Output / yr</th><th scope="col">Your share (${share}%): savings · payback</th><th scope="col">Best case (100%)</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <p class="small muted">Payback needs a kit cost. Savings assume nothing is paid for power sent to the grid.</p>`;
 }
 
 function fromHash(focus: boolean) {
@@ -104,6 +114,7 @@ function fromHash(focus: boolean) {
 sel.addEventListener('change', () => { if (sel.value) { history.replaceState(null, '', `#state-${sel.value.toLowerCase()}`); render(sel.value, false); } });
 window.addEventListener('hashchange', () => fromHash(true));
 ['c-watts', 'c-price', 'c-share', 'c-cost'].forEach((id) => $(id).addEventListener('input', calc));
+document.querySelectorAll<HTMLButtonElement>('button[data-share]').forEach((b) => b.addEventListener('click', () => { $<HTMLInputElement>('c-share').value = b.dataset.share!; calc(); }));
 $<HTMLSelectElement>('c-kit').addEventListener('change', (e) => {
   const k = D.kits.find((x) => x.slug === (e.target as HTMLSelectElement).value);
   if (k) { if (k.panel) $<HTMLInputElement>('c-watts').value = String(k.panel); $<HTMLInputElement>('c-cost').value = k.price ? String(k.price) : ''; }

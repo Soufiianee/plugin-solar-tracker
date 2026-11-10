@@ -13,6 +13,7 @@ const rows = kits.map((k) => ({ k, u: ul3700(k) })).sort((a, b) => {
 const systemCertified = rows.filter((r) => r.u?.status === 'certified' && r.u.scope === 'complete_system');
 const componentCertified = rows.filter((r) => r.u?.status === 'certified' && r.u.scope === 'component');
 const claimed = rows.filter((r) => r.u?.status === 'pending_or_claimed');
+const labStates = states.filter((s) => isEnacted(s) && !needsSystemCert(s.rules.certification_required.value) && s.rules.certification_required.value !== 'unknown').sort((a, b) => a.name.localeCompare(b.name));
 const strictStates = states.filter((s) => isEnacted(s) && needsSystemCert(s.rules.certification_required.value)).sort((a, b) => a.name.localeCompare(b.name));
 const checked = kits.map((k) => k.last_checked).sort().reverse()[0];
 const signupOn = Boolean(mailerlite);
@@ -35,7 +36,15 @@ const signupOn = Boolean(mailerlite);
       return <li><a href={`/states/${s.slug}/`}>{s.name}</a>: {ok ? `${ok} confirmed kit${ok > 1 ? 's' : ''}` : 'no confirmed kit yet'}</li>;
     })}
   </ul>
-  <p class="small muted">Other states ask for certification by UL or an equivalent lab without naming a standard. We apply the same rule there: a component certificate alone is "check with seller", never "compatible".</p>
+  <h2>States that ask for lab certification only</h2>
+  <p>These laws require certification by UL or an equivalent lab without naming UL 3700. Where we have seen a lab certificate for a kit's inverter, we show it as <strong>likely compatible: confirm with seller</strong>. Where the maker only claims a listing, we say so.</p>
+  <ul>
+    {labStates.map((s) => {
+      const likely = kits.filter((k) => kitVerdict(s, k) === 'likely_compatible').length;
+      const ok = kits.filter((k) => kitVerdict(s, k) === 'compatible').length;
+      return <li><a href={`/states/${s.slug}/`}>{s.name}</a>: {ok ? `${ok} confirmed` : 'no complete kit confirmed'}{likely ? `, ${likely} likely compatible (confirm with seller)` : ''}</li>;
+    })}
+  </ul>
 
   <h2>Status by product</h2>
   <div class="table-wrap"><table class="stack">

@@ -4,7 +4,7 @@ import { fmtDate } from '../lib/data';
 interface Props { sources: Source[] }
 const TYPE: Record<string, string> = {
   legislature_bill_page: 'Legislature bill page', enrolled_text: 'Law text', governor_record: 'Governor record', utility_commission: 'Utility commission',
-  legislature_data: 'Legislature data', legislature_other: 'Official legislature record', government_data: 'Government data', certifier_directory: 'Certifier directory',
+  legislature_data: 'Legislature data', legislature_other: 'Official legislature record', government_data: 'Government data', research: 'Research model or study', certifier_directory: 'Certifier directory',
   manufacturer_certificate: 'Certificate (via manufacturer)', manufacturer_page: 'Manufacturer page', secondary_mirror: 'Unofficial copy (not relied on)', secondary_lead: 'Lead only (not relied on)',
 };
 const { sources } = Astro.props;

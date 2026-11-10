@@ -2,6 +2,33 @@
   {
     "date": "2026-11-10",
     "state": null,
+    "kind": "kit_update",
+    "title": "Kit verdicts: lab-listed states judged separately from UL 3700 states",
+    "body": "In Utah, Maryland, Colorado, Connecticut and Virginia, whose laws ask for lab certification without naming UL 3700, a kit with a lab certificate we have seen for its inverter is now shown as \"Likely compatible: confirm with seller\" (APsystems EZ1-LV). Claims without certificates are labelled as claims. Connecticut and Maryland kits with several inverters carry a device-count note.",
+    "source": {
+      "title": "APsystems EZ1 certifications folder (CSA certificates 80310017 and 80196075)",
+      "url": "https://usa.apsystems.com/document/ez1-certifications/",
+      "accessed": "2026-11-10",
+      "type": "manufacturer_certificate"
+    }
+  },
+  {
+    "date": "2026-11-10",
+    "state": null,
+    "kind": "data_correction",
+    "title": "Savings now show a typical case alongside the best case",
+    "body": "Estimates now show a typical share of output used at home (69%), from HTW Berlin's plug-in solar model for an 800 W system without a battery in a 3,000 kWh/yr home, next to the 100% best case. The calculator lets you change the share.",
+    "source": {
+      "title": "HTW Berlin, Stecker-Solar-Simulator (web app)",
+      "url": "https://solar.htw-berlin.de/rechner/stecker-solar-simulator/",
+      "accessed": "2026-11-10",
+      "type": "research",
+      "note": "Public university research group (Forschungsgruppe Solarspeichersysteme). Model runs as listed in 'method'."
+    }
+  },
+  {
+    "date": "2026-11-10",
+    "state": null,
     "kind": "data_correction",
     "title": "Electricity prices now use a rolling 12-month average",
     "body": "State electricity prices now use EIA's residential average for September 2025 – August 2026 (12 months), total revenue divided by total sales, replacing the January-August 2026 figure.",

@@ -20,6 +20,7 @@ export const sourceType = z.enum([
   'legislature_data', // official bulk data published by a legislature
   'legislature_other', // other official legislature publication (digest, calendar, homepage notice)
   'government_data', // federal or state statistical source (EIA, NREL/NLR)
+  'research', // published model or study from a university or public research body
   'certifier_directory', // certifier's public directory entry
   'manufacturer_certificate', // certificate document published by the manufacturer
   'manufacturer_page', // manufacturer's product or spec page (specs and claims only)
@@ -134,6 +135,8 @@ export const state = z
     summary_plain: z.string().min(40),
     watch_notes: z.string().min(10),
     notes: z.string().optional(),
+    /** shown as a visible note on the state page */
+    page_note: z.string().optional(),
     next_key_date: z.union([isoDate, z.null()]),
     sources: z.array(source).min(1),
     last_checked: isoDate,
@@ -183,6 +186,8 @@ export const kit = z
     ac_output_basis: z.enum(['manufacturer_stated', 'estimated', 'unknown']),
     panel_w_total: z.union([z.number().int().nonnegative(), UNKNOWN, z.literal('not_included')]),
     inverter: z.string().min(2),
+    /** number of inverters (devices) in the product; matters where a law allows one device/system per meter */
+    inverter_count: z.union([z.number().int().positive(), UNKNOWN]),
     battery_included: z.union([z.boolean(), UNKNOWN]),
     plug_type: z.union([z.string().min(2), UNKNOWN]),
     certifications: z.array(certification).min(1),
@@ -271,4 +276,19 @@ export const siteFile = z.object({
   /** MailerLite embedded form; empty account or form_id = signup hidden everywhere */
   MAILERLITE: z.object({ account: z.string().regex(/^\d*$/), form_id: z.string().regex(/^[A-Za-z0-9]*$/) }),
   ANALYTICS: z.object({ provider: z.string(), key: z.string() }),
+});
+
+// ---------- modelling assumptions ----------
+export const assumptionsFile = z.object({
+  self_consumption: z.object({
+    best_case_pct: z.literal(100),
+    typical_pct: z.number().min(1).max(100),
+    label_typical: z.string(),
+    explanation: z.string(),
+    method: z.string(),
+    runs: z.array(z.object({ household_kwh: z.number(), pct: z.number() })).min(1),
+    limits: z.string(),
+    sources: z.array(source).min(1),
+  }),
+  last_checked: isoDate,
 });

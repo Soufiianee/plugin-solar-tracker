@@ -2,17 +2,26 @@
  * Fills data/solar_yield.json with NREL (NLR) PVWatts v8 results for every state capital,
  * in two scenarios: "ideal" (20° tilt, south) and "vertical" (90°, south, e.g. a balcony railing).
  *
+ * Key: NREL_API_KEY env var, or a line NREL_API_KEY=... in .env (gitignored, never committed).
  * Usage:  NREL_API_KEY=xxxx npm run yield            (only fills values still "unknown")
  *         NREL_API_KEY=xxxx npm run yield -- --all   (re-runs everything)
  * The key is sent as an X-Api-Key header and never written to disk.
  */
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const file = join(root, 'data/solar_yield.json');
 const API = 'https://developer.nlr.gov/api/pvwatts/v8.json';
+// Optional .env file (gitignored): NREL_API_KEY=...
+const envFile = join(root, '.env');
+if (!process.env.NREL_API_KEY && existsSync(envFile)) {
+  for (const line of readFileSync(envFile, 'utf8').split('\n')) {
+    const m = line.match(/^\s*NREL_API_KEY\s*=\s*"?([^"\s]+)"?\s*$/);
+    if (m) process.env.NREL_API_KEY = m[1];
+  }
+}
 const key = process.env.NREL_API_KEY;
 const all = process.argv.includes('--all');
 const today = new Date().toISOString().slice(0, 10);

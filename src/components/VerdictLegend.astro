@@ -1,0 +1,13 @@
+---
+import { verdictLabel, verdictHelp, VERDICT_ORDER, type Verdict } from '../lib/compat';
+interface Props { only?: Verdict[] }
+const { only } = Astro.props;
+const list = VERDICT_ORDER.filter((v) => !only || only.includes(v));
+---
+<details class="small">
+  <summary>What these labels mean</summary>
+  <dl class="kv" style="margin-top:0.5rem">
+    {list.map((v) => <><dt class={`v-${v}`}><strong>{verdictLabel[v]}</strong></dt><dd>{verdictHelp[v]}</dd></>)}
+  </dl>
+  <p style="margin:0.5rem 0 0"><a href="/how-we-verify/#kits">How we judge kits</a>.</p>
+</details>

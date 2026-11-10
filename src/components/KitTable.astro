@@ -1,23 +1,29 @@
 ---
 import type { State } from '../lib/schema';
-import { kits, kitVerdict, ul3700, isEnacted } from '../lib/data';
-import { verdictLabel, needsSystemCert } from '../lib/compat';
+import { kits, kitAssess, ul3700, isEnacted } from '../lib/data';
+import { needsSystemCert, VERDICT_ORDER } from '../lib/compat';
 import { CERT_STATUS, SCOPE } from '../lib/labels';
+import VerdictCell from './VerdictCell.astro';
+import VerdictLegend from './VerdictLegend.astro';
 interface Props { state: State }
 const { state } = Astro.props;
-const rows = kits.map((k) => ({ k, v: kitVerdict(state, k), u: ul3700(k) }));
-const order = ['compatible', 'check_with_seller', 'unverified_claim', 'no_evidence', 'output_unknown', 'over_cap', 'rules_unknown', 'no_state_law'];
-rows.sort((a, b) => order.indexOf(a.v) - order.indexOf(b.v));
-const anyCompatible = rows.some((r) => r.v === 'compatible');
+const rows = kits.map((k) => ({ k, a: kitAssess(state, k), u: ul3700(k) }));
+rows.sort((x, y) => VERDICT_ORDER.indexOf(x.a.verdict) - VERDICT_ORDER.indexOf(y.a.verdict));
+const compatible = rows.filter((r) => r.a.verdict === 'compatible');
+const likely = rows.filter((r) => r.a.verdict === 'likely_compatible');
 const strict = isEnacted(state) && needsSystemCert(state.rules.certification_required.value);
+const used = [...new Set(rows.map((r) => r.a.verdict))];
 ---
-{isEnacted(state) && !anyCompatible && (
+{isEnacted(state) && compatible.length === 0 && (
   <div class="note">
-    <strong>No kit is confirmed compatible in {state.name} yet.</strong>
-    {strict
-      ? ` ${state.name}'s law requires ${state.rules.certification_required.value === 'plug_in_system_certification' ? 'certification as a complete plug-in system' : 'UL 3700 (or a comparable standard)'}, and we have not seen that certificate for any complete kit.`
-      : ' We have not seen a certificate covering a complete kit. A certificate for a single component (like the inverter) is not enough for us to call a kit compatible.'}
-    {' '}<a href="/certification-watch/">Follow Certification watch</a>.
+    {strict ? (
+      <><strong>No complete kit is confirmed yet in {state.name}.</strong> The law requires {state.rules.certification_required.value === 'plug_in_system_certification' ? 'certification as a complete plug-in system' : 'UL 3700 (or a comparable standard)'}, and we have not seen that certificate for any complete kit.</>
+    ) : likely.length > 0 ? (
+      <><strong>{likely.length} {likely.length === 1 ? 'product is' : 'products are'} likely compatible in {state.name}; confirm with the seller.</strong> {state.name}'s law asks for certification by UL or an equivalent lab without naming a standard. We have seen a lab certificate for {likely.length === 1 ? 'its' : 'their'} inverter, but not for a complete kit.</>
+    ) : (
+      <><strong>No kit is confirmed in {state.name} yet.</strong> We have not seen a lab certificate for any kit's inverter or for a complete kit.</>
+    )}
+    {' '}<a href="/certification-watch/">Certification watch</a>.
   </div>
 )}
 <div class="table-wrap">
@@ -25,15 +31,15 @@ const strict = isEnacted(state) && needsSystemCert(state.rules.certification_req
     <caption class="visually-hidden">Kits checked against {state.name}'s rules</caption>
     <thead><tr><th scope="col">Kit</th><th scope="col">AC output</th><th scope="col">UL 3700</th><th scope="col">Fit in {state.name}</th></tr></thead>
     <tbody>
-      {rows.map(({ k, v, u }) => (
+      {rows.map(({ k, a, u }) => (
         <tr>
           <th scope="row"><a href={`/kits/${k.slug}/`}>{k.brand} {k.model}</a></th>
           <td data-label="AC output" class="num">{typeof k.ac_output_w === 'number' ? `${k.ac_output_w.toLocaleString('en-US')} W${k.ac_output_basis === 'estimated' ? ' (estimated)' : ''}` : 'Not stated'}</td>
           <td data-label="UL 3700" class="small">{u ? `${CERT_STATUS[u.status]}${u.status === 'certified' ? ', ' + SCOPE[u.scope] : ''}` : 'Unknown'}</td>
-          <td data-label="Fit" class={`v-${v}`}><strong>{verdictLabel[v]}</strong></td>
+          <td data-label="Fit"><VerdictCell a={a} /></td>
         </tr>
       ))}
     </tbody>
   </table>
 </div>
-<p class="small muted">"Check with seller" means a certificate exists for a part of the kit only. "Compatible" requires a certificate for the complete system and output within the state's limit. <a href="/how-we-verify/#kits">How we judge kits</a>.</p>
+<VerdictLegend only={used} />

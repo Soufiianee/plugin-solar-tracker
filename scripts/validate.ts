@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import type { ZodTypeAny } from 'zod';
 import {
-  statesFile, kitsFile, pricesFile, yieldFile, updatesFile, affiliatesFile, siteFile,
+  statesFile, kitsFile, pricesFile, yieldFile, updatesFile, affiliatesFile, siteFile, assumptionsFile,
 } from '../src/lib/schema.ts';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -25,6 +25,7 @@ const kits = check('data/kits.json', kitsFile);
 const prices = check('data/electricity_prices.json', pricesFile);
 const yields = check('data/solar_yield.json', yieldFile);
 check('data/updates.json', updatesFile);
+check('data/assumptions.json', assumptionsFile);
 const affiliates = check('config/affiliates.json', affiliatesFile);
 check('config/site.json', siteFile);
 

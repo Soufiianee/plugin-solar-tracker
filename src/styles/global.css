@@ -114,9 +114,11 @@ th[aria-sort="descending"] button.sort::after { content: " ▼"; }
 .btn { display: inline-block; font: 600 1rem var(--sans); background: var(--accent); color: var(--accent-ink); border: 0; border-radius: var(--radius); padding: 0.6rem 1rem; text-decoration: none; cursor: pointer; }
 .btn.secondary { background: none; color: var(--accent); border: 1px solid var(--accent); }
 .tag { display: inline-block; font-size: 0.78rem; font-weight: 600; padding: 0.1em 0.5em; border-radius: 4px; background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--rule); }
-.v-compatible { color: var(--st-effect); }
-.v-check_with_seller, .v-unverified_claim { color: var(--st-active); }
-.v-no_evidence, .v-over_cap, .v-output_unknown, .v-rules_unknown, .v-no_state_law { color: var(--ink-2); }
+.v-compatible, .v-likely_compatible { color: var(--st-effect); }
+.v-component_only, .v-listing_claimed, .v-ul3700_claimed { color: var(--st-active); }
+.v-not_certified, .v-no_evidence, .v-over_cap, .v-output_unknown, .v-rules_unknown, .v-no_state_law { color: var(--ink-2); }
+abbr.vhelp, .vhelp { text-decoration: underline dotted; text-underline-offset: 0.2em; cursor: help; }
+.caveat { display: block; font-size: 0.82rem; color: var(--st-active); margin-top: 0.2rem; }
 
 /* forms */
 label { font-weight: 600; font-size: 0.95rem; display: block; margin-bottom: 0.25rem; }
@@ -150,6 +152,32 @@ summary { cursor: pointer; font-weight: 600; }
   table.stack td[data-label]::before { content: attr(data-label) ": "; font-weight: 600; color: var(--ink-2); }
 }
 
-/* MailerLite embed: our card supplies the heading and promise, so hide the form's generic built-in heading. */
-.signup .ml-embedded .ml-form-embedContent { display: none !important; }
-.signup .ml-embedded .ml-form-embedWrapper { margin: 0 !important; max-width: 100% !important; }
+/* MailerLite embed: restyled with our tokens (both themes). MailerLite ships high-specificity CSS, hence !important.
+   Our card supplies the heading and promise, so the form's built-in heading block is hidden. */
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedContent { display: none !important; }
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer,
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-align-center { width: 100% !important; text-align: left !important; }
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper { background: transparent !important; border: 0 !important; border-radius: 0 !important; margin: 0 !important; max-width: 100% !important; width: 100% !important; box-shadow: none !important; }
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedBody,
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-successBody { padding: 0 !important; }
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-formContent,
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow { margin: 0 0 0.75rem !important; }
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow.ml-last-item { margin-bottom: 0.75rem !important; }
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow input.form-control {
+  font: 1rem var(--sans) !important; color: var(--ink) !important; background: var(--surface) !important;
+  border: 1px solid var(--ink-2) !important; border-radius: var(--radius) !important;
+  padding: 0.55rem 0.65rem !important; height: auto !important; max-width: 22rem !important; width: 100% !important; box-shadow: none !important;
+}
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow input.form-control::placeholder { color: var(--ink-2) !important; opacity: 1 !important; }
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow input.form-control:focus { outline: 3px solid var(--focus) !important; outline-offset: 2px !important; border-color: var(--accent) !important; }
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit { margin: 0 !important; float: none !important; width: auto !important; }
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit button.primary,
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit button.loading {
+  font: 600 1rem var(--sans) !important; background: var(--accent) !important; color: var(--accent-ink) !important;
+  border: 0 !important; border-radius: var(--radius) !important; padding: 0.6rem 1.1rem !important; width: auto !important; min-width: 9rem; height: auto !important; cursor: pointer;
+}
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit button.primary:hover { filter: brightness(1.1); }
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit button.primary:focus-visible { outline: 3px solid var(--focus) !important; outline-offset: 2px !important; }
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-successBody h4,
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-successBody p { font-family: var(--sans) !important; color: var(--ink) !important; text-align: left !important; }
+:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow.ml-error input.form-control { border-color: var(--st-dead) !important; }

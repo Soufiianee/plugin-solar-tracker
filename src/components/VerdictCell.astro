@@ -1,0 +1,10 @@
+---
+import type { Assessment } from '../lib/compat';
+import { verdictLabel, verdictHelp } from '../lib/compat';
+interface Props { a: Assessment }
+const { a } = Astro.props;
+const ev = a.basis?.evidence_url && a.basis.evidence_url !== 'unknown' ? a.basis.evidence_url : null;
+---
+<strong class={`vhelp v-${a.verdict}`} title={verdictHelp[a.verdict]}>{verdictLabel[a.verdict]}</strong>
+{ev && <> <a class="small" href={ev} rel="noopener">{a.basis?.status === 'certified' ? 'certificate' : 'maker’s claim'}</a></>}
+{a.caveats.map((c) => <span class="caveat">{c}</span>)}

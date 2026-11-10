@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { states, kits, prices, yields, fmtDate } from '../lib/data';
+import { states, kits, prices, yields, fmtDate, assumptions } from '../lib/data';
 const counts = { primary: states.filter((s) => s.verification === 'primary').length, other: states.filter((s) => s.verification !== 'primary').length };
 const unknownStates = states.filter((s) => s.status === 'unknown').map((s) => s.name);
 ---
@@ -26,10 +26,16 @@ const unknownStates = states.filter((s) => s.status === 'unknown').map((s) => s.
       <li><strong>Not certified</strong>: the maker or seller says it is not certified.</li>
       <li><strong>Unknown</strong>: no claim and no evidence either way.</li>
     </ul>
-    <p>We also record what a certificate covers. A UL 3700 certificate for an inverter "as a component" is not a certificate for the kit you plug in. So we call a kit <strong>compatible</strong> with a state only when two things hold. Its stated output is within the state's limit, and a certificate covers the complete system. A component-only certificate is shown as "check with seller", never "compatible". Specs and prices come from the maker's or seller's own pages, with the date we checked. An output we calculated from the parts is labelled "estimated".</p>
+    <p>We also record what a certificate covers: a single component, such as the inverter, or the complete system you plug in. State laws come in two kinds, and we judge kits differently for each.</p>
+    <ul>
+      <li><strong>UL 3700 or complete-system states</strong> (Vermont, Maine, New Jersey, California): a kit is <strong>compatible</strong> only with a certificate for the complete system. A certificate for one part is shown as <strong>"Component certificate only: check with seller"</strong>. Maine also allows a system configured per the National Electrical Code. We don't judge that route; ask a licensed electrician.</li>
+      <li><strong>Lab-listed states</strong> (Utah, Maryland, Colorado, Connecticut, Virginia): the law asks for certification by UL or an equivalent lab without naming a standard. If we have seen a lab certificate for the kit's inverter, we show <strong>"Likely compatible: confirm with seller"</strong>. If the maker only claims a listing, we show <strong>"Listing claimed, no certificate seen"</strong>. Connecticut also names UL 1741. Connecticut and Maryland allow one device or system per meter, so kits with several inverters carry a "check device count" note.</li>
+    </ul>
+    <p>In every state the kit's stated output must be within the legal limit. If the seller doesn't state the output but the panels alone are under the limit, the kit cannot exceed it. Specs and prices come from the maker's or seller's own pages, with the date we checked. An output we calculated from the parts is labelled "estimated".</p>
 
     <h2>Savings estimates</h2>
     <p>Electricity prices are U.S. EIA residential averages for {prices.period}: total revenue divided by total sales, from Form EIA-861M. Solar output comes from {yields.model}, run for each state capital in two cases: 20° tilt facing south, and vertical (90°) facing south. Where a figure is missing, we show no estimate.</p>
+    <p>Savings depend on how much of the output you use at home, because exports usually earn nothing. We show a <strong>best case</strong> (100%) and a <strong>typical</strong> case ({assumptions.self_consumption.typical_pct}%). The typical case comes from HTW Berlin's Stecker-Solar-Simulator: 800 W, no battery, a home using 3,000 kWh a year. That is well below every US state's average household use. The model uses German weather and household patterns, so treat it as a guide.</p>
 
     <h2>Update schedule</h2>
     <p>We re-check every record at least weekly. We check sooner when a bill has a vote scheduled or a law is about to take effect. Each page shows the date it was last checked. Every change is logged on the <a href="/updates/">updates page</a> and in its RSS feed.</p>

@@ -1,0 +1,47 @@
+{
+  "self_consumption": {
+    "best_case_pct": 100,
+    "typical_pct": 69,
+    "label_typical": "typical (smaller household)",
+    "explanation": "Share of a plug-in system's output used at home rather than sent to the grid. Without a battery, power produced while nothing is running flows to the grid, which these laws generally do not pay for.",
+    "method": "HTW Berlin Stecker-Solar-Simulator (web app, accessed 2026-11-10), 800 W system, no battery, panels vertical (90°) facing south, no shade, German weather and household load profiles. 'Nutzungsgrad' (share of solar output used on site) = avoided grid purchase / generation: 2,100 kWh/yr household 311/552 kWh = 56%; 3,000 kWh/yr 381/552 kWh = 69%; 5,000 kWh/yr 488/552 kWh = 88%. We use the 3,000 kWh case as 'typical' because it is under half the average US household's use (10,499 kWh/yr, EIA Form 861M, Sep 2025-Aug 2026) and below every state's average (lowest: California, 6,082 kWh/yr), so it leans conservative for most US homes.",
+    "runs": [
+      {
+        "household_kwh": 2100,
+        "pct": 56
+      },
+      {
+        "household_kwh": 3000,
+        "pct": 69
+      },
+      {
+        "household_kwh": 5000,
+        "pct": 88
+      }
+    ],
+    "limits": "German weather and load profiles; vertical panels (tilted panels produce more at midday, so a smaller share may be used at home); 800 W system. Your own share depends on what runs in your home while the sun shines.",
+    "sources": [
+      {
+        "title": "HTW Berlin, Stecker-Solar-Simulator (web app)",
+        "url": "https://solar.htw-berlin.de/rechner/stecker-solar-simulator/",
+        "accessed": "2026-11-10",
+        "type": "research",
+        "note": "Public university research group (Forschungsgruppe Solarspeichersysteme). Model runs as listed in 'method'."
+      },
+      {
+        "title": "Orth, Bergner, Zoll: Web-App Stecker-Solar-Simulator, Dokumentation der Berechnungsgrundlagen (HTW Berlin, v3.0)",
+        "url": "https://solar.htw-berlin.de/wp-content/uploads/ORTH-2024-Stecker-Solar-Simulator-Dokumentation.pdf",
+        "accessed": "2026-11-10",
+        "type": "research"
+      },
+      {
+        "title": "U.S. EIA, Form EIA-861M: Sales and revenue data by state, monthly (customers and sales)",
+        "url": "https://www.eia.gov/electricity/data/eia861m/",
+        "accessed": "2026-11-10",
+        "type": "government_data",
+        "note": "Average residential use per customer computed as 12-month sales / average customers."
+      }
+    ]
+  },
+  "last_checked": "2026-11-10"
+}

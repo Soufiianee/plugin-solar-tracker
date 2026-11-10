@@ -5,10 +5,10 @@ import StatusPill from '../components/StatusPill.astro';
 import Disclaimer from '../components/Disclaimer.astro';
 import AlertSignup from '../components/AlertSignup.astro';
 import {
-  states, kits, updates, STATUS, statusLabel, effectiveDate, mainBill, kitVerdict, isEnacted, priceFor, yieldFor,
-  prices, yields, fmtDate, absUrl, siteName, mailerlite,
+  states, kits, updates, STATUS, statusLabel, effectiveDate, mainBill, kitAssess, isEnacted, priceFor, yieldFor, assumptions,
+  prices, yields, fmtDate, absUrl, siteName,
 } from '../lib/data';
-import { verdictLabel, needsSystemCert } from '../lib/compat';
+import { verdictLabel, verdictHelp, needsSystemCert } from '../lib/compat';
 import { RULE_NAMES, ruleValue } from '../lib/labels';
 
 const enacted = states.filter(isEnacted);
@@ -26,13 +26,17 @@ const toolData = {
       strict: isEnacted(s) && needsSystemCert(s.rules.certification_required.value),
       rules: isEnacted(s) ? ruleKeys.map((k) => [RULE_NAMES[k], ruleValue(k, s.rules[k].value), s.rules[k].rule_sources[0]?.url ?? null]) : [],
       price: priceFor(s.code), y: yieldFor(s.code),
-      kits: kits.map((k) => kitVerdict(s, k)),
+      kits: kits.map((k) => { const a = kitAssess(s, k); return [a.verdict, a.basis?.evidence_url && a.basis.evidence_url !== 'unknown' ? a.basis.evidence_url : null, a.caveats, a.basis?.status === 'certified' ? 'certificate' : 'maker’s claim']; }),
     }];
   })),
   kits: kits.map((k) => ({ slug: k.slug, name: `${k.brand} ${k.model}`, ac: k.ac_output_w, est: k.ac_output_basis === 'estimated', panel: typeof k.panel_w_total === 'number' ? k.panel_w_total : null, price: typeof k.price_usd === 'number' ? k.price_usd : null })),
-  verdictLabel,
+  verdictLabel, verdictHelp,
+  typicalShare: assumptions.self_consumption.typical_pct,
+  anyVertical: Object.values(yields.states).some((y) => typeof y.scenarios.vertical.kwh_per_kw_year === 'number'),
 };
 const latest = updates.slice(0, 5);
+const sc = assumptions.self_consumption;
+const anyVertical = toolData.anyVertical;
 const sorted = [...states].sort((a, b) => a.name.localeCompare(b.name));
 
 const datasetLd = {
@@ -91,8 +95,9 @@ const datasetLd = {
         <div>
           <div class="field"><label for="c-price">Your electricity price (¢/kWh)</label><input id="c-price" type="number" inputmode="decimal" min="1" max="200" step="0.01" />
             <p class="hint" id="c-price-hint">Defaults to your state's average once you choose a state.</p></div>
-          <div class="field"><label for="c-share">Share of the power you use at home (%)</label><input id="c-share" type="number" inputmode="numeric" min="0" max="100" step="1" value="100" />
-            <p class="hint">Power you send to the grid usually earns nothing under these laws.</p></div>
+          <div class="field"><label for="c-share">Share of the power you use at home: <output id="c-share-out" for="c-share">{sc.typical_pct}%</output></label>
+            <input id="c-share" type="range" min="10" max="100" step="1" value={sc.typical_pct} aria-describedby="c-share-hint" />
+            <p class="hint" id="c-share-hint"><button type="button" class="linkbtn" data-share={sc.typical_pct}>Typical: {sc.typical_pct}%</button> · <button type="button" class="linkbtn" data-share="100">Best case: 100%</button>. Without a battery, power you don't use at that moment goes to the grid and usually earns nothing.</p></div>
         </div>
       </form>
       <div id="calc-out" aria-live="polite"><p class="muted">Choose a state to see an estimate.</p></div>
@@ -100,8 +105,9 @@ const datasetLd = {
         <summary>How we calculate</summary>
         <p><strong>Yearly kWh</strong> = panel watts ÷ 1,000 × the state's yearly output per kW of panels.<br />
           <strong>Yearly savings</strong> = yearly kWh × share used at home × your price.<br />
-          <strong>Payback</strong> = kit cost ÷ yearly savings. The range runs from the "ideal tilt" case to the "vertical railing" case.</p>
-        <p>Output per kW comes from {yields.model}, run for each state capital with {yields.common.losses_pct}% system losses: "ideal tilt" is 20° facing south; "vertical railing" is 90° facing south. Real balconies face other directions, get shade, and are often limited by the inverter, so your output may be lower.</p>
+          <strong>Payback</strong> = kit cost ÷ yearly savings.</p>
+        <p><strong>Share used at home.</strong> "Best case" (100%) assumes you use every kilowatt-hour yourself. "Typical" ({sc.typical_pct}%) comes from HTW Berlin's Stecker-Solar-Simulator. For an 800 W system with no battery, it modelled {sc.runs.map((r) => `${r.pct}% for a home using ${r.household_kwh.toLocaleString('en-US')} kWh a year`).join(', ')}. We use the 3,000 kWh case because it is well below every US state's average household use (EIA). The model uses German weather and household patterns and vertical panels, so treat it as a guide. <a href="https://solar.htw-berlin.de/rechner/stecker-solar-simulator/" rel="noopener">HTW simulator</a>.</p>
+        <p><strong>Solar output</strong> comes from {yields.model}, run for each state capital with {yields.common.losses_pct}% system losses, panels at 20° facing south{anyVertical ? ', and for vertical railing panels (90°, facing south)' : ''}. Real balconies face other directions, get shade, and are often limited by the inverter, so your output may be lower.</p>
         <p>Default prices are EIA's residential averages for {prices.period}. We assume no payment for power sent to the grid, no incentives, and no price changes. Where a figure is missing, we show no estimate rather than guess.</p>
       </details>
     </section>
