@@ -43,8 +43,7 @@ const siteLd = {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{fullTitle}</title>
   <meta name="description" content={description} />
-  <link rel="canonical" href={canonical} />
-  {noindex && <meta name="robots" content="noindex" />}
+  {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
   <link rel="preload" href="/fonts/source-serif-4-700-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title={`${name} updates`} href="/updates/rss.xml" />

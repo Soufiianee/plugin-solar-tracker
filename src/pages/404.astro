@@ -1,0 +1,19 @@
+---
+/**
+ * Not-found page. Cloudflare Pages serves dist/404.html with HTTP 404 for any unknown URL
+ * (without it, Pages falls back to the home page with HTTP 200, which search engines treat as soft 404s).
+ */
+import Base from '../layouts/Base.astro';
+import { states } from '../lib/data';
+const sorted = [...states].sort((a, b) => a.name.localeCompare(b.name));
+---
+<Base title="Page not found" description="This page does not exist. Find your state's plug-in solar rules instead." noindex>
+  <article class="prose">
+    <h1>Page not found</h1>
+    <p>There is no page at this address. It may have moved, or the link may be mistyped.</p>
+    <p><a class="btn" href="/">Check your state's plug-in solar rules</a></p>
+    <h2>Or go straight to a state</h2>
+    <p class="small">{sorted.map((s, i) => <>{i > 0 && ' · '}<a href={`/states/${s.slug}/`}>{s.name}</a></>)}</p>
+    <p class="small">Also: <a href="/kits/">kits</a> · <a href="/certification-watch/">Certification watch</a> · <a href="/guides/">guides</a> · <a href="/updates/">updates</a></p>
+  </article>
+</Base>
