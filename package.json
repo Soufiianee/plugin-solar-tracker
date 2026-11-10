@@ -14,7 +14,8 @@
     "staleness": "tsx scripts/staleness.ts",
     "linkcheck": "tsx scripts/linkcheck.ts",
     "check": "astro check",
-    "compat-audit": "tsx scripts/compat-audit.ts"
+    "compat-audit": "tsx scripts/compat-audit.ts",
+    "artifact": "ARTIFACT_BUILD=1 astro build && node scripts/build-artifact.mjs"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",

@@ -23,7 +23,8 @@ export const assumptions = assumptionsFile.parse(assumptionsRaw);
 export const site = siteFile.parse(siteRaw);
 /** Display name: the one place that handles the "TBD" placeholder. */
 export const siteName = site.SITE_NAME === 'TBD' ? 'Plug-in Solar Tracker' : site.SITE_NAME;
-export const mailerlite = site.MAILERLITE.account && site.MAILERLITE.form_id ? site.MAILERLITE : null;
+/** Off in the claude.ai Artifact copy (ARTIFACT_BUILD=1), whose host blocks third-party scripts. */
+export const mailerlite = site.MAILERLITE.account && site.MAILERLITE.form_id && !process.env.ARTIFACT_BUILD ? site.MAILERLITE : null;
 
 export const byCode = Object.fromEntries(states.map((s) => [s.code, s])) as Record<string, State>;
 export const bySlug = Object.fromEntries(states.map((s) => [s.slug, s])) as Record<string, State>;
