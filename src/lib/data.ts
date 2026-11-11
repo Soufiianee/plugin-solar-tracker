@@ -29,8 +29,6 @@ export const siteName = site.SITE_NAME;
 export const mailerlite = site.MAILERLITE.account && site.MAILERLITE.form_id && !process.env.ARTIFACT_BUILD ? site.MAILERLITE : null;
 /** Partners interest form (separate MailerLite form tied to the "Partners" group); null until its form ID is set. */
 export const partnersForm = mailerlite && site.MAILERLITE_PARTNERS_FORM_ID ? { account: mailerlite.account, form_id: site.MAILERLITE_PARTNERS_FORM_ID } : null;
-/** Cloudflare Web Analytics token; null = no analytics script on any page. */
-export const analyticsToken = site.CLOUDFLARE_ANALYTICS_TOKEN && !process.env.ARTIFACT_BUILD ? site.CLOUDFLARE_ANALYTICS_TOKEN : null;
 
 export const byCode = Object.fromEntries(states.map((s) => [s.code, s])) as Record<string, State>;
 export const bySlug = Object.fromEntries(states.map((s) => [s.slug, s])) as Record<string, State>;

@@ -309,8 +309,6 @@ export const siteFile = z.object({
   MAILERLITE: z.object({ account: z.string().regex(/^\d*$/), form_id: z.string().regex(/^[A-Za-z0-9]*$/) }),
   /** MailerLite form for the /partners/ interest form (its own "Partners" group); empty = no form, email only */
   MAILERLITE_PARTNERS_FORM_ID: z.string().regex(/^[A-Za-z0-9]*$/),
-  /** Cloudflare Web Analytics (cookieless). Empty token = no analytics script at all. */
-  CLOUDFLARE_ANALYTICS_TOKEN: z.string().regex(/^[A-Za-z0-9]*$/),
 });
 
 // ---------- modelling assumptions ----------

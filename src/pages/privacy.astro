@@ -1,24 +1,23 @@
 ---
 import Base from '../layouts/Base.astro';
-import { mailerlite, partnersForm, analyticsToken } from '../lib/data';
+import { mailerlite, partnersForm } from '../lib/data';
 const signup = Boolean(mailerlite);
 ---
 <Base title="Privacy" description="No accounts, no cookies set by this site, and nothing you type into our tools is sent anywhere." crumbs={[{ name: 'Privacy', href: '/privacy/' }]}>
   <article class="prose">
     <h1>Privacy</h1>
-    <p>This is a static website. There are no accounts. The site sets no cookies.</p>
+    <p>This is a static website. There are no accounts. Our pages set no cookies. The one exception comes from a third party: the interest form on the <a href="/partners/">brands page</a> includes Google reCAPTCHA (added by MailerLite to block spam), which loads from Google and sets a Google cookie once that form is shown.</p>
     <h2>What stays on your device</h2>
     <p>If you switch between light and dark themes, your choice is saved in your browser's local storage so the site remembers it. It never leaves your device.</p>
     <p>The savings calculator and the landlord / HOA letter generator run entirely in your browser. Your name, address and anything else you type into them are not sent anywhere and not saved: close the tab and they are gone.</p>
     <h2>Analytics</h2>
-    {analyticsToken
-      ? <p>We use <strong>Cloudflare Web Analytics</strong> to count page views. It sets no cookies, does not use local storage, and does not build a profile of you; it records the page, the referring site, and the browser and device type in aggregate. Cloudflare's privacy policy applies.</p>
-      : <p>No analytics are running on this site. If we turn analytics on, it will be Cloudflare Web Analytics, which works without cookies, and we will update this page first.</p>}
+    <p>We use <strong>Cloudflare Web Analytics</strong>, run by Cloudflare, which also hosts this site. It is cookieless: it sets no cookies, uses no local storage and does not track you across sites. It gives us aggregate visit statistics only, such as page views, referring sites, and browser and device types. It does not build a profile of you. Cloudflare's privacy policy applies.</p>
     <h2>Email alerts</h2>
     {signup
       ? <>
           <p>Our "Certified kit alerts" use <strong>MailerLite</strong> (MailerLite Limited) as the email provider. The form appears on state pages, in the state checker, on the Certification watch page and at the end of our guides{partnersForm && ', and a separate interest form appears on the page for brands'}.</p>
-          <p>The form loads from MailerLite's servers only when it is shown (on state pages and guides, when you scroll near it), so MailerLite receives the technical details any website sees, such as your IP address. <strong>Only if you subscribe</strong> does MailerLite receive and store your email address and your state. We use them only to send the alerts you asked for. Every email has an unsubscribe link. MailerLite's own privacy policy applies to the data it holds.</p>
+          <p>The form loads from MailerLite's servers only when it is shown (when you scroll near it, or when the state checker shows it), so MailerLite receives the technical details any website sees, such as your IP address. <strong>Only if you subscribe</strong> does MailerLite receive and store your email address and your state. We use them only to send the alerts you asked for. Every email has an unsubscribe link. MailerLite's own privacy policy applies to the data it holds.</p>
+          {partnersForm && <p>The interest form for brands loads only after you scroll or move toward it, and includes Google reCAPTCHA. What you submit there goes to a separate MailerLite list, and we use it only to reply about the widget.</p>}
         </>
       : <p>Email alerts are not running yet. If we add them, they will use a separate email provider, and we will update this page first.</p>}
     <h2>Links to other sites</h2>

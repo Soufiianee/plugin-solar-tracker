@@ -34,7 +34,8 @@ const email = site.CONTACT_EMAIL;
     <section id="partners-form" class="card signup" aria-labelledby="partners-form-h" data-ml-account={partnersForm.account}>
       <h2 id="partners-form-h" style="margin-top:0">Register interest in the widget</h2>
       <div class="ml-embedded" data-form={partnersForm.form_id}></div>
-      <p class="small muted" style="margin:0.9rem 0 0">The form is provided by MailerLite. Your details go to MailerLite only if you submit. <a href="/privacy/">Privacy</a>.</p>
+      <p class="small muted" style="margin:0.9rem 0 0">The form is provided by MailerLite. Showing it loads files from MailerLite's servers; your details go to MailerLite only if you submit. <a href="/privacy/">Privacy</a>.</p>
+      <p class="small" style="margin:0.6rem 0 0">Form not loading? Email <strong>{email}</strong> with your brand and the products you sell in the US.</p>
     </section>
   ) : (
     <section class="card" aria-labelledby="partners-mail-h">
@@ -52,7 +53,20 @@ const email = site.CONTACT_EMAIL;
     <script>
       import { loadMailerLite } from '../scripts/signup-loader';
       const box = document.getElementById('partners-form');
-      if (box) loadMailerLite(box.dataset.mlAccount!);
+      // Lazy like the alerts form (loads when the form nears the screen), but only after the visitor
+      // interacts with the page: this form embeds Google reCAPTCHA, which sets a Google cookie and is heavy,
+      // so it never loads for a visit with no scrolling, pointer, touch or key input.
+      if (box) {
+        const go = () => loadMailerLite(box.dataset.mlAccount!);
+        const watch = () => {
+          if (!('IntersectionObserver' in window)) return go();
+          const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: '600px 0px' });
+          io.observe(box);
+        };
+        const evs = ['scroll', 'wheel', 'pointermove', 'pointerdown', 'touchstart', 'keydown'] as const;
+        const once = () => { evs.forEach((e) => removeEventListener(e, once)); watch(); };
+        evs.forEach((e) => addEventListener(e, once, { passive: true }));
+      }
     </script>
   )}
 </Base>

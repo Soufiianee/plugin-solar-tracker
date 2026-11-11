@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { site, siteName, absUrl, analyticsToken } from '../lib/data';
+import { site, siteName, absUrl } from '../lib/data';
 
 interface Crumb { name: string; href: string }
 interface Props {
@@ -62,7 +62,6 @@ const siteLd = {
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
   {path === '/' && <script type="application/ld+json" set:html={JSON.stringify(siteLd)} />}
   {jsonLd.map((j) => <script type="application/ld+json" set:html={JSON.stringify(j)} />)}
-  {analyticsToken && <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: analyticsToken })}></script>}
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
