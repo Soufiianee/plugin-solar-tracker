@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { letterKinds, letterFacts, showRooftopBox } from '../src/lib/offers';
-import { states, byCode, isEnacted, referencePayback, rooftopFor, assumptions, affiliateLink, retailerLink, kits } from '../src/lib/data';
+import { letterKinds, letterFacts, showRooftopBox, letterKitNotice, OTHER_DEVICE } from '../src/lib/offers';
+import { states, byCode, isEnacted, referencePayback, rooftopFor, assumptions, affiliateLink, retailerLink, kits, kitVerdict } from '../src/lib/data';
 import type { State } from '../src/lib/schema';
 
 const clone = (s: State): State => JSON.parse(JSON.stringify(s));
@@ -71,5 +71,26 @@ describe('affiliate links', () => {
   });
   it('rooftop slot with no approved link renders no link at all', () => {
     expect(affiliateLink('rooftop_quotes')).toBeNull();
+  });
+});
+
+describe('letter: certification notice for the chosen device', () => {
+  const coKits = kits.map((k) => ({ k, v: kitVerdict(byCode.CO, k) }));
+  it('warns when a listed kit is not confirmed for the state', () => {
+    const notConfirmed = coKits.find((x) => x.v !== 'compatible')!;
+    const n = letterKitNotice('Colorado', notConfirmed.k.slug, notConfirmed.v);
+    expect(n?.kind).toBe('unconfirmed');
+    expect(n?.text).toBe("We have not confirmed that this device meets Colorado's certification requirement. Check with the seller and get the certificate before you send this letter.");
+  });
+  it('no warning for a kit confirmed (compatible) in the state', () => {
+    expect(letterKitNotice('Vermont', 'some-kit', 'compatible')).toBeNull();
+  });
+  it('"Other / not listed" (and no choice yet) gets the certificate reminder', () => {
+    const t = 'Only send this letter if your device is certified as the law requires. Ask the seller for the certificate.';
+    expect(letterKitNotice('Colorado', OTHER_DEVICE, null)).toEqual({ kind: 'other', text: t });
+    expect(letterKitNotice('Colorado', '', null)).toEqual({ kind: 'other', text: t });
+  });
+  it('a "likely compatible" kit still gets the warning (only "compatible" counts as confirmed)', () => {
+    expect(letterKitNotice('Utah', 'x', 'likely_compatible')?.kind).toBe('unconfirmed');
   });
 });

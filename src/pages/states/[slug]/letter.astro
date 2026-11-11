@@ -6,8 +6,9 @@
  */
 import Base from '../../../layouts/Base.astro';
 import Disclaimer from '../../../components/Disclaimer.astro';
-import { states, mainBill, fmtDate } from '../../../lib/data';
-import { letterKinds, letterFacts, type LetterKind } from '../../../lib/offers';
+import { states, kits, mainBill, fmtDate, kitVerdict } from '../../../lib/data';
+import { verdictLabel } from '../../../lib/compat';
+import { letterKinds, letterFacts, letterKitNotice, OTHER_DEVICE, type LetterKind } from '../../../lib/offers';
 import type { State } from '../../../lib/schema';
 
 export function getStaticPaths() {
@@ -16,13 +17,13 @@ export function getStaticPaths() {
 const { state: s } = Astro.props as { state: State };
 const kinds = letterKinds(s);
 const bill = mainBill(s)!;
-const lawName = `${bill.id}${bill.chapter ? ` (${bill.chapter})` : ''}`;
+const lawName = `${bill.id}${bill.chapter ? `, ${bill.chapter}` : ''}`;
 const cap = s.rules.max_watts_ac.value;
 const CERT: Record<string, string> = {
-  ul_3700_or_equivalent: 'listed or certified to UL 3700, or an equivalent standard, by a nationally recognized testing laboratory',
-  nrtl_certified_generic: 'certified or listed by UL or another nationally recognized testing laboratory',
-  plug_in_system_certification: 'certified as a complete plug-in solar system by UL or an equivalent laboratory',
-  nrtl_and_ul_1741: 'certified by UL or an equivalent laboratory, and compliant with UL 1741',
+  ul_3700_or_equivalent: 'is listed or certified to UL 3700, or an equivalent standard, by a nationally recognized testing laboratory',
+  nrtl_certified_generic: 'is certified or listed by UL or another nationally recognized testing laboratory',
+  plug_in_system_certification: 'is certified as a complete plug-in solar system by UL or an equivalent laboratory',
+  nrtl_and_ul_1741: 'is certified by UL or an equivalent laboratory, and complies with UL 1741',
 };
 const cert = CERT[s.rules.certification_required.value] ?? null;
 const who = kinds.length === 2 ? 'landlord or HOA' : kinds[0] === 'tenant' ? 'landlord' : 'HOA';
@@ -32,6 +33,14 @@ const L: Record<LetterKind, { tab: string; to: string; toLabel: string; home: st
 };
 const letters = kinds.map((k) => ({ k, f: letterFacts(s, k)!, t: L[k] }));
 const title = `${s.name} plug-in solar letter for your ${who}`;
+// device choices: our kits with their status in this state (computed at build time from the compatibility model)
+const kitChoices = kits.map((k) => { const v = kitVerdict(s, k); return { slug: k.slug, name: `${k.brand} ${k.model}`, v, label: verdictLabel[v] }; });
+const firstNotice = letterKitNotice(s.name, '', null)!;
+/** the law sentence; the start date appears once (some summaries already open with it) */
+const lawLine = (f: (typeof letters)[number]['f']) => {
+  const d = fmtDate(f.protection.applies_from);
+  return `${s.name} law covers these devices (${lawName}; ${f.protection.section}). ${f.summary.includes(d) ? '' : `These rules apply from ${d}. `}${f.summary}`;
+};
 ---
 <Base title={title} description={`A free, polite notice letter for your ${who} about using a plug-in solar device in ${s.name}, citing ${lawName}. Built in your browser; nothing is sent or saved.`} crumbs={[{ name: 'States', href: '/states/' }, { name: s.name, href: `/states/${s.slug}/` }, { name: 'Letter', href: `/states/${s.slug}/letter/` }]}>
   <div class="no-print">
@@ -51,11 +60,17 @@ const title = `${s.name} plug-in solar letter for your ${who}`;
         <div class="field"><label for="f-to" data-to-label>{letters[0].t.toLabel}</label><input id="f-to" data-in="to" autocomplete="off" /></div>
         <div class="field"><label for="f-addr">Your address (street and unit)</label><input id="f-addr" data-in="addr" autocomplete="street-address" /></div>
         <div class="field"><label for="f-city">City, state and ZIP</label><input id="f-city" data-in="city" autocomplete="off" /></div>
-        <div class="field"><label for="f-device">Device (brand and model, optional)</label><input id="f-device" data-in="device" autocomplete="off" /></div>
+        <div class="field"><label for="f-kit">Your device</label>
+          <select id="f-kit"><option value="">Choose your device…</option>{kitChoices.map((k) => <option value={k.slug}>{k.name}</option>)}<option value={OTHER_DEVICE}>Other / not listed</option></select></div>
+        <div class="field" id="f-device-wrap" hidden><label for="f-device">Device brand and model (optional)</label><input id="f-device" autocomplete="off" /></div>
         <div class="field"><label for="f-date">Date</label><input id="f-date" type="date" data-in="date" /></div>
       </div>
       <p style="margin-bottom:0"><button type="button" class="btn" id="print-btn">Print or save as PDF</button> <button type="button" class="btn secondary" id="copy-btn">Copy the text</button> <span id="copy-msg" class="small muted" role="status"></span></p>
     </form>
+    <div id="kit-status" aria-live="polite">
+      <p id="kit-status-line" class="small" hidden></p>
+      <div id="kit-notice" class="note"><strong>Before you send it:</strong> <span id="kit-notice-text">{firstNotice.text}</span> <a id="kit-notice-link" hidden href="/kits/">See the kit page</a></div>
+    </div>
     <h2>Your letter</h2>
   </div>
 
@@ -67,11 +82,11 @@ const title = `${s.name} plug-in solar letter for your ${who}`;
       <p><strong>Re: Notice of plan to use a plug-in solar device</strong></p>
       <p>Dear <span data-f="to">{t.to}</span>,</p>
       <p>I am writing to let you know that I plan to use a small plug-in solar device (sometimes called balcony solar) at {t.home} at <span data-f="addr">[Your address]</span>.</p>
-      <p>{s.name} law covers these devices ({lawName}; {f.protection.section}), and these rules apply from {fmtDate(f.protection.applies_from)}. In summary: {f.summary}</p>
-      <p>The device I plan to use<span data-opt="device">, <span data-f="device"></span>,</span> will:</p>
+      <p>{lawLine(f)}</p>
+      <p>The device I plan to use<span data-opt="device"> (<span data-f="device"></span>)</span>:</p>
       <ul>
-        {typeof cap === 'number' && <li>have an output of no more than {cap.toLocaleString('en-US')} watts, the limit in {s.name} law{cert ? '; and' : '.'}</li>}
-        {cert && <li>be {cert}, as the law requires.</li>}
+        {typeof cap === 'number' && <li>has an output of no more than {cap.toLocaleString('en-US')} watts, the limit in {s.name} law{cert ? '; and' : '.'}</li>}
+        {cert && <li>{cert}, as the law requires (certificate available on request).</li>}
       </ul>
       {f.protection.notice_days !== null && (
         <p>The law asks {t.noticeWho} to give at least {f.protection.notice_days} days' notice before installing. Please treat this letter as that notice.{f.protection.notice_with_documentation && ' I will give you the device\'s documentation, including its certification, and its planned location before I install it.'}</p>
@@ -89,7 +104,33 @@ const title = `${s.name} plug-in solar letter for your ${who}`;
     <Disclaimer />
   </div>
 
+  <script type="application/json" id="kit-data" set:html={JSON.stringify({ state: s.name, kits: kitChoices })} />
   <script>
+    import { letterKitNotice } from '../../../lib/offers';
+    const KD = JSON.parse(document.getElementById('kit-data')!.textContent!) as { state: string; kits: { slug: string; name: string; v: string; label: string }[] };
+    const kitSel = document.getElementById('f-kit') as HTMLSelectElement | null;
+    const other = document.getElementById('f-device') as HTMLInputElement | null;
+    const deviceName = () => {
+      const k = KD.kits.find((x) => x.slug === kitSel?.value);
+      return k ? k.name : kitSel?.value === 'other' ? (other?.value.trim() ?? '') : '';
+    };
+    const updateKit = () => {
+      const choice = kitSel?.value ?? '';
+      const k = KD.kits.find((x) => x.slug === choice);
+      document.getElementById('f-device-wrap')!.hidden = choice !== 'other';
+      const line = document.getElementById('kit-status-line')!;
+      line.hidden = !k;
+      if (k) line.textContent = `Our status for ${k.name} in ${KD.state}: ${k.label}.`;
+      const n = letterKitNotice(KD.state, choice, k ? k.v : null);
+      const box = document.getElementById('kit-notice')!;
+      box.hidden = !n;
+      if (n) {
+        document.getElementById('kit-notice-text')!.textContent = n.text;
+        const a = document.getElementById('kit-notice-link') as HTMLAnchorElement;
+        a.hidden = n.kind !== 'unconfirmed';
+        if (k) { a.href = `/kits/${k.slug}/`; a.textContent = `See the ${k.name} page`; }
+      }
+    };
     const form = document.getElementById('letter-form') as HTMLFormElement | null;
     const letters = [...document.querySelectorAll<HTMLElement>('article.letter')];
     const current = () => letters.find((l) => !l.hidden) ?? letters[0];
@@ -106,10 +147,14 @@ const title = `${s.name} plug-in solar letter for your ${who}`;
           el.textContent = v || el.dataset.ph;
           el.classList.toggle('ph', !v && el.dataset.ph !== '');
         });
-        if (key === 'device') document.querySelectorAll<HTMLElement>('[data-opt="device"]').forEach((el) => (el.hidden = !v));
       });
+      const dv = deviceName();
+      document.querySelectorAll<HTMLElement>('[data-f="device"]').forEach((el) => (el.textContent = dv));
+      document.querySelectorAll<HTMLElement>('[data-opt="device"]').forEach((el) => (el.hidden = !dv));
     };
     form?.addEventListener('input', fill);
+    kitSel?.addEventListener('change', () => { updateKit(); fill(); });
+    updateKit();
     form?.querySelectorAll<HTMLInputElement>('input[name="kind"]').forEach((r) => r.addEventListener('change', () => {
       letters.forEach((l) => (l.hidden = l.dataset.kind !== r.value));
       const lab = form.querySelector('[data-to-label]');

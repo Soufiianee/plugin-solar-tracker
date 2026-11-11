@@ -49,3 +49,22 @@ export function showRooftopBox(enacted: boolean, paybackYears: number | null, mi
   if (!enacted) return true;
   return typeof paybackYears === 'number' && paybackYears >= minYears;
 }
+
+/**
+ * Certification notice shown above the letter, depending on the device the visitor picks.
+ *  - a kit from our list that is not "compatible" (confirmed) for the state -> warning, with a link to the kit page
+ *  - "Other / not listed", or no device chosen yet -> reminder to get the certificate
+ *  - a kit confirmed for the state -> no notice (its status is still shown)
+ * `choice` is a kit slug, 'other', or '' (nothing chosen).
+ */
+export type LetterKitNotice = { kind: 'unconfirmed' | 'other'; text: string } | null;
+export const OTHER_DEVICE = 'other';
+export function letterKitNotice(stateName: string, choice: string, verdict: string | null): LetterKitNotice {
+  if (!choice || choice === OTHER_DEVICE)
+    return { kind: 'other', text: 'Only send this letter if your device is certified as the law requires. Ask the seller for the certificate.' };
+  if (verdict === 'compatible') return null;
+  return {
+    kind: 'unconfirmed',
+    text: `We have not confirmed that this device meets ${stateName}'s certification requirement. Check with the seller and get the certificate before you send this letter.`,
+  };
+}

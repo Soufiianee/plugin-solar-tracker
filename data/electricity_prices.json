@@ -1,6 +1,6 @@
 {
   "dataset": "EIA Form EIA-861M, monthly sales and revenue by state (sales_revenue.xlsx), residential sector",
-  "period": "September 2025 \u2013 August 2026 (12 months)",
+  "period": "September 2025 \u2013 August 2026",
   "period_start": "2025-09",
   "period_end": "2026-08",
   "method": "Rolling 12-month average price = total residential revenue / total residential sales over the 12 most recent months EIA publishes. Recent months are preliminary.",

@@ -217,3 +217,4 @@ fieldset.field legend { font-weight: 600; margin-bottom: 0.4rem; }
   .letter .ph { background: none; }
 }
 .card > :last-child { margin-bottom: 0; }
+#kit-status-line { margin: 0.8rem 0 0; }
