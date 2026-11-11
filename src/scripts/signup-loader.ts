@@ -33,10 +33,12 @@ export function wireStateField(box: HTMLElement) {
     const holder = field.closest<HTMLElement>('.ml-field-group') ?? field;
     holder.style.display = 'none';
     field.value = sel.value ? sel.options[sel.selectedIndex].text : '';
-    wrap.hidden = false;
+    // state pages pass a fixed state: the dropdown stays hidden and only fills the field
+    if (!box.dataset.mlFixed) wrap.hidden = false;
     return true;
   };
-  sel.addEventListener('change', sync);
+  const name = box.querySelector<HTMLElement>('[data-ml-state-name]');
+  sel.addEventListener('change', () => { if (name) name.textContent = sel.value ? sel.options[sel.selectedIndex].text : 'your state'; sync(); });
   embed.addEventListener('submit', () => sync(), true);
   if (!sync()) {
     const mo = new MutationObserver(() => { if (sync()) mo.disconnect(); });

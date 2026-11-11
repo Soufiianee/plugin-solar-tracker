@@ -24,10 +24,11 @@ Edit `config/site.json`:
 | `SITE_ALTERNATE_NAME` | Other name used in structured data ("Plug-in Solar Tracker"). |
 | `BASE_URL` | `https://balconysolarrules.com` (https, no www, no trailing slash; the build checks the form). Used for canonical links, Open Graph, the sitemap, robots.txt, RSS and structured data. |
 | `CONTACT_EMAIL` | `contact@balconysolarrules.com`, shown as text on /contact/ and /about/. Empty hides the contact page. |
-| `MAILERLITE.account`, `MAILERLITE.form_id` | Your MailerLite account number and embedded form code (set to `2784312` / `o2Ywz2`). Empty values hide the signup everywhere. MailerLite's script loads only on Certification watch, and in the tool when a state has no compatible kit. |
-| `ANALYTICS` | `{"provider": "plausible", "key": "your-domain.org"}` turns on Plausible. An empty key means no analytics. |
+| `MAILERLITE.account`, `MAILERLITE.form_id` | Your MailerLite account number and embedded form code (set to `2784312` / `o2Ywz2`). Empty values hide the signup everywhere. The "Certified kit alerts" box appears on every state page, in the tool result, on Certification watch and at the end of each guide; MailerLite's script loads only when a box comes near the screen (or when the tool reveals it). The visitor's state goes into the form's `state` field, so you can build a segment per state in MailerLite. |
+| `MAILERLITE_PARTNERS_FORM_ID` | Form code of a **separate** MailerLite embedded form whose subscribers go to the group "Partners". Shown on /partners/. Empty = no form there, only the contact email. |
+| `CLOUDFLARE_ANALYTICS_TOKEN` | Cloudflare Web Analytics site token (cookieless; no banner needed). Empty = no analytics script on any page. |
 
-Affiliate links: in `config/affiliates.json`, a link becomes sponsored only when **both** `affiliate_id` and `link_template` are set. Example template: `{raw_url}?ref={id}`. Commit and push after editing.
+Affiliate links: every product link goes through `config/affiliates.json`. A link becomes sponsored only when **both** `affiliate_id` and `link_template` are set; it then gets a "Sponsored" label, a short disclosure next to it and `rel="sponsored noopener"`. Otherwise the plain official product URL is used. Example template: `{raw_url}?ref={id}`. The `rooftop_quotes` slot has no product URL: put the full approved partner link in `link_template` (it may contain `{id}`); until then the rooftop box on state pages shows no link. Commit and push after editing.
 
 ## 3. Connect Cloudflare Pages
 

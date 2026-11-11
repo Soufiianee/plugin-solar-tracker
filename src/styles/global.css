@@ -113,6 +113,7 @@ thead th { background: var(--surface-2); font-size: 0.85rem; text-transform: upp
 tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
 th[scope="row"] { font-weight: 600; }
 .src { font-size: 0.8rem; white-space: nowrap; }
+.src a { display: inline-block; min-height: 24px; line-height: 24px; }
 .num { font-variant-numeric: tabular-nums; }
 th button.sort { font: inherit; text-transform: inherit; letter-spacing: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
 th[aria-sort="ascending"] button.sort::after { content: " ▲"; }
@@ -165,36 +166,54 @@ summary { cursor: pointer; font-weight: 600; }
 
 /* MailerLite embed: restyled with our tokens (both themes). MailerLite ships high-specificity CSS, hence !important.
    Our card supplies the heading and promise, so the form's built-in heading block is hidden. */
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedContent { display: none !important; }
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer,
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-align-center { width: 100% !important; text-align: left !important; }
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper { background: transparent !important; border: 0 !important; border-radius: 0 !important; margin: 0 !important; max-width: 100% !important; width: 100% !important; box-shadow: none !important; }
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedBody,
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-successBody { padding: 0 !important; }
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-formContent,
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow { margin: 0 0 0.75rem !important; }
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow.ml-last-item { margin-bottom: 0.75rem !important; }
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow input.form-control {
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer .ml-form-embedContent { display: none !important; }
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer,
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer .ml-form-align-center { width: 100% !important; text-align: left !important; }
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper { background: transparent !important; border: 0 !important; border-radius: 0 !important; margin: 0 !important; max-width: 100% !important; width: 100% !important; box-shadow: none !important; }
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer .ml-form-embedBody,
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer .ml-form-successBody { padding: 0 !important; }
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-formContent,
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow { margin: 0 0 0.75rem !important; }
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow.ml-last-item { margin-bottom: 0.75rem !important; }
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow input.form-control {
   font: 1rem var(--sans) !important; color: var(--ink) !important; background: var(--surface) !important;
   border: 1px solid var(--ink-2) !important; border-radius: var(--radius) !important;
   padding: 0.55rem 0.65rem !important; height: auto !important; max-width: 22rem !important; width: 100% !important; box-shadow: none !important;
 }
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow input.form-control::placeholder { color: var(--ink-2) !important; opacity: 1 !important; }
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow input.form-control:focus { outline: 3px solid var(--focus) !important; outline-offset: 2px !important; border-color: var(--accent) !important; }
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit { margin: 0 !important; float: none !important; width: auto !important; }
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit button.primary,
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit button.loading {
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow input.form-control::placeholder { color: var(--ink-2) !important; opacity: 1 !important; }
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow input.form-control:focus { outline: 3px solid var(--focus) !important; outline-offset: 2px !important; border-color: var(--accent) !important; }
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit { margin: 0 !important; float: none !important; width: auto !important; }
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit button.primary,
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit button.loading {
   font: 600 1rem var(--sans) !important; background: var(--accent) !important; color: var(--accent-ink) !important;
   border: 0 !important; border-radius: var(--radius) !important; padding: 0.6rem 1.1rem !important; width: auto !important; min-width: 9rem; height: auto !important; cursor: pointer;
 }
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit button.primary:hover { filter: brightness(1.1); }
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit button.primary:focus-visible { outline: 3px solid var(--focus) !important; outline-offset: 2px !important; }
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-successBody h4,
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-successBody p { font-family: var(--sans) !important; color: var(--ink) !important; text-align: left !important; }
-:is(#alert-signup, #tool-signup) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow.ml-error input.form-control { border-color: var(--st-dead) !important; }
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit button.primary:hover { filter: brightness(1.1); }
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit button.primary:focus-visible { outline: 3px solid var(--focus) !important; outline-offset: 2px !important; }
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer .ml-form-successBody h4,
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer .ml-form-successBody p { font-family: var(--sans) !important; color: var(--ink) !important; text-align: left !important; }
+:is(#alert-signup, #tool-signup, #partners-form) .ml-embedded .ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow.ml-error input.form-control { border-color: var(--st-dead) !important; }
 
 /* Calculator controls and small-screen definition lists */
 .linkbtn { font: inherit; color: var(--accent); background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; }
 .linkbtn:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 input[type="range"] { padding: 0; border: 0; accent-color: var(--accent); max-width: 22rem; background: none; }
 @media (max-width: 40rem) { .kv { grid-template-columns: 1fr; } .kv dd { margin-bottom: 0.4rem; } }
+
+/* Offers: alerts + letter, rooftop box */
+.offers { margin: 1.5rem 0; align-items: start; }
+.rooftop { margin-top: 1rem; border-left: 4px solid var(--accent); }
+/* Notice letter */
+.letter { max-width: 44rem; line-height: 1.55; }
+.letter .ph { background: var(--st-active-bg); border-radius: 3px; padding: 0 0.15em; }
+.field .radio { display: inline-flex; gap: 0.4rem; align-items: center; margin: 0 1.25rem 0.3rem 0; font-weight: 400; width: auto; }
+.field .radio input { width: auto; margin: 0; min-height: 0; }
+fieldset.field { border: 0; padding: 0; margin: 0 0 1rem; }
+fieldset.field legend { font-weight: 600; margin-bottom: 0.4rem; }
+@media print {
+  .site-header, .site-footer, .crumbs, .skip, .no-print { display: none !important; }
+  body { background: #fff; color: #000; }
+  .letter { border: 0 !important; box-shadow: none !important; padding: 0 !important; max-width: none; }
+  .letter .ph { background: none; }
+}
+.card > :last-child { margin-bottom: 0; }

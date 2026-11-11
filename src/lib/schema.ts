@@ -50,14 +50,30 @@ export const wattRule = z.object({
   ...ruleBase,
 });
 
+/**
+ * Structured facts about a tenant or HOA protection, used by the notice-letter generator.
+ * Only allowed when the rule value is protects_tenants / protects_owners; the text comes from rule_sources[0].
+ */
+export const protection = z.object({
+  /** statute section(s) holding the protection, as cited in the law */
+  section: z.string().min(3),
+  /** date the protection applies from (can be later than the law's effective date, e.g. Colorado) */
+  applies_from: isoDate,
+  /** days of advance notice the law asks for; null = the law sets no fixed number */
+  notice_days: z.union([z.number().int().positive(), z.null()]),
+  /** the law asks the notice to include documentation about the device */
+  notice_with_documentation: z.boolean(),
+});
+export type Protection = z.infer<typeof protection>;
+
 export const rules = z.object({
   max_watts_ac: wattRule,
   max_watts_dc: wattRule,
   battery_allowed: enumRule(['yes', 'no', 'not_addressed', 'unknown', NA]),
   utility_notification_required: enumRule(['yes', 'no', 'utility_may_require', 'conditional', 'unknown', NA]),
   utility_approval_required: enumRule(['yes', 'no', 'unknown', NA]),
-  landlord_provisions: enumRule(['protects_tenants', 'notice_rules_only', 'not_addressed', 'unknown', NA]),
-  hoa_provisions: enumRule(['protects_owners', 'covenants_preserved', 'not_addressed', 'unknown', NA]),
+  landlord_provisions: enumRule(['protects_tenants', 'notice_rules_only', 'not_addressed', 'unknown', NA]).extend({ protection: protection.optional() }),
+  hoa_provisions: enumRule(['protects_owners', 'covenants_preserved', 'not_addressed', 'unknown', NA]).extend({ protection: protection.optional() }),
   certification_required: z.object({
     value: z.enum([
       'ul_3700_or_equivalent', // law names UL 3700 (or a comparable NRTL standard)
@@ -156,6 +172,16 @@ export const state = z
         if (rr.value !== 'unknown' && rr.rule_sources.length === 0)
           ctx.addIssue({ code: 'custom', message: `${s.code}: rule ${k} has a value but no rule_sources` });
       }
+    }
+    const lawEff = s.bills.find((b) => b.stage === 'signed_into_law')?.effective_date;
+    for (const [k, want] of [['landlord_provisions', 'protects_tenants'], ['hoa_provisions', 'protects_owners']] as const) {
+      const r = s.rules[k];
+      if (!r.protection) continue;
+      if (r.value !== want) ctx.addIssue({ code: 'custom', message: `${s.code}: ${k}.protection needs value ${want}` });
+      if (!r.rule_sources[0] || !['enrolled_text', 'legislature_data'].includes(r.rule_sources[0].type))
+        ctx.addIssue({ code: 'custom', message: `${s.code}: ${k}.protection needs the law text as its first rule source` });
+      if (!lawEff || !/^\d{4}-\d{2}-\d{2}$/.test(lawEff) || r.protection.applies_from < lawEff)
+        ctx.addIssue({ code: 'custom', message: `${s.code}: ${k}.protection.applies_from must be on or after a known law effective date` });
     }
     if (s.status === 'no_bill_found' && s.bills.length > 0)
       ctx.addIssue({ code: 'custom', message: `${s.code}: no_bill_found but bills listed` });
@@ -264,7 +290,8 @@ export const affiliatesFile = z.record(
     label: z.string(),
     program: z.string(),
     affiliate_id: z.string(),
-    /** e.g. "{raw_url}?ref={id}"; links stay plain until BOTH affiliate_id and link_template are set */
+    /** e.g. "{raw_url}?ref={id}"; links stay plain until BOTH affiliate_id and link_template are set.
+     *  For a slot with no product URL (rooftop_quotes) the template is the full approved link. */
     link_template: z.string(),
     notes: z.string().optional(),
   }),
@@ -280,7 +307,10 @@ export const siteFile = z.object({
   CONTACT_EMAIL: z.string(),
   /** MailerLite embedded form; empty account or form_id = signup hidden everywhere */
   MAILERLITE: z.object({ account: z.string().regex(/^\d*$/), form_id: z.string().regex(/^[A-Za-z0-9]*$/) }),
-  ANALYTICS: z.object({ provider: z.string(), key: z.string() }),
+  /** MailerLite form for the /partners/ interest form (its own "Partners" group); empty = no form, email only */
+  MAILERLITE_PARTNERS_FORM_ID: z.string().regex(/^[A-Za-z0-9]*$/),
+  /** Cloudflare Web Analytics (cookieless). Empty token = no analytics script at all. */
+  CLOUDFLARE_ANALYTICS_TOKEN: z.string().regex(/^[A-Za-z0-9]*$/),
 });
 
 // ---------- modelling assumptions ----------
@@ -294,6 +324,12 @@ export const assumptionsFile = z.object({
     runs: z.array(z.object({ household_kwh: z.number(), pct: z.number() })).min(1),
     limits: z.string(),
     sources: z.array(source).min(1),
+  }),
+  /** Rooftop comparison box: shown where the reference kit's typical payback is at least this many years, or where there is no plug-in law */
+  rooftop_box: z.object({
+    min_payback_years: z.number().positive(),
+    reference_kit: z.string(),
+    note: z.string(),
   }),
   last_checked: isoDate,
 });

@@ -1,0 +1,19 @@
+---
+/** "Free: a letter template" card. Renders only where letterKinds() confirms a tenant or HOA protection. */
+import type { State } from '../lib/schema';
+import { letterKinds, letterFacts } from '../lib/offers';
+import { fmtDate } from '../lib/data';
+interface Props { state: State }
+const { state: s } = Astro.props;
+const kinds = letterKinds(s);
+const who = kinds.length === 2 ? 'landlord or HOA' : kinds[0] === 'tenant' ? 'landlord' : 'HOA';
+const starts = [...new Set(kinds.map((k) => letterFacts(s, k)!.protection.applies_from))];
+---
+{kinds.length > 0 && (
+  <aside class="card offer" aria-labelledby="letter-offer-h">
+    <h2 id="letter-offer-h" style="margin-top:0">Free: a letter template for your {who}</h2>
+    <p>A short, polite notice that you plan to use a plug-in solar device, citing {s.name}'s law and linking to the official text. Type your name and address; the letter is built in your browser and nothing is sent or saved.</p>
+    <p class="small muted">{s.name}'s {who === 'HOA' ? 'HOA' : kinds.length === 2 ? 'renter and HOA' : 'renter'} protections apply from {starts.map(fmtDate).join(' and ')}.</p>
+    <p style="margin-bottom:0"><a class="btn" href={`/states/${s.slug}/letter/`}>Write the letter</a></p>
+  </aside>
+)}

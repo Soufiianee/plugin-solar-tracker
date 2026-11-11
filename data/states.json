@@ -563,10 +563,16 @@
           {
             "title": "HB26-1007 Signed Act (PDF, version dated 05/07/2026)",
             "url": "https://leg.colorado.gov/bill_files/116074/download",
-            "accessed": "2026-11-10",
+            "accessed": "2026-11-11",
             "type": "enrolled_text"
           }
-        ]
+        ],
+        "protection": {
+          "section": "C.R.S. 40-2-140(7)(a), (b) and (d)",
+          "applies_from": "2027-01-01",
+          "notice_days": null,
+          "notice_with_documentation": false
+        }
       },
       "hoa_provisions": {
         "value": "protects_owners",
@@ -575,10 +581,16 @@
           {
             "title": "HB26-1007 Signed Act (PDF, version dated 05/07/2026)",
             "url": "https://leg.colorado.gov/bill_files/116074/download",
-            "accessed": "2026-11-10",
+            "accessed": "2026-11-11",
             "type": "enrolled_text"
           }
-        ]
+        ],
+        "protection": {
+          "section": "C.R.S. 40-2-140(7)(c)-(e) and 38-33.3-106.7",
+          "applies_from": "2027-01-01",
+          "notice_days": null,
+          "notice_with_documentation": false
+        }
       },
       "certification_required": {
         "value": "nrtl_certified_generic",
@@ -881,8 +893,8 @@
         "title": "Guiding Renewable Interconnection and Distribution (GRID) Amendment Act of 2026",
         "url": "https://lims.dccouncil.gov/Legislation/B26-0602",
         "stage": "passed_committee",
-        "last_action": "Committee mark-up by the Committee on Transportation and the Environment; placement on the November 10, 2026 legislative meeting agenda requested",
-        "last_action_date": "2026-11-04",
+        "last_action": "Considered at the Council legislative meeting; amendment (Councilmember White) voted. LIMS status: Under Council Review",
+        "last_action_date": "2026-11-10",
         "signed_date": "not_applicable",
         "effective_date": "not_applicable",
         "effective_date_basis": "not_applicable"
@@ -935,18 +947,18 @@
         "rule_sources": []
       }
     },
-    "summary_plain": "The DC Council's GRID Amendment Act of 2026 (B26-0602) was marked up by the Committee on Transportation and the Environment on November 4, 2026. Advocates describe it as allowing balcony solar without utility approval; we have not yet read the committee print to confirm the plug-in details.",
-    "watch_notes": "A request was filed to place the bill on the November 10, 2026 legislative meeting agenda. DC bills need two Council votes, the Mayor's signature, and congressional review before becoming law.",
-    "next_key_date": "2026-11-10",
+    "summary_plain": "The DC Council's GRID Amendment Act of 2026 (B26-0602) passed committee on November 4, 2026 and was taken up at the Council's November 10 legislative meeting. Advocates describe it as allowing balcony solar without utility approval; we have not yet read the committee print to confirm the plug-in details.",
+    "watch_notes": "The Council took up the bill at its November 10, 2026 legislative meeting (an amendment by Councilmember White was voted on). LIMS shows it as \"Under Council Review\". DC bills need two Council votes, the Mayor's signature, and congressional review before becoming law.",
+    "next_key_date": null,
     "sources": [
       {
         "title": "Council of the District of Columbia LIMS: B26-0602 GRID Amendment Act of 2026",
         "url": "https://lims.dccouncil.gov/Legislation/B26-0602",
-        "accessed": "2026-11-10",
+        "accessed": "2026-11-11",
         "type": "legislature_bill_page"
       }
     ],
-    "last_checked": "2026-11-10",
+    "last_checked": "2026-11-11",
     "notes": "Verification \"partial\": status and dates from LIMS; plug-in content not yet read in the committee print."
   },
   {
@@ -2177,23 +2189,23 @@
       {
         "title": "Massachusetts Legislature: H.5175 (194th General Court) bill history",
         "url": "https://malegislature.gov/Bills/194/H5175",
-        "accessed": "2026-11-10",
+        "accessed": "2026-11-11",
         "type": "legislature_bill_page"
       },
       {
         "title": "H.5175 bill text (House version) with portable solar generation device sections",
         "url": "https://malegislature.gov/Bills/194/H5175.Html",
-        "accessed": "2026-11-10",
+        "accessed": "2026-11-11",
         "type": "legislature_bill_page"
       },
       {
         "title": "S.3166 (Senate version, as amended) with plug-in photovoltaic and battery system sections",
         "url": "https://malegislature.gov/Bills/194/S3166.Html",
-        "accessed": "2026-11-10",
+        "accessed": "2026-11-11",
         "type": "legislature_bill_page"
       }
     ],
-    "last_checked": "2026-11-10"
+    "last_checked": "2026-11-11"
   },
   {
     "code": "MI",
@@ -2269,11 +2281,11 @@
       {
         "title": "Michigan Legislature: HB 5764 (2026) bill page",
         "url": "https://legislature.mi.gov/Bills/Bill?ObjectName=2026-HB-5764",
-        "accessed": "2026-11-10",
+        "accessed": "2026-11-11",
         "type": "legislature_bill_page"
       }
     ],
-    "last_checked": "2026-11-10",
+    "last_checked": "2026-11-11",
     "notes": "Session end rule is general knowledge, not separately sourced."
   },
   {
@@ -3014,11 +3026,17 @@
           {
             "title": "S2368 [Third Reprint], Garden State Balcony Solar Act",
             "url": "https://pub.njleg.state.nj.us/Bills/2026/S2500/2368_R3.PDF",
-            "accessed": "2026-11-10",
+            "accessed": "2026-11-11",
             "type": "enrolled_text",
             "note": "Final reprint before passage; bill page shows \"Approved P.L.2026, c.82\" on 9/1/2026. The chapter-law PDF was not yet posted."
           }
-        ]
+        ],
+        "protection": {
+          "section": "section 3(b)-(c)",
+          "applies_from": "2027-03-01",
+          "notice_days": 14,
+          "notice_with_documentation": true
+        }
       },
       "hoa_provisions": {
         "value": "protects_owners",
@@ -3027,11 +3045,17 @@
           {
             "title": "S2368 [Third Reprint], Garden State Balcony Solar Act",
             "url": "https://pub.njleg.state.nj.us/Bills/2026/S2500/2368_R3.PDF",
-            "accessed": "2026-11-10",
+            "accessed": "2026-11-11",
             "type": "enrolled_text",
             "note": "Final reprint before passage; bill page shows \"Approved P.L.2026, c.82\" on 9/1/2026. The chapter-law PDF was not yet posted."
           }
-        ]
+        ],
+        "protection": {
+          "section": "section 3(e)-(f)",
+          "applies_from": "2027-03-01",
+          "notice_days": null,
+          "notice_with_documentation": false
+        }
       },
       "certification_required": {
         "value": "ul_3700_or_equivalent",
@@ -3240,11 +3264,11 @@
       {
         "title": "New York State Assembly: A09111 (2025-2026) summary, actions and text",
         "url": "https://nyassembly.gov/leg/?default_fld=&leg_video=&bn=A09111&term=2025&Summary=Y&Actions=Y&Text=Y",
-        "accessed": "2026-11-10",
+        "accessed": "2026-11-11",
         "type": "legislature_bill_page"
       }
     ],
-    "last_checked": "2026-11-10",
+    "last_checked": "2026-11-11",
     "notes": "Bill text: 1,200-watt nameplate output cap; takes effect on the ninetieth day after it becomes law (section 5). The governor timing rule is from the New York Constitution, art. IV, sec. 7 (general knowledge, not separately sourced)."
   },
   {
@@ -3333,17 +3357,17 @@
       {
         "title": "North Carolina General Assembly: H1129 (2025-2026) Balcony Solar",
         "url": "https://www.ncleg.gov/BillLookUp/2025/H1129",
-        "accessed": "2026-11-10",
+        "accessed": "2026-11-11",
         "type": "legislature_bill_page"
       },
       {
         "title": "North Carolina General Assembly: S957 (2025-2026) Portable-Scale Solar Energy Devices",
         "url": "https://www.ncleg.gov/BillLookUp/2025/S957",
-        "accessed": "2026-11-10",
+        "accessed": "2026-11-11",
         "type": "legislature_bill_page"
       }
     ],
-    "last_checked": "2026-11-10",
+    "last_checked": "2026-11-11",
     "notes": "We did not verify which bills the legislature's adjournment resolution still allows it to take up; status may be closer to stalled than active."
   },
   {
@@ -3746,11 +3770,11 @@
       {
         "title": "Pennsylvania General Assembly: HB 1971 (2025-2026) bill page",
         "url": "https://www.palegis.us/legislation/bills/2025/hb1971",
-        "accessed": "2026-11-10",
+        "accessed": "2026-11-11",
         "type": "legislature_bill_page"
       }
     ],
-    "last_checked": "2026-11-10",
+    "last_checked": "2026-11-11",
     "notes": "Session end date is general knowledge, not separately sourced."
   },
   {
@@ -4400,10 +4424,16 @@
           {
             "title": "Act 149 (2026) As Enacted, An act relating to plug-in photovoltaic devices",
             "url": "https://legislature.vermont.gov/Documents/2026/Docs/ACTS/ACT149/ACT149%20As%20Enacted.pdf",
-            "accessed": "2026-11-10",
+            "accessed": "2026-11-11",
             "type": "enrolled_text"
           }
-        ]
+        ],
+        "protection": {
+          "section": "30 V.S.A. § 256(g)",
+          "applies_from": "2026-07-01",
+          "notice_days": 10,
+          "notice_with_documentation": false
+        }
       },
       "hoa_provisions": {
         "value": "protects_owners",
@@ -4412,10 +4442,16 @@
           {
             "title": "Act 149 (2026) As Enacted, An act relating to plug-in photovoltaic devices",
             "url": "https://legislature.vermont.gov/Documents/2026/Docs/ACTS/ACT149/ACT149%20As%20Enacted.pdf",
-            "accessed": "2026-11-10",
+            "accessed": "2026-11-11",
             "type": "enrolled_text"
           }
-        ]
+        ],
+        "protection": {
+          "section": "27 V.S.A. § 544",
+          "applies_from": "2026-07-01",
+          "notice_days": null,
+          "notice_with_documentation": false
+        }
       },
       "certification_required": {
         "value": "ul_3700_or_equivalent",
@@ -4568,11 +4604,17 @@
           {
             "title": "Acts of Assembly Chapter 1052 (HB 395), chaptered text",
             "url": "https://lis.blob.core.windows.net/files/1225204.PDF",
-            "accessed": "2026-11-10",
+            "accessed": "2026-11-11",
             "type": "enrolled_text",
             "note": "SB 250 (Chapter 998) is identical per LIS summary."
           }
-        ]
+        ],
+        "protection": {
+          "section": "Va. Code § 55.1-1212.1",
+          "applies_from": "2027-01-01",
+          "notice_days": 7,
+          "notice_with_documentation": true
+        }
       },
       "hoa_provisions": {
         "value": "covenants_preserved",

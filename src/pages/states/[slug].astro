@@ -6,6 +6,9 @@ import KitTable from '../../components/KitTable.astro';
 import StateSavings from '../../components/StateSavings.astro';
 import SourceList from '../../components/SourceList.astro';
 import Disclaimer from '../../components/Disclaimer.astro';
+import AlertSignup from '../../components/AlertSignup.astro';
+import LetterOffer from '../../components/LetterOffer.astro';
+import RooftopBox from '../../components/RooftopBox.astro';
 import { states, byCode, isEnacted, statusLabel, effectiveDate, fmtDate, kits, kitVerdict, prices, priceFor } from '../../lib/data';
 import { neighbours } from '../../lib/geo';
 import { STAGE, ruleValue } from '../../lib/labels';
@@ -95,14 +98,19 @@ const VER: Record<string, string> = {
       <section aria-labelledby="kits-h">
         <h2 id="kits-h">Kits in {s.name}</h2>
         <KitTable state={s} />
-        {!anyCompatible && <p><a class="btn secondary" href="/certification-watch/">Get alerts when a certified kit qualifies</a></p>}
       </section>
     )}
+
+    <div class="grid-2 offers">
+      <AlertSignup state={s.code} />
+      <LetterOffer state={s} />
+    </div>
 
     <section aria-labelledby="save-h">
       <h2 id="save-h">What could it save?</h2>
       <StateSavings state={s} />
       {typeof price === 'number' && <p class="small muted">Price source: EIA residential average, {prices.period}.</p>}
+      <RooftopBox state={s} />
     </section>
 
     {faq.length > 0 && (

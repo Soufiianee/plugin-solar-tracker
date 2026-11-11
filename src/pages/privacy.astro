@@ -1,27 +1,27 @@
 ---
 import Base from '../layouts/Base.astro';
-import { site, mailerlite } from '../lib/data';
-const analytics = Boolean(site.ANALYTICS.key);
+import { mailerlite, partnersForm, analyticsToken } from '../lib/data';
 const signup = Boolean(mailerlite);
 ---
-<Base title="Privacy" description="No accounts, no cookies, no personal data collected by this site." crumbs={[{ name: 'Privacy', href: '/privacy/' }]}>
+<Base title="Privacy" description="No accounts, no cookies set by this site, and nothing you type into our tools is sent anywhere." crumbs={[{ name: 'Privacy', href: '/privacy/' }]}>
   <article class="prose">
     <h1>Privacy</h1>
-    <p>This is a static website. There are no accounts and no forms that send data to us. The site sets no cookies.</p>
+    <p>This is a static website. There are no accounts. The site sets no cookies.</p>
     <h2>What stays on your device</h2>
-    <p>If you switch between light and dark themes, your choice is saved in your browser's local storage so the site remembers it. It never leaves your device. The savings calculator runs entirely in your browser; nothing you type is sent anywhere.</p>
+    <p>If you switch between light and dark themes, your choice is saved in your browser's local storage so the site remembers it. It never leaves your device.</p>
+    <p>The savings calculator and the landlord / HOA letter generator run entirely in your browser. Your name, address and anything else you type into them are not sent anywhere and not saved: close the tab and they are gone.</p>
     <h2>Analytics</h2>
-    {analytics
-      ? <p>We use {site.ANALYTICS.provider}, a privacy-friendly analytics service. It counts page views without cookies and without collecting personal data.</p>
-      : <p>No analytics are running on this site.</p>}
+    {analyticsToken
+      ? <p>We use <strong>Cloudflare Web Analytics</strong> to count page views. It sets no cookies, does not use local storage, and does not build a profile of you; it records the page, the referring site, and the browser and device type in aggregate. Cloudflare's privacy policy applies.</p>
+      : <p>No analytics are running on this site. If we turn analytics on, it will be Cloudflare Web Analytics, which works without cookies, and we will update this page first.</p>}
     <h2>Email alerts</h2>
     {signup
       ? <>
-          <p>Our email alerts ("tell me when a certified kit is legal in my state") use <strong>MailerLite</strong> (MailerLite Limited) as the email provider. The form appears only on the Certification watch page, and in the state checker when your state has no confirmed kit. It does not appear on any other page.</p>
-          <p>When one of those forms is shown, your browser loads it from MailerLite's servers, so MailerLite receives the technical details any website sees (such as your IP address). <strong>Only if you subscribe</strong> does MailerLite receive and store your email address and the state you chose. We use them only to send the alerts you asked for. Every email has an unsubscribe link. MailerLite's own privacy policy applies to the data it holds.</p>
+          <p>Our "Certified kit alerts" use <strong>MailerLite</strong> (MailerLite Limited) as the email provider. The form appears on state pages, in the state checker, on the Certification watch page and at the end of our guides{partnersForm && ', and a separate interest form appears on the page for brands'}.</p>
+          <p>The form loads from MailerLite's servers only when it is shown (on state pages and guides, when you scroll near it), so MailerLite receives the technical details any website sees, such as your IP address. <strong>Only if you subscribe</strong> does MailerLite receive and store your email address and your state. We use them only to send the alerts you asked for. Every email has an unsubscribe link. MailerLite's own privacy policy applies to the data it holds.</p>
         </>
       : <p>Email alerts are not running yet. If we add them, they will use a separate email provider, and we will update this page first.</p>}
     <h2>Links to other sites</h2>
-    <p>We link to legislatures, government data and sellers. Those sites have their own privacy policies.</p>
+    <p>We link to legislatures, government data and sellers. Those sites have their own privacy policies. Where a link is an affiliate link, it is marked; see the <a href="/disclosure/">disclosure</a>.</p>
   </article>
 </Base>

@@ -43,5 +43,10 @@
       }
     ]
   },
+  "rooftop_box": {
+    "min_payback_years": 8,
+    "reference_kit": "ecoflow-stream-microinverter-2x400w",
+    "note": "Editorial threshold set by the site owner (November 2026). Payback uses the reference kit's listed price, the ideal-tilt yield and the typical share used at home."
+  },
   "last_checked": "2026-11-10"
 }

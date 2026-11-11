@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { kits, ul3700, fmtDate } from '../../lib/data';
+import { kits, ul3700, fmtDate, anySponsored } from '../../lib/data';
 import { CERT_STATUS, SCOPE, PRODUCT_TYPE } from '../../lib/labels';
 const sorted = [...kits].sort((a, b) => (a.brand + a.model).localeCompare(b.brand + b.model));
 ---
@@ -25,5 +25,5 @@ const sorted = [...kits].sort((a, b) => (a.brand + a.model).localeCompare(b.bran
       })}
     </tbody>
   </table></div>
-  <p class="small muted">Prices are what the seller listed on the date shown and change often. We have no affiliate relationships yet; see the <a href="/affiliate-disclosure/">affiliate disclosure</a>.</p>
+  <p class="small muted">Prices are what the seller listed on the date shown and change often. {anySponsored() ? 'Retailer links marked "Sponsored" are affiliate links' : 'We have no affiliate relationships yet'}; see the <a href="/disclosure/">disclosure</a>.</p>
 </Base>

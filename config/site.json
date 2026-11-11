@@ -7,8 +7,6 @@
     "account": "2784312",
     "form_id": "o2Ywz2"
   },
-  "ANALYTICS": {
-    "provider": "plausible",
-    "key": ""
-  }
+  "MAILERLITE_PARTNERS_FORM_ID": "",
+  "CLOUDFLARE_ANALYTICS_TOKEN": ""
 }

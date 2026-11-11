@@ -59,7 +59,7 @@ const productLd = {
   {k.retailers.length > 0 && (
     <>
       <h2>Where it is sold</h2>
-      <ul>{k.retailers.map((r) => { const l = retailerLink(r); return <li><a href={l.href} rel={l.rel}>{r.name}</a>{l.sponsored && <span class="tag">Sponsored link</span>}</li>; })}</ul>
+      <ul>{k.retailers.map((r) => { const l = retailerLink(r); return <li><a href={l.href} rel={l.rel}>{r.name}</a>{l.sponsored && <> <span class="tag">Sponsored</span> <span class="small muted">Affiliate link: we may earn a commission if you buy. It does not change this kit's ratings. <a href="/disclosure/">Disclosure</a>.</span></>}</li>; })}</ul>
     </>
   )}
   <h2>Sources</h2>

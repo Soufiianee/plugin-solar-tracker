@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import { affiliates } from '../lib/data';
+const active = Object.values(affiliates).filter((a) => a.affiliate_id && a.link_template);
+---
+<Base title="Affiliate and sponsorship disclosure" description="How affiliate links and sponsored placements work on this site, and why they never change our data or compatibility ratings." crumbs={[{ name: 'Disclosure', href: '/disclosure/' }]}>
+  <article class="prose">
+    <h1>Affiliate and sponsorship disclosure</h1>
+    <h2>Where things stand</h2>
+    {active.length
+      ? <p>Some links on this site are affiliate links. If you buy or request a quote through one, we may earn a commission at no extra cost to you. Active programs: {active.map((a) => a.label).join(', ')}.</p>
+      : <p>Right now this site has <strong>no</strong> affiliate links and no sponsors. Retailer links go straight to the seller, and we earn nothing from them.</p>}
+
+    <h2>How affiliate links are marked</h2>
+    <ul>
+      <li>Every affiliate link carries a visible <strong>"Sponsored"</strong> label next to it, with a short note that we may earn a commission.</li>
+      <li>Affiliate links carry <code>rel="sponsored"</code>, so search engines know they are paid links.</li>
+      <li>Where we have no affiliate arrangement, the link goes to the seller's own product page, unmarked, and we earn nothing.</li>
+    </ul>
+
+    <h2>Sponsors and ratings</h2>
+    <p>Sponsors never change compatibility ratings. A kit's certification status, its fit with a state's law and its place in our tables come only from the evidence described in <a href="/how-we-verify/">how we verify</a>: the law text, certifier directories, and certificate documents. A seller cannot pay to be listed, to rank higher, to change a status, or to remove a caveat.</p>
+    <p>If we ever run a sponsored placement, it will be labelled <strong>"Sponsored"</strong> where it appears, and it will sit apart from our state and kit data.</p>
+    <p>Questions about this policy: see <a href="/partners/">for brands</a> or <a href="/contact/">contact</a>.</p>
+  </article>
+</Base>

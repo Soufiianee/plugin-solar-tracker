@@ -1,6 +1,19 @@
 [
   {
     "date": "2026-11-10",
+    "state": "DC",
+    "kind": "bill_progress",
+    "title": "District of Columbia: GRID Act taken up at Council legislative meeting",
+    "body": "The Council took up B26-0602 at its November 10, 2026 legislative meeting and voted on an amendment by Councilmember White. LIMS lists the bill as \"Under Council Review\". It is not law.",
+    "source": {
+      "title": "Council of the District of Columbia LIMS: B26-0602 GRID Amendment Act of 2026",
+      "url": "https://lims.dccouncil.gov/Legislation/B26-0602",
+      "accessed": "2026-11-11",
+      "type": "legislature_bill_page"
+    }
+  },
+  {
+    "date": "2026-11-10",
     "state": null,
     "kind": "data_correction",
     "title": "Solar output added for every state, including vertical railing panels",

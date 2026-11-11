@@ -1,0 +1,28 @@
+---
+/**
+ * Rooftop comparison box. Shown where there is no plug-in law, or where the reference kit's typical payback
+ * is at least assumptions.rooftop_box.min_payback_years (see src/lib/offers.ts).
+ * The link comes only from config/affiliates.json "rooftop_quotes"; with no approved link, the box has no link.
+ */
+import type { State } from '../lib/schema';
+import { rooftopFor, referencePayback, refKit, isEnacted, affiliateLink, assumptions } from '../lib/data';
+interface Props { state: State }
+const { state: s } = Astro.props;
+const show = rooftopFor(s);
+const pb = referencePayback(s);
+const link = affiliateLink('rooftop_quotes');
+const price = typeof refKit.price_usd === 'number' ? `$${refKit.price_usd.toLocaleString('en-US')}` : null;
+---
+{show && (
+  <aside class="card rooftop" aria-labelledby="rooftop-h">
+    <h3 id="rooftop-h" style="margin-top:0">Own your home? Compare rooftop solar</h3>
+    <p>Plug-in solar may be too small to pay off quickly here. A rooftop system can save more if you own your home.</p>
+    {isEnacted(s) && pb !== null && price && (
+      <p class="small muted">Our reference kit ({refKit.short_name}, {price}) pays for itself in about {pb.toFixed(1)} years in {s.name}, with tilted panels and {assumptions.self_consumption.typical_pct}% of the power used at home.</p>
+    )}
+    {link && (
+      <p style="margin-bottom:0"><a class="btn secondary" href={link.href} rel={link.rel}>Get rooftop solar quotes</a> <span class="tag">Sponsored</span><br />
+        <span class="small muted">Affiliate link: if you request quotes through it, we may earn a commission. It does not change anything we publish. <a href="/disclosure/">Disclosure</a>.</span></p>
+    )}
+  </aside>
+)}

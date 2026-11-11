@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { site, siteName, absUrl } from '../lib/data';
+import { site, siteName, absUrl, analyticsToken } from '../lib/data';
 
 interface Crumb { name: string; href: string }
 interface Props {
@@ -25,7 +25,6 @@ const nav = [
   ['/', 'Check your state'], ['/kits/', 'Kits'], ['/certification-watch/', 'Certification watch'],
   ['/guides/', 'Guides'], ['/updates/', 'Updates'], ['/how-we-verify/', 'How we verify'],
 ];
-const analytics = site.ANALYTICS.key ? site.ANALYTICS : null;
 // Site identity (home page only): WebSite + Organization
 const origin = site.BASE_URL;
 const siteLd = {
@@ -63,7 +62,7 @@ const siteLd = {
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
   {path === '/' && <script type="application/ld+json" set:html={JSON.stringify(siteLd)} />}
   {jsonLd.map((j) => <script type="application/ld+json" set:html={JSON.stringify(j)} />)}
-  {analytics && analytics.provider === 'plausible' && <script defer data-domain={analytics.key} src="https://plausible.io/js/script.js"></script>}
+  {analyticsToken && <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: analyticsToken })}></script>}
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -96,7 +95,8 @@ const siteLd = {
         <li><a href="/updates/">Updates</a></li>
         <li><a href="/disclaimer/">Disclaimer</a></li>
         <li><a href="/privacy/">Privacy</a></li>
-        <li><a href="/affiliate-disclosure/">Affiliate disclosure</a></li>
+        <li><a href="/disclosure/">Disclosure</a></li>
+        <li><a href="/partners/">For brands</a></li>
         {site.CONTACT_EMAIL && <li><a href="/contact/">Contact</a></li>}
       </ul>
     </div>

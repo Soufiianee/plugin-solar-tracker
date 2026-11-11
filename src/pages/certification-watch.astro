@@ -64,12 +64,5 @@ const signupOn = Boolean(mailerlite);
 
   {signupOn ? <AlertSignup /> : <p>Email alerts are not set up yet. To follow changes now, use the <a href="/updates/rss.xml">updates RSS feed</a>.</p>}
   <p class="small">You can also follow every change with the <a href="/updates/rss.xml">updates RSS feed</a>.</p>
-  {signupOn && (
-    <script>
-      import { loadMailerLite, wireStateField } from '../scripts/signup-loader';
-      const box = document.getElementById('alert-signup');
-      if (box) { loadMailerLite(box.dataset.mlAccount!); wireStateField(box); }
-    </script>
-  )}
   <Disclaimer />
 </Base>

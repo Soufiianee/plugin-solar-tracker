@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Disclaimer from '../../components/Disclaimer.astro';
+import AlertSignup from '../../components/AlertSignup.astro';
 import { states, kits, isEnacted, priceFor, yieldFor, prices, yields, effectiveDate, fmtDate, BUILD_DATE, assumptions } from '../../lib/data';
 import { scenario, fmtUsd, fmtYears } from '../../lib/calc';
 
@@ -101,6 +102,7 @@ const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headli
       <li>No incentives, no payment for exports, no change in electricity prices, and no inverter clipping.</li>
     </ul>
     <p class="small muted">Numbers update automatically when we refresh prices or solar data. Last price update: {fmtDate(prices.last_checked)}.</p>
+    <AlertSignup />
     <Disclaimer />
   </article>
 </Base>

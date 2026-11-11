@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Disclaimer from '../../components/Disclaimer.astro';
+import AlertSignup from '../../components/AlertSignup.astro';
 import { states, yields, isEnacted, fmtDate } from '../../lib/data';
 
 const KIT_W = 800; // same panel size as the "Is it worth it?" guide
@@ -74,6 +75,7 @@ const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headli
       <li>One location per state (the capital). Output varies within a state, especially in large states.</li>
     </ul>
     <p class="small muted">Solar data last checked {fmtDate(yields.last_checked)}.</p>
+    <AlertSignup />
     <Disclaimer />
   </article>
 </Base>

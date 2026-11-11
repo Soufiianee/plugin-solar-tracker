@@ -1,0 +1,3 @@
+# Cloudflare Pages redirects
+/affiliate-disclosure/ /disclosure/ 301
+/affiliate-disclosure /disclosure/ 301

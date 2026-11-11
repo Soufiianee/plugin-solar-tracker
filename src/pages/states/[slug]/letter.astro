@@ -1,0 +1,126 @@
+---
+/**
+ * Landlord / HOA notice letter, built in the browser from our data.
+ * Pages exist only for states where letterKinds() confirms a protection (see src/lib/offers.ts).
+ * What the visitor types is never sent or stored: there is no form submission, no storage and no network call.
+ */
+import Base from '../../../layouts/Base.astro';
+import Disclaimer from '../../../components/Disclaimer.astro';
+import { states, mainBill, fmtDate } from '../../../lib/data';
+import { letterKinds, letterFacts, type LetterKind } from '../../../lib/offers';
+import type { State } from '../../../lib/schema';
+
+export function getStaticPaths() {
+  return states.filter((s) => letterKinds(s).length > 0).map((s) => ({ params: { slug: s.slug }, props: { state: s } }));
+}
+const { state: s } = Astro.props as { state: State };
+const kinds = letterKinds(s);
+const bill = mainBill(s)!;
+const lawName = `${bill.id}${bill.chapter ? ` (${bill.chapter})` : ''}`;
+const cap = s.rules.max_watts_ac.value;
+const CERT: Record<string, string> = {
+  ul_3700_or_equivalent: 'listed or certified to UL 3700, or an equivalent standard, by a nationally recognized testing laboratory',
+  nrtl_certified_generic: 'certified or listed by UL or another nationally recognized testing laboratory',
+  plug_in_system_certification: 'certified as a complete plug-in solar system by UL or an equivalent laboratory',
+  nrtl_and_ul_1741: 'certified by UL or an equivalent laboratory, and compliant with UL 1741',
+};
+const cert = CERT[s.rules.certification_required.value] ?? null;
+const who = kinds.length === 2 ? 'landlord or HOA' : kinds[0] === 'tenant' ? 'landlord' : 'HOA';
+const L: Record<LetterKind, { tab: string; to: string; toLabel: string; home: string; noticeWho: string }> = {
+  tenant: { tab: 'Landlord', to: '[Landlord name]', toLabel: "Landlord's name", home: 'my home', noticeWho: 'tenants' },
+  hoa: { tab: 'HOA or condo association', to: '[Association name]', toLabel: "Association's name", home: 'my unit', noticeWho: 'owners' },
+};
+const letters = kinds.map((k) => ({ k, f: letterFacts(s, k)!, t: L[k] }));
+const title = `${s.name} plug-in solar letter for your ${who}`;
+---
+<Base title={title} description={`A free, polite notice letter for your ${who} about using a plug-in solar device in ${s.name}, citing ${lawName}. Built in your browser; nothing is sent or saved.`} crumbs={[{ name: 'States', href: '/states/' }, { name: s.name, href: `/states/${s.slug}/` }, { name: 'Letter', href: `/states/${s.slug}/letter/` }]}>
+  <div class="no-print">
+    <h1>{title}</h1>
+    <p class="prose">This page builds a short letter telling your {who} that you plan to use a plug-in solar device, and pointing to {s.name}'s law. <strong>What you type stays in this browser tab.</strong> It is not sent anywhere and not saved.</p>
+    <div class="note"><strong>This is information, not legal advice.</strong> Read the <a href={letters[0].f.lawText.url} rel="noopener">official law text</a> and your {kinds.includes('tenant') ? 'lease' : 'association rules'} before you send the letter. If your situation is unusual, ask a lawyer or your local tenant or homeowner organization.</div>
+
+    <form id="letter-form" class="card" onsubmit="return false" autocomplete="on">
+      {kinds.length > 1 && (
+        <fieldset class="field">
+          <legend>Who is the letter for?</legend>
+          {letters.map(({ k, t }, i) => <label class="radio"><input type="radio" name="kind" value={k} checked={i === 0} /> {t.tab}</label>)}
+        </fieldset>
+      )}
+      <div class="grid-2">
+        <div class="field"><label for="f-name">Your name</label><input id="f-name" data-in="name" autocomplete="name" /></div>
+        <div class="field"><label for="f-to" data-to-label>{letters[0].t.toLabel}</label><input id="f-to" data-in="to" autocomplete="off" /></div>
+        <div class="field"><label for="f-addr">Your address (street and unit)</label><input id="f-addr" data-in="addr" autocomplete="street-address" /></div>
+        <div class="field"><label for="f-city">City, state and ZIP</label><input id="f-city" data-in="city" autocomplete="off" /></div>
+        <div class="field"><label for="f-device">Device (brand and model, optional)</label><input id="f-device" data-in="device" autocomplete="off" /></div>
+        <div class="field"><label for="f-date">Date</label><input id="f-date" type="date" data-in="date" /></div>
+      </div>
+      <p style="margin-bottom:0"><button type="button" class="btn" id="print-btn">Print or save as PDF</button> <button type="button" class="btn secondary" id="copy-btn">Copy the text</button> <span id="copy-msg" class="small muted" role="status"></span></p>
+    </form>
+    <h2>Your letter</h2>
+  </div>
+
+  {letters.map(({ k, f, t }, i) => (
+    <article class="card letter" data-kind={k} hidden={i > 0} aria-label={`Letter to your ${t.tab.toLowerCase()}`}>
+      <p><span data-f="name">[Your name]</span><br /><span data-f="addr">[Your address]</span><br /><span data-f="city">[City, state and ZIP]</span></p>
+      <p><span data-f="date">[Date]</span></p>
+      <p><span data-f="to">{t.to}</span></p>
+      <p><strong>Re: Notice of plan to use a plug-in solar device</strong></p>
+      <p>Dear <span data-f="to">{t.to}</span>,</p>
+      <p>I am writing to let you know that I plan to use a small plug-in solar device (sometimes called balcony solar) at {t.home} at <span data-f="addr">[Your address]</span>.</p>
+      <p>{s.name} law covers these devices ({lawName}; {f.protection.section}), and these rules apply from {fmtDate(f.protection.applies_from)}. In summary: {f.summary}</p>
+      <p>The device I plan to use<span data-opt="device">, <span data-f="device"></span>,</span> will:</p>
+      <ul>
+        {typeof cap === 'number' && <li>have an output of no more than {cap.toLocaleString('en-US')} watts, the limit in {s.name} law{cert ? '; and' : '.'}</li>}
+        {cert && <li>be {cert}, as the law requires.</li>}
+      </ul>
+      {f.protection.notice_days !== null && (
+        <p>The law asks {t.noticeWho} to give at least {f.protection.notice_days} days' notice before installing. Please treat this letter as that notice.{f.protection.notice_with_documentation && ' I will give you the device\'s documentation, including its certification, and its planned location before I install it.'}</p>
+      )}
+      <p>If you have questions, or conditions you would like me to follow, please let me know.</p>
+      <p>You can read the law here: {f.lawText.url}</p>
+      <p>Thank you,</p>
+      <p><span data-f="name">[Your name]</span></p>
+      <p class="small">This is information, not legal advice. It summarizes {s.name} law; the official text linked above is what applies.</p>
+    </article>
+  ))}
+
+  <div class="no-print">
+    <p class="small muted">Source: <a href={letters[0].f.lawText.url} rel="noopener">{letters[0].f.lawText.title}</a>{letters.length > 1 && letters[1].f.lawText.url !== letters[0].f.lawText.url && <> · <a href={letters[1].f.lawText.url} rel="noopener">{letters[1].f.lawText.title}</a></>}. Checked {fmtDate(s.last_checked)}. <a href={`/states/${s.slug}/`}>Back to {s.name}</a> · <a href="/guides/renters/">Renters guide</a></p>
+    <Disclaimer />
+  </div>
+
+  <script>
+    const form = document.getElementById('letter-form') as HTMLFormElement | null;
+    const letters = [...document.querySelectorAll<HTMLElement>('article.letter')];
+    const current = () => letters.find((l) => !l.hidden) ?? letters[0];
+    const date = form?.querySelector<HTMLInputElement>('[data-in="date"]');
+    if (date && !date.value) { const d = new Date(); date.value = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); }
+    const fmt = (iso: string) => { const [y, m, d] = iso.split('-').map(Number); return y ? new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }) : ''; };
+    const fill = () => {
+      if (!form) return;
+      form.querySelectorAll<HTMLInputElement>('[data-in]').forEach((inp) => {
+        const key = inp.dataset.in!;
+        const v = key === 'date' ? fmt(inp.value) : inp.value.trim();
+        document.querySelectorAll<HTMLElement>(`[data-f="${key}"]`).forEach((el) => {
+          el.dataset.ph ??= el.textContent ?? '';
+          el.textContent = v || el.dataset.ph;
+          el.classList.toggle('ph', !v && el.dataset.ph !== '');
+        });
+        if (key === 'device') document.querySelectorAll<HTMLElement>('[data-opt="device"]').forEach((el) => (el.hidden = !v));
+      });
+    };
+    form?.addEventListener('input', fill);
+    form?.querySelectorAll<HTMLInputElement>('input[name="kind"]').forEach((r) => r.addEventListener('change', () => {
+      letters.forEach((l) => (l.hidden = l.dataset.kind !== r.value));
+      const lab = form.querySelector('[data-to-label]');
+      if (lab) lab.textContent = r.value === 'hoa' ? "Association's name" : "Landlord's name";
+    }));
+    document.getElementById('print-btn')?.addEventListener('click', () => window.print());
+    document.getElementById('copy-btn')?.addEventListener('click', async () => {
+      const msg = document.getElementById('copy-msg')!;
+      try { await navigator.clipboard.writeText(current().innerText.trim()); msg.textContent = 'Copied.'; }
+      catch { msg.textContent = 'Copy did not work in this browser. Select the letter text and copy it instead.'; }
+    });
+    fill();
+  </script>
+</Base>

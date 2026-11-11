@@ -64,19 +64,18 @@ function render(code: string, focus: boolean) {
     ${kitsHtml}
     <p><a href="/states/${s.slug}/">Full ${esc(s.n)} page, sources and FAQ</a> · <span class="small muted">Checked ${fmtDate(s.checked)}</span></p>
     <p class="small muted" style="margin:0">Information, not legal advice. Check the official sources before you buy.</p>`;
-  showSignup(code, compatible.length === 0);
+  showSignup(code);
   if (focus) out.focus({ preventScroll: false });
   const price = $<HTMLInputElement>('c-price');
   if (typeof s.price === 'number') { price.value = String(s.price); $('c-price-hint').textContent = `${s.n} average residential price, ${D.pricePeriod} (EIA). Change it to match your bill.`; }
   calc();
 }
 
-/** Email alert form: shown (and MailerLite loaded) only when the chosen state has no compatible kit. */
-function showSignup(code: string, show: boolean) {
+/** Certified kit alerts for the chosen state: revealed (and MailerLite loaded) once a state is picked. */
+function showSignup(code: string) {
   const box = document.getElementById('tool-signup');
   if (!box) return;
-  box.hidden = !show;
-  if (!show) return;
+  box.hidden = false;
   const sel = box.querySelector<HTMLSelectElement>('select[data-ml-state]');
   if (sel) { sel.value = code; sel.dispatchEvent(new Event('change')); }
   loadMailerLite(box.dataset.mlAccount!);

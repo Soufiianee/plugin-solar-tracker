@@ -1,11 +1,15 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Disclaimer from '../../components/Disclaimer.astro';
+import AlertSignup from '../../components/AlertSignup.astro';
+import { letterKinds } from '../../lib/offers';
 import { states, isEnacted, effectiveDate, fmtDate, lastCheckedAll, BUILD_DATE } from '../../lib/data';
 
 const enacted = states.filter(isEnacted).sort((a, b) => a.name.localeCompare(b.name));
 const protects = enacted.filter((s) => s.rules.landlord_provisions.value === 'protects_tenants');
 const silent = enacted.filter((s) => s.rules.landlord_provisions.value === 'not_addressed' || s.rules.landlord_provisions.value === 'notice_rules_only');
+const withNotice = protects.filter((s) => typeof s.rules.landlord_provisions.protection?.notice_days === 'number');
+const noticeList = withNotice.map((s) => `${s.name} (${s.rules.landlord_provisions.protection!.notice_days} days)`).join(', ').replace(/, ([^,]*)$/, ' and $1');
 const unknown = enacted.filter((s) => s.rules.landlord_provisions.value === 'unknown');
 const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headline: 'Plug-in solar for renters: what your landlord can and can\'t do', dateModified: lastCheckedAll() };
 ---
@@ -25,7 +29,7 @@ const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headli
       <section class="card" style="margin:0.8rem 0">
         <h3 style="margin-top:0"><a href={`/states/${s.slug}/`}>{s.name}</a></h3>
         <p style="margin-bottom:0.4rem">{r.detail}</p>
-        <p class="small muted" style="margin:0">{eff && (eff > BUILD_DATE ? `Law takes effect ${fmtDate(eff)}. ` : `Law in effect since ${fmtDate(eff)}. `)}{s.code === 'CO' && 'The renter and HOA protections start January 1, 2027. '}{r.rule_sources[0] && <a href={r.rule_sources[0].url} rel="noopener">Read the law</a>}</p>
+        <p class="small muted" style="margin:0">{eff && (eff > BUILD_DATE ? `Law takes effect ${fmtDate(eff)}. ` : `Law in effect since ${fmtDate(eff)}. `)}{r.protection && eff && r.protection.applies_from > eff && `The renter protections start ${fmtDate(r.protection.applies_from)}. `}{r.rule_sources[0] && <a href={r.rule_sources[0].url} rel="noopener">Read the law</a>}{letterKinds(s).includes('tenant') && <> · <a href={`/states/${s.slug}/letter/`}>Free letter for your landlord</a></>}</p>
       </section>
     );
   })}
@@ -39,7 +43,7 @@ const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headli
     <h2>Before you buy: a renter's checklist</h2>
     <ol>
       <li><strong>Read your lease</strong> for clauses on alterations, balconies, railings and electrical use.</li>
-      <li><strong>Tell your landlord in writing</strong>, even where the law doesn't require it. Include the product name, its certification, and where it will go. In Vermont (10 days), Virginia (7 days) and New Jersey (14 days), written notice is part of the law.</li>
+      <li><strong>Tell your landlord in writing</strong>, even where the law doesn't require it. Include the product name, its certification, and where it will go. In {noticeList}, notice is part of the law.</li>
       <li><strong>Check who pays for electricity.</strong> New Jersey's protection covers tenants who pay for their own electricity. Virginia's excludes units billed by "ratio utility billing" (where the building's bill is split among tenants).</li>
       <li><strong>Plan safe mounting.</strong> Vermont requires the device to be "temporarily but securely attached". Several laws let landlords set reasonable rules on size and placement.</li>
       <li><strong>Don't do electrical work.</strong> Vermont bars tenants from electrical work without the landlord's permission. Virginia bars installs that alter wiring without written approval. A plug-in kit should need none.</li>
@@ -51,6 +55,7 @@ const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headli
     <p>Unplug the kit, take it down and repair any mounting holes. If you move to another state, check that state's rules first: size limits and certification rules differ.</p>
 
     <p class="small muted">Every statement about a state comes from that state's enacted law, linked above. Checked {fmtDate(lastCheckedAll())}. Laws change: see the <a href="/updates/">updates page</a>.</p>
+    <AlertSignup />
     <Disclaimer />
   </article>
 </Base>

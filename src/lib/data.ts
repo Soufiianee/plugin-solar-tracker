@@ -12,6 +12,8 @@ import assumptionsRaw from '../../data/assumptions.json';
 import siteRaw from '../../config/site.json';
 import { statesFile, kitsFile, pricesFile, yieldFile, updatesFile, affiliatesFile, siteFile, assumptionsFile, type State, type Kit } from './schema';
 import { assess, type CompatState, type Verdict, type Assessment } from './compat';
+import { scenario } from './calc';
+import { showRooftopBox } from './offers';
 
 export const states = statesFile.parse(statesRaw);
 export const kits = kitsFile.parse(kitsRaw);
@@ -25,6 +27,10 @@ export const site = siteFile.parse(siteRaw);
 export const siteName = site.SITE_NAME;
 /** Off in the claude.ai Artifact copy (ARTIFACT_BUILD=1), whose host blocks third-party scripts. */
 export const mailerlite = site.MAILERLITE.account && site.MAILERLITE.form_id && !process.env.ARTIFACT_BUILD ? site.MAILERLITE : null;
+/** Partners interest form (separate MailerLite form tied to the "Partners" group); null until its form ID is set. */
+export const partnersForm = mailerlite && site.MAILERLITE_PARTNERS_FORM_ID ? { account: mailerlite.account, form_id: site.MAILERLITE_PARTNERS_FORM_ID } : null;
+/** Cloudflare Web Analytics token; null = no analytics script on any page. */
+export const analyticsToken = site.CLOUDFLARE_ANALYTICS_TOKEN && !process.env.ARTIFACT_BUILD ? site.CLOUDFLARE_ANALYTICS_TOKEN : null;
 
 export const byCode = Object.fromEntries(states.map((s) => [s.code, s])) as Record<string, State>;
 export const bySlug = Object.fromEntries(states.map((s) => [s.slug, s])) as Record<string, State>;
@@ -60,13 +66,25 @@ export const kitVerdict = (s: State, k: Kit): Verdict => kitAssess(s, k).verdict
 
 export const ul3700 = (k: Kit) => k.certifications.find((c) => c.standard === 'UL 3700');
 
-export function retailerLink(r: Kit['retailers'][number]) {
-  const a = affiliates[r.affiliate_slot];
+/**
+ * Every outbound product or partner link goes through config/affiliates.json.
+ * A slot is live only when BOTH affiliate_id and link_template are set; then the link is marked sponsored.
+ * Otherwise the plain official URL is used (or, with no URL, no link at all).
+ */
+export const SPONSORED_REL = 'sponsored noopener';
+export interface OutLink { href: string; rel: string; sponsored: boolean }
+export function affiliateLink(slot: string, url?: string): OutLink | null {
+  const a = affiliates[slot];
   if (a && a.affiliate_id && a.link_template) {
-    return { href: a.link_template.replace('{url}', encodeURIComponent(r.url)).replace('{raw_url}', r.url).replace('{id}', encodeURIComponent(a.affiliate_id)), rel: 'sponsored nofollow noopener', sponsored: true };
+    const href = a.link_template.replace('{url}', encodeURIComponent(url ?? '')).replace('{raw_url}', url ?? '').replace('{id}', encodeURIComponent(a.affiliate_id));
+    return { href, rel: SPONSORED_REL, sponsored: true };
   }
-  return { href: r.url, rel: 'noopener', sponsored: false };
+  return url ? { href: url, rel: 'noopener', sponsored: false } : null;
 }
+export function retailerLink(r: Kit['retailers'][number]): OutLink {
+  return affiliateLink(r.affiliate_slot, r.url)!;
+}
+export const anySponsored = () => Object.values(affiliates).some((a) => a.affiliate_id && a.link_template);
 
 export const priceFor = (code: string) => prices.states[code];
 export const yieldFor = (code: string) => {
@@ -87,5 +105,22 @@ export const BUILD_DATE = new Date().toISOString().slice(0, 10);
 export function daysBetween(fromIso: string, toIso: string) {
   return Math.round((Date.parse(toIso + 'T00:00:00Z') - Date.parse(fromIso + 'T00:00:00Z')) / 86400000);
 }
+
+/** Reference kit for payback figures (same kit prefilled in the calculator and used in the guides). */
+export const refKit = (() => {
+  const k = kits.find((x) => x.slug === assumptions.rooftop_box.reference_kit);
+  if (!k) throw new Error(`assumptions.rooftop_box.reference_kit "${assumptions.rooftop_box.reference_kit}" is not in kits.json`);
+  return k;
+})();
+/** Typical payback (years, 1 decimal) of the reference kit at ideal tilt; null when any input is unknown. */
+export function referencePayback(s: State): number | null {
+  const price = priceFor(s.code);
+  const y = yieldFor(s.code).ideal;
+  const w = refKit.panel_w_total;
+  const cost = refKit.price_usd;
+  if (typeof price !== 'number' || typeof y !== 'number' || typeof w !== 'number' || typeof cost !== 'number') return null;
+  return scenario(w, y, price, assumptions.self_consumption.typical_pct, cost).paybackYears;
+}
+export const rooftopFor = (s: State) => showRooftopBox(isEnacted(s), referencePayback(s), assumptions.rooftop_box.min_payback_years);
 
 export const absUrl = (path: string) => new URL(path, site.BASE_URL).toString();

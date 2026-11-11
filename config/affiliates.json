@@ -29,5 +29,12 @@
     "program": "Amazon Associates",
     "affiliate_id": "",
     "link_template": ""
+  },
+  "rooftop_quotes": {
+    "label": "Rooftop solar quotes",
+    "program": "",
+    "affiliate_id": "",
+    "link_template": "",
+    "notes": "Rooftop comparison box on state pages. No product URL: put the full approved partner link in link_template (it may contain {id}). Until affiliate_id AND link_template are set, the box shows no link."
   }
 }

@@ -102,3 +102,19 @@ Checked: **10 November 2026**. Everything below describes what was checked that 
 **Electricity prices:** switched to a rolling 12-month residential average (Sep 2025 – Aug 2026) from EIA Form 861M: total revenue divided by total sales.
 
 **Solar yield:** two scenarios per state capital, 20° and 90° facing south. Runs are blocked: the API key saved for developer.nlr.gov returns `API_KEY_INVALID`, and because it is injected into every request it also overrides the public demo key.
+
+## 7. State count check (11 November 2026)
+
+**Question:** Bright Saver's tracker (brightsaver.org/is-plug-in-solar-legal) now says "11 states have passed legislation"; we list 10 laws.
+
+**Finding: no new law.** Bright Saver's own state table lists the same 10 signed laws we do (CA, CO, CT, ME, MD, NH, NJ, UT, VT, VA). Its 11th is New York, which the same table marks "Awaiting Governor's signature / Pending signature". Bright Saver counts bills that have *passed the legislature*; we count laws that have been *signed*. Its own homepage still says "Ten states have passed plug-in solar legislation."
+
+**Primary sources re-checked today:**
+- **New York:** A9111-C, Assembly bill page. No action after "RETURNED TO ASSEMBLY" on 05/28/2026; not delivered to the governor, so not law.
+- **Massachusetts:** H.5175, last action 7/16/2026 (conference committee appointed).
+- **North Carolina:** H1129 (4/30/2026) and S957 (5/4/2026), both in Rules committee.
+- **Michigan:** HB 5764, in Committee on Energy since 3/19/2026.
+- **Pennsylvania:** HB 1971, referred to Energy 10/28/2025.
+- **District of Columbia:** B26-0602. New entry: taken up at the November 10, 2026 Council legislative meeting, where an amendment (White) was voted on; LIMS status "Under Council Review". Not law: it still needs two Council votes, the Mayor and congressional review.
+
+**Other discrepancy noted:** Bright Saver lists Maine's effective date as 15 July 2026. The Maine Legislature's own homepage and Legislative Digest give **July 29, 2026** as the general effective date for non-emergency laws of the Second Regular Session, and LD 1730 (PL 2025, c. 644) has no emergency clause. We keep July 29.

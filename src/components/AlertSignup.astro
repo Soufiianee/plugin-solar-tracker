@@ -1,18 +1,23 @@
 ---
 /**
- * "Tell me when a certified kit is legal in my state" signup (MailerLite).
- * Renders nothing when config/site.json MAILERLITE is empty.
- * `deferred`: markup is present but hidden; a page script reveals it and loads MailerLite on demand.
+ * "Certified kit alerts" signup (MailerLite). Renders nothing when config/site.json MAILERLITE is empty.
+ * The visitor's state goes to MailerLite in the form's "state" field (fields[state]), so alerts can be sent per state.
+ *
+ *  - `state` given (state pages): the state is fixed; the dropdown stays hidden and fills the field.
+ *  - no `state` (guides): the visitor picks a state in our dropdown.
+ *  - `deferred` (home tool): hidden until the tool reveals it for the chosen state.
+ * MailerLite's script loads only when the box comes near the screen (or when the tool reveals it), never site-wide.
  */
-import { mailerlite, states, siteName } from '../lib/data';
+import { mailerlite, states, byCode } from '../lib/data';
 interface Props { id?: string; deferred?: boolean; state?: string }
 const { id = 'alert-signup', deferred = false, state } = Astro.props;
+const fixed = state ? byCode[state] : null;
 const sorted = [...states].sort((a, b) => a.name.localeCompare(b.name));
 ---
 {mailerlite && (
-  <section id={id} class="card signup" aria-labelledby={`${id}-h`} data-ml-account={mailerlite.account} hidden={deferred}>
-    <h2 id={`${id}-h`} style="margin-top:0">Tell me when a certified kit is legal in my state</h2>
-    <p class="small">{siteName} emails you when a complete kit is confirmed for your state. We use your address only for these alerts.</p>
+  <section id={id} class="card signup" aria-labelledby={`${id}-h`} data-ml-account={mailerlite.account} data-ml-mode={deferred ? 'deferred' : 'lazy'} data-ml-fixed={fixed ? '1' : undefined} hidden={deferred}>
+    <h2 id={`${id}-h`} style="margin-top:0">Certified kit alerts</h2>
+    <p>Get one email when a complete certified kit is confirmed for <strong data-ml-state-name>{fixed ? fixed.name : 'your state'}</strong>.</p>
     <div class="field" data-ml-state-wrap hidden>
       <label for={`${id}-state`}>Your state</label>
       <select id={`${id}-state`} data-ml-state>
@@ -23,4 +28,15 @@ const sorted = [...states].sort((a, b) => a.name.localeCompare(b.name));
     <div class="ml-embedded" data-form={mailerlite.form_id}></div>
     <p class="small muted" style="margin:0.9rem 0 0">The form is provided by MailerLite. Showing it loads files from MailerLite's servers; your email goes to MailerLite only if you subscribe. <a href="/privacy/">Privacy</a>.</p>
   </section>
+)}
+{mailerlite && !deferred && (
+  <script>
+    import { loadMailerLite, wireStateField } from '../scripts/signup-loader';
+    document.querySelectorAll<HTMLElement>('section.signup[data-ml-mode="lazy"]').forEach((box) => {
+      const go = () => { loadMailerLite(box.dataset.mlAccount!); wireStateField(box); };
+      if (!('IntersectionObserver' in window)) return go();
+      const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: '600px 0px' });
+      io.observe(box);
+    });
+  </script>
 )}

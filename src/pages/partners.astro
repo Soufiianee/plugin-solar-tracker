@@ -1,0 +1,58 @@
+---
+/**
+ * For brands. Linked from the footer only.
+ * The interest form is a separate MailerLite form (group "Partners"), set in config/site.json MAILERLITE_PARTNERS_FORM_ID.
+ * Until that is set, the page shows the contact email only.
+ */
+import Base from '../layouts/Base.astro';
+import { states, kits, isEnacted, site, partnersForm } from '../lib/data';
+const laws = states.filter(isEnacted).length;
+const nStates = states.filter((s) => s.code !== 'DC').length;
+const email = site.CONTACT_EMAIL;
+---
+<Base title="For brands and sellers" description="Who reads Balcony Solar Rules, the editorial rules sponsors must accept, and a planned state-rules widget for plug-in solar product pages." crumbs={[{ name: 'For brands', href: '/partners/' }]}>
+  <article class="prose">
+    <h1>For brands and sellers</h1>
+
+    <h2>Who reads this site</h2>
+    <p>People in the US who want to know whether plug-in (balcony) solar is allowed where they live, what the rules are, and which kits qualify. They come to check a law before they buy: the size limit, whether to tell the utility, what a landlord or HOA can say, and which certification a kit needs.</p>
+    <p>The site covers all {nStates} states and DC ({laws} with a plug-in solar law), {kits.length} products, and guides on savings, railing mounting and renting. Every legal fact links to the legislature's own record. We will share audience figures once we have measured them; we do not publish estimates.</p>
+
+    <h2>Editorial rules</h2>
+    <ul>
+      <li><strong>Sponsors never change compatibility ratings.</strong> A kit's status comes only from the law text, certifier directories and certificate documents (<a href="/how-we-verify/">how we verify</a>). Paying does not list a product, rank it higher, change its status or remove a caveat.</li>
+      <li><strong>All sponsored placements are labelled "Sponsored"</strong> where they appear, and sit apart from our state and kit data.</li>
+      <li>Affiliate links are marked and carry <code>rel="sponsored"</code>. See the <a href="/disclosure/">disclosure</a>.</li>
+      <li>Corrections from brands are welcome, with a certificate or directory link. We log every change on the <a href="/updates/">updates page</a>.</li>
+    </ul>
+
+    <h2>Planned: a state-rules widget for your product pages</h2>
+    <p>We are considering a widget for your product pages showing whether a kit is allowed in the buyer's state, kept up to date from this site's data. If you would use it, tell us below. Registering interest commits you to nothing.</p>
+  </article>
+
+  {partnersForm ? (
+    <section id="partners-form" class="card signup" aria-labelledby="partners-form-h" data-ml-account={partnersForm.account}>
+      <h2 id="partners-form-h" style="margin-top:0">Register interest in the widget</h2>
+      <div class="ml-embedded" data-form={partnersForm.form_id}></div>
+      <p class="small muted" style="margin:0.9rem 0 0">The form is provided by MailerLite. Your details go to MailerLite only if you submit. <a href="/privacy/">Privacy</a>.</p>
+    </section>
+  ) : (
+    <section class="card" aria-labelledby="partners-mail-h">
+      <h2 id="partners-mail-h" style="margin-top:0">Register interest in the widget</h2>
+      <p style="margin-bottom:0">Email <strong>{email}</strong> with your brand and the products you sell in the US.</p>
+    </section>
+  )}
+
+  <article class="prose">
+    <h2>Contact</h2>
+    <p>Partnerships, corrections and certificate updates: <strong>{email}</strong>.</p>
+  </article>
+
+  {partnersForm && (
+    <script>
+      import { loadMailerLite } from '../scripts/signup-loader';
+      const box = document.getElementById('partners-form');
+      if (box) loadMailerLite(box.dataset.mlAccount!);
+    </script>
+  )}
+</Base>

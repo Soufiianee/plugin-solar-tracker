@@ -122,7 +122,7 @@ bills.nhliberty.org  documents.ncsl.org  sd11.senate.ca.gov  www.gov.ca.gov  cer
 
 **Package installs**: `registry.npmjs.org`.
 
-**The deployed site** makes no third-party requests unless you turn on analytics (`plausible.io`) or a signup embed (your provider's domain).
+**The deployed site** makes no third-party requests unless you turn on analytics (Cloudflare Web Analytics, `static.cloudflareinsights.com`) or a signup embed (your provider's domain).
 
 ## Update (session 2)
 
