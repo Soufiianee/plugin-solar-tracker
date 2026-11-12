@@ -65,7 +65,7 @@ describe('rooftop comparison box threshold', () => {
 
 describe('affiliate links', () => {
   it('empty slots fall back to the plain official URL, not sponsored', () => {
-    const k = kits.find((x) => x.retailers.some((r) => r.affiliate_slot !== 'craftstrom'))!;
+    const k = kits.find((x) => x.retailers.some((r) => !['craftstrom', 'apsystems'].includes(r.affiliate_slot)))!;
     const l = retailerLink(k.retailers[0]);
     expect(l).toEqual({ href: k.retailers[0].url, rel: 'noopener', sponsored: false });
   });
@@ -111,11 +111,24 @@ describe('affiliate links: CraftStrom live, others unchanged', () => {
   });
   it('brand link', () => expect(brandLink('craftstrom')!.href).toBe('https://craftstrom.com/?ref=fnrvloyc'));
   it('every other brand stays a plain link', () => {
-    for (const k of kits) for (const r of k.retailers) if (r.affiliate_slot !== 'craftstrom') {
+    for (const k of kits) for (const r of k.retailers) if (!['craftstrom', 'apsystems'].includes(r.affiliate_slot)) {
       expect(retailerLink(r)).toEqual({ href: r.url, rel: 'noopener', sponsored: false });
     }
   });
   it('no coupon codes in any link', () => {
     for (const k of kits) for (const r of k.retailers) expect(retailerLink(r).href).not.toMatch(/coupon|discount|promo/i);
+  });
+});
+
+describe('affiliate links: APsystems store link', () => {
+  it('EZ1-LV shop link is the affiliate store link, sponsored, no discount code', () => {
+    const k = kits.find((x) => x.slug === 'apsystems-ez1-lv')!;
+    const l = retailerLink(k.retailers[0]);
+    expect(l).toEqual({ href: 'https://apshop.apsystems.com/BALCONYSOLARRULES', rel: 'sponsored noopener', sponsored: true });
+    expect(l.href).not.toMatch(/discount|coupon|promo|code=/i);
+  });
+  it('its certificate citation stays plain', () => {
+    const k = kits.find((x) => x.slug === 'apsystems-ez1-lv')!;
+    for (const c of k.certifications) expect(c.evidence_url).not.toContain('BALCONYSOLARRULES');
   });
 });

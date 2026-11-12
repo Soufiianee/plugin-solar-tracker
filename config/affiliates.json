@@ -1,10 +1,10 @@
 {
   "apsystems": {
     "label": "APsystems shop",
-    "program": "",
-    "affiliate_id": "",
-    "notes": "Empty: links render as plain retailer links until affiliate_id AND link_template are set. Template placeholders: {raw_url}, {url} (encoded), {sep} ('?' or '&'), {id}. No coupon codes.",
-    "link_template": ""
+    "program": "Shopify Collabs (APsystems affiliate program, 5%)",
+    "affiliate_id": "BALCONYSOLARRULES",
+    "notes": "Affiliate store link (no per-product links); it redirects to the EZ1 product page. Template placeholders: {raw_url}, {url} (encoded), {sep} ('?' or '&'), {id}. Never publish discount or coupon codes.",
+    "link_template": "https://apshop.apsystems.com/BALCONYSOLARRULES"
   },
   "ecoflow": {
     "label": "EcoFlow US store",
