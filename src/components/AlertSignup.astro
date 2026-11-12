@@ -29,8 +29,8 @@ const sorted = [...states].sort((a, b) => a.name.localeCompare(b.name));
     </div>
     {shared ? <div data-ml-slot></div> : (
       <div data-ml-slot><div data-ml-unit>
-        {/* Optional key-dates opt-in. Stays hidden unless the MailerLite form has a "Key dates" interest-group checkbox
-            or a key_dates field for it to drive (see signup-loader.ts), so it can never be shown without working. */}
+        {/* Optional key-dates opt-in, unticked by default. Shown once MailerLite's form is on the page; when ticked,
+            signup-loader.ts adds a hidden fields[key_dates]="yes" to the form (nothing is sent when unticked). */}
         <div class="field check" data-ml-keydates-wrap hidden>
           <label><input type="checkbox" data-ml-keydates /> Also email me key dates for my state's law (a few emails a year).</label>
         </div>
