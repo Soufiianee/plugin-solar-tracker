@@ -28,8 +28,8 @@ Generated ${new Date().toISOString().slice(0, 10)} by \`npm run email:ca\` from 
 **Before sending, check:**
 1. The site has been rebuilt on or after ${fmtDate(eff)}, so the California page and the guide say "In effect since ${fmtDate(eff)}".
 2. The kit paragraph below matches /certification-watch/ on the live site.
-3. **Promise check:** the signup box promises "one email when a complete certified kit is confirmed for California". If no kit is confirmed, this email goes beyond that promise. Either send it only to people who agree to updates, or wait and fold this news into the kit email.
-4. Send to the MailerLite segment where the field state = "California".
+3. **Audience: send ONLY to subscribers in the MailerLite group "Key dates" whose state field = "California".** Never send it to the alerts-only list: they signed up for "one email when a complete certified kit is confirmed for California", and this email is not that.
+4. In MailerLite: create a segment "Key dates + California" (group is "Key dates" AND state equals "California") and send the campaign to that segment only.
 
 ---
 
@@ -50,7 +50,7 @@ Our California guide: ${absUrl(CA_GUIDE)}
 This is information, not legal advice. Check the law and your lease or HOA rules before you install anything.
 
 ${siteName}
-You are getting this because you signed up for California certified kit alerts at ${absUrl('/')}.
+You are getting this because you asked for key-date emails about California's law at ${absUrl('/')}.
 `;
 
 mkdirSync(join(root, 'research/emails'), { recursive: true });

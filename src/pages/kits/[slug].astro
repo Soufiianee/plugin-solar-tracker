@@ -5,6 +5,7 @@ import Disclaimer from '../../components/Disclaimer.astro';
 import { kits, states, isEnacted, kitAssess, retailerLink, fmtDate } from '../../lib/data';
 import VerdictCell from '../../components/VerdictCell.astro';
 import VerdictLegend from '../../components/VerdictLegend.astro';
+import { verdictLabel, VERDICT_ORDER } from '../../lib/compat';
 import { CERT_STATUS, SCOPE, PRODUCT_TYPE } from '../../lib/labels';
 import type { Kit } from '../../lib/schema';
 
@@ -15,6 +16,9 @@ const { kit: k } = Astro.props as { kit: Kit };
 const name = `${k.brand} ${k.model}`;
 const enacted = states.filter(isEnacted).sort((a, b) => a.name.localeCompare(b.name));
 const fit = enacted.map((s) => ({ s, a: kitAssess(s, k) }));
+// compatibility status shown right next to every shop link (same labels as the table above; affiliate status changes nothing)
+const statusLine = VERDICT_ORDER.filter((v) => fit.some((f) => f.a.verdict === v))
+  .map((v) => `${verdictLabel[v]} (${fit.filter((f) => f.a.verdict === v).length} of ${fit.length})`).join('; ');
 const ac = typeof k.ac_output_w === 'number' ? `${k.ac_output_w.toLocaleString('en-US')} W` : 'Not stated by the seller';
 const productLd = {
   '@context': 'https://schema.org', '@type': 'Product', name, brand: { '@type': 'Brand', name: k.brand },
@@ -48,7 +52,7 @@ const productLd = {
     ))}</tbody>
   </table></div>
 
-  <h2>Which state limits it fits</h2>
+  <h2 id="fit-h">Which state limits it fits</h2>
   <div class="table-wrap"><table class="stack">
     <thead><tr><th scope="col">State</th><th scope="col">Result</th></tr></thead>
     <tbody>{fit.map(({ s, a }) => <tr><th scope="row"><a href={`/states/${s.slug}/`}>{s.name}</a></th><td data-label="Result"><VerdictCell a={a} /></td></tr>)}</tbody>
@@ -59,7 +63,11 @@ const productLd = {
   {k.retailers.length > 0 && (
     <>
       <h2>Where it is sold</h2>
-      <ul>{k.retailers.map((r) => { const l = retailerLink(r); return <li><a href={l.href} rel={l.rel}>{r.name}</a>{l.sponsored && <> <span class="tag">Sponsored</span> <span class="small muted">Affiliate link: we may earn a commission if you buy. It does not change this kit's ratings. <a href="/disclosure/">Disclosure</a>.</span></>}</li>; })}</ul>
+      <ul class="shop-links">{k.retailers.map((r) => { const l = retailerLink(r); return (
+        <li><a href={l.href} rel={l.rel}>{r.name}</a>{l.sponsored && <> <span class="tag">Sponsored</span></>}
+          <br /><span class="small"><strong>Status in states with a plug-in law:</strong> {statusLine}. <a href="#fit-h">By state</a></span>
+          {l.sponsored && <><br /><span class="small muted">Affiliate link: we may earn a commission if you buy. It does not change this kit's ratings or its place in our tables. <a href="/disclosure/">Disclosure</a>.</span></>}</li>
+      ); })}</ul>
     </>
   )}
   <h2>Sources</h2>

@@ -218,3 +218,7 @@ fieldset.field legend { font-weight: 600; margin-bottom: 0.4rem; }
 }
 .card > :last-child { margin-bottom: 0; }
 #kit-status-line { margin: 0.8rem 0 0; }
+
+.shop-links li { margin-bottom: 0.6rem; }
+.field.check label { display: flex; gap: 0.5rem; align-items: flex-start; font-weight: 400; }
+.field.check input { width: auto; margin-top: 0.3rem; }

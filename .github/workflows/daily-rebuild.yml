@@ -1,0 +1,28 @@
+# Daily rebuild of the Cloudflare Pages site.
+# The site decides "Starts ..." vs "In effect since ..." (and law statuses) at build time, using the date in
+# Hawaii. 10:15 UTC is 00:15 in Hawaii, so every effective date flips within minutes of arriving everywhere in the US.
+# Needs the repository secret CF_DEPLOY_HOOK (a Cloudflare Pages deploy hook URL for the production branch).
+name: Daily rebuild
+
+on:
+  schedule:
+    - cron: '15 10 * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Trigger Cloudflare Pages deploy hook
+        env:
+          CF_DEPLOY_HOOK: ${{ secrets.CF_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$CF_DEPLOY_HOOK" ]; then
+            echo "::error::The repository secret CF_DEPLOY_HOOK is not set. Add it under Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+          curl --fail --silent --show-error --max-time 60 --retry 3 --retry-delay 10 -X POST "$CF_DEPLOY_HOOK" -o /dev/null
+          echo "Deploy hook called; Cloudflare Pages is rebuilding the production site."

@@ -30,6 +30,17 @@ Edit `config/site.json`:
 
 Affiliate links: every product link goes through `config/affiliates.json`. A link becomes sponsored only when **both** `affiliate_id` and `link_template` are set; it then gets a "Sponsored" label, a short disclosure next to it and `rel="sponsored noopener"`. Otherwise the plain official product URL is used. Example template: `{raw_url}?ref={id}`. The `rooftop_quotes` slot has no product URL: put the full approved partner link in `link_template` (it may contain `{id}`); until then the rooftop box on state pages shows no link. Commit and push after editing.
 
+## Daily rebuild (effective dates)
+
+Pages say "Starts January 1, 2027" or "In effect since January 1, 2027" depending on the date when the site is **built**. A GitHub Actions workflow, `.github/workflows/daily-rebuild.yml`, rebuilds the site every day at 10:15 UTC (00:15 in Hawaii, the last US state to reach a date), so effective dates flip on the day without anyone pushing. You can also run it by hand: GitHub → Actions → **Daily rebuild** → **Run workflow**.
+
+One-time setup:
+1. Cloudflare dashboard → Workers & Pages → your Pages project → **Settings → Builds → Deploy hooks** → **Add deploy hook**. Name it "Daily rebuild" and choose the production branch (`main`). Copy the URL.
+2. GitHub → the repository → **Settings → Secrets and variables → Actions → New repository secret**. Name: `CF_DEPLOY_HOOK`, value: the URL. Treat it like a password: anyone with it can start builds.
+3. Run the workflow once by hand and check that a new deployment appears in Cloudflare.
+
+If the secret is missing, the workflow fails with a clear message instead of doing nothing silently.
+
 ## 3. Connect Cloudflare Pages
 
 1. Create a free account at dash.cloudflare.com.

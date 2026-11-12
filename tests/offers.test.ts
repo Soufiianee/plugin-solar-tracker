@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { letterKinds, letterFacts, showRooftopBox, letterKitNotice, OTHER_DEVICE } from '../src/lib/offers';
-import { states, byCode, isEnacted, referencePayback, rooftopFor, assumptions, affiliateLink, retailerLink, kits, kitVerdict } from '../src/lib/data';
+import { states, byCode, isEnacted, referencePayback, rooftopFor, assumptions, affiliateLink, retailerLink, brandLink, kits, kitVerdict } from '../src/lib/data';
 import type { State } from '../src/lib/schema';
 
 const clone = (s: State): State => JSON.parse(JSON.stringify(s));
@@ -65,7 +65,7 @@ describe('rooftop comparison box threshold', () => {
 
 describe('affiliate links', () => {
   it('empty slots fall back to the plain official URL, not sponsored', () => {
-    const k = kits.find((x) => x.retailers.length)!;
+    const k = kits.find((x) => x.retailers.some((r) => r.affiliate_slot !== 'craftstrom'))!;
     const l = retailerLink(k.retailers[0]);
     expect(l).toEqual({ href: k.retailers[0].url, rel: 'noopener', sponsored: false });
   });
@@ -92,5 +92,30 @@ describe('letter: certification notice for the chosen device', () => {
   });
   it('a "likely compatible" kit still gets the warning (only "compatible" counts as confirmed)', () => {
     expect(letterKitNotice('Utah', 'x', 'likely_compatible')?.kind).toBe('unconfirmed');
+  });
+});
+
+describe('affiliate links: CraftStrom live, others unchanged', () => {
+  const craft = kits.filter((k) => k.retailers.some((r) => r.affiliate_slot === 'craftstrom'));
+  it('CraftStrom product links carry ?ref=fnrvloyc and are marked sponsored', () => {
+    expect(craft.length).toBeGreaterThan(0);
+    for (const k of craft) for (const r of k.retailers) {
+      const l = retailerLink(r);
+      expect(l.href).toBe(`${r.url}${r.url.includes('?') ? '&' : '?'}ref=fnrvloyc`);
+      expect(l.rel).toBe('sponsored noopener');
+      expect(l.sponsored).toBe(true);
+    }
+  });
+  it('uses & when the URL already has a query string', () => {
+    expect(affiliateLink('craftstrom', 'https://craftstrom.com/p/?x=1')!.href).toBe('https://craftstrom.com/p/?x=1&ref=fnrvloyc');
+  });
+  it('brand link', () => expect(brandLink('craftstrom')!.href).toBe('https://craftstrom.com/?ref=fnrvloyc'));
+  it('every other brand stays a plain link', () => {
+    for (const k of kits) for (const r of k.retailers) if (r.affiliate_slot !== 'craftstrom') {
+      expect(retailerLink(r)).toEqual({ href: r.url, rel: 'noopener', sponsored: false });
+    }
+  });
+  it('no coupon codes in any link', () => {
+    for (const k of kits) for (const r of k.retailers) expect(retailerLink(r).href).not.toMatch(/coupon|discount|promo/i);
   });
 });

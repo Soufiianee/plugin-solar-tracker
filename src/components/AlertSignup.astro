@@ -27,7 +27,16 @@ const sorted = [...states].sort((a, b) => a.name.localeCompare(b.name));
         {sorted.map((s) => <option value={s.code} selected={s.code === state}>{s.name}</option>)}
       </select>
     </div>
-    {shared ? <div data-ml-slot></div> : <div data-ml-slot><div class="ml-embedded" data-form={mailerlite.form_id}></div></div>}
+    {shared ? <div data-ml-slot></div> : (
+      <div data-ml-slot><div data-ml-unit>
+        {/* Optional key-dates opt-in. Stays hidden unless the MailerLite form has a "Key dates" interest-group checkbox
+            or a key_dates field for it to drive (see signup-loader.ts), so it can never be shown without working. */}
+        <div class="field check" data-ml-keydates-wrap hidden>
+          <label><input type="checkbox" data-ml-keydates /> Also email me key dates for my state's law (a few emails a year).</label>
+        </div>
+        <div class="ml-embedded" data-form={mailerlite.form_id}></div>
+      </div></div>
+    )}
     <p class="small muted" style="margin:0.9rem 0 0">The form is provided by MailerLite. Showing it loads files from MailerLite's servers; your email goes to MailerLite only if you subscribe. <a href="/privacy/">Privacy</a>.</p>
   </section>
 )}
@@ -42,7 +51,8 @@ const sorted = [...states].sort((a, b) => a.name.localeCompare(b.name));
       let started = false;
       const show = (box: HTMLElement) => {
         const slot = box.querySelector<HTMLElement>('[data-ml-slot]');
-        if (slot && !slot.contains(embed)) slot.appendChild(embed); // one form, moved to the box in view
+        const unit = embed.closest<HTMLElement>('[data-ml-unit]') ?? embed;
+        if (slot && !slot.contains(unit)) slot.appendChild(unit); // one form (with its opt-in), moved to the box in view
         if (!started) { started = true; loadMailerLite(home.dataset.mlAccount!); }
       };
       if (!('IntersectionObserver' in window)) show(home);

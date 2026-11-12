@@ -295,6 +295,8 @@ export const affiliatesFile = z.record(
     /** e.g. "{raw_url}?ref={id}"; links stay plain until BOTH affiliate_id and link_template are set.
      *  For a slot with no product URL (rooftop_quotes) the template is the full approved link. */
     link_template: z.string(),
+    /** the brand's home page (plain); the affiliate version is built with the same template */
+    brand_url: z.string().url().optional(),
     notes: z.string().optional(),
   }),
 );

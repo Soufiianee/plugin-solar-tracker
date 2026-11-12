@@ -89,7 +89,11 @@ export interface OutLink { href: string; rel: string; sponsored: boolean }
 export function affiliateLink(slot: string, url?: string): OutLink | null {
   const a = affiliates[slot];
   if (a && a.affiliate_id && a.link_template) {
-    const href = a.link_template.replace('{url}', encodeURIComponent(url ?? '')).replace('{raw_url}', url ?? '').replace('{id}', encodeURIComponent(a.affiliate_id));
+    const raw = url ?? '';
+    const href = a.link_template
+      .replace('{url}', encodeURIComponent(raw)).replace('{raw_url}', raw)
+      .replace('{sep}', raw.includes('?') ? '&' : '?') // "?ref=" or "&ref=" when the URL already has a query string
+      .replace('{id}', encodeURIComponent(a.affiliate_id));
     return { href, rel: SPONSORED_REL, sponsored: true };
   }
   return url ? { href: url, rel: 'noopener', sponsored: false } : null;
@@ -97,6 +101,8 @@ export function affiliateLink(slot: string, url?: string): OutLink | null {
 export function retailerLink(r: Kit['retailers'][number]): OutLink {
   return affiliateLink(r.affiliate_slot, r.url)!;
 }
+/** Brand home-page link for a slot (affiliate version when live). */
+export const brandLink = (slot: string) => { const u = affiliates[slot]?.brand_url; return u ? affiliateLink(slot, u) : null; };
 export const anySponsored = () => Object.values(affiliates).some((a) => a.affiliate_id && a.link_template);
 
 export const priceFor = (code: string) => prices.states[code];

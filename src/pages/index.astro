@@ -162,6 +162,9 @@ const datasetLd = {
   </section>
   <Disclaimer />
 
+  {/* TEMPORARY (added 2026-11-12): AvantLink affiliate-application website verification, homepage only, exactly as
+       AvantLink provides it. Remove once the owner confirms AvantLink has verified the site. */}
+  <script is:inline type="text/javascript" src="http://classic.avantlink.com/affiliate_app_confirm.php?mode=js&authResponse=a6e86d530b230c637f228bdfbb854b3868826e8b"></script>
   <script type="application/json" id="tool-data" set:html={JSON.stringify(toolData)} />
   <script>
     import './../scripts/tool.ts';

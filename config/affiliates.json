@@ -3,7 +3,7 @@
     "label": "APsystems shop",
     "program": "",
     "affiliate_id": "",
-    "notes": "Empty: links render as plain retailer links until affiliate_id AND link_template are set. Template placeholders: {raw_url}, {url} (encoded), {id}.",
+    "notes": "Empty: links render as plain retailer links until affiliate_id AND link_template are set. Template placeholders: {raw_url}, {url} (encoded), {sep} ('?' or '&'), {id}. No coupon codes.",
     "link_template": ""
   },
   "ecoflow": {
@@ -20,9 +20,10 @@
   },
   "craftstrom": {
     "label": "CraftStrom",
-    "program": "",
-    "affiliate_id": "",
-    "link_template": ""
+    "program": "GoAffPro (CraftStrom affiliate program, 6%)",
+    "affiliate_id": "fnrvloyc",
+    "link_template": "{raw_url}{sep}ref={id}",
+    "brand_url": "https://craftstrom.com/"
   },
   "amazon": {
     "label": "Amazon",

@@ -35,8 +35,26 @@ export function wireStateField(box: HTMLElement) {
     field.value = sel.value ? sel.options[sel.selectedIndex].text : '';
     // state pages pass a fixed state: the dropdown stays hidden and only fills the field
     if (!box.dataset.mlFixed) wrap.hidden = false;
+    syncKd();
     return true;
   };
+  // Optional "key dates" opt-in: drives MailerLite's own control, either an interest-group checkbox labelled
+  // "Key dates" (groups[]) or a key_dates field (set to "yes"). Shown only when one of them exists.
+  const kd = box.querySelector<HTMLInputElement>('input[data-ml-keydates]');
+  const kdWrap = box.querySelector<HTMLElement>('[data-ml-keydates-wrap]');
+  const syncKd = () => {
+    if (!kd || !kdWrap) return;
+    const grp = [...embed.querySelectorAll<HTMLInputElement>('input[name="groups[]"]')]
+      .find((i) => /key\s*dates/i.test(i.closest('label, .ml-form-checkboxRow, .ml-field-group')?.textContent ?? ''));
+    const fld = embed.querySelector<HTMLInputElement>('input[name="fields[key_dates]"]');
+    const target = grp ?? fld;
+    if (!target) return;
+    const holder = target.closest<HTMLElement>('.ml-form-checkboxRow') ?? target.closest<HTMLElement>('.ml-field-group') ?? target.closest<HTMLElement>('label') ?? target;
+    holder.style.display = 'none';
+    if (grp) grp.checked = kd.checked; else if (fld) fld.value = kd.checked ? 'yes' : '';
+    kdWrap.hidden = false;
+  };
+  kd?.addEventListener('change', syncKd);
   const name = box.querySelector<HTMLElement>('[data-ml-state-name]');
   sel.addEventListener('change', () => { if (name) name.textContent = sel.value ? sel.options[sel.selectedIndex].text : 'your state'; sync(); });
   embed.addEventListener('submit', () => sync(), true);
