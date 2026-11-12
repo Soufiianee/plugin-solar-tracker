@@ -13,7 +13,7 @@ export const RULE_NAMES: Record<string, string> = {
 
 const V: Record<string, Record<string, string>> = {
   battery_allowed: { yes: 'Covered by the law', no: 'Not allowed', not_addressed: 'Not mentioned in the law' },
-  utility_notification_required: { yes: 'Yes, before installing', no: 'No', utility_may_require: 'Only if your utility asks', conditional: 'Only above a size threshold' },
+  utility_notification_required: { yes: 'Yes, before installing', yes_after_install: 'Yes, within a set time after installing', no: 'No', utility_may_require: 'Only if your utility asks', conditional: 'Only above a size threshold' },
   utility_approval_required: { yes: 'Yes', no: 'No' },
   landlord_provisions: { protects_tenants: 'Tenant protections', notice_rules_only: 'Notice or restoration rules only', not_addressed: 'Not mentioned in the law' },
   hoa_provisions: { protects_owners: 'Bans limited', covenants_preserved: 'HOA rules still apply', not_addressed: 'Not mentioned in the law' },

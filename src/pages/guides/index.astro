@@ -1,9 +1,11 @@
 ---
 import Base from '../../layouts/Base.astro';
+import { CA_GUIDE, caGuideTitle } from '../../lib/guides';
 ---
 <Base title="Guides" description="Plain-English guides to plug-in solar: whether it pays off where you live, railing vs tilted panels, and what renters can do." crumbs={[{ name: 'Guides', href: '/guides/' }]}>
   <h1>Guides</h1>
   <ul>
+    <li><a href={CA_GUIDE}>{caGuideTitle()}</a>: the rules, which kits qualify, and what it could save.</li>
     <li><a href="/guides/is-it-worth-it/">Is plug-in solar worth it?</a> Savings and payback by state, using EIA prices and NREL solar data.</li>
     <li><a href="/guides/railing-vs-tilted/">Balcony railing vs tilted panels</a>: how much output you lose by hanging panels flat, state by state.</li>
     <li><a href="/guides/renters/">Plug-in solar for renters</a>: what your landlord can and can't do, state by state.</li>

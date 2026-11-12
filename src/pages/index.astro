@@ -10,6 +10,7 @@ import {
 } from '../lib/data';
 import { verdictLabel, verdictHelp, needsSystemCert } from '../lib/compat';
 import { RULE_NAMES, ruleValue } from '../lib/labels';
+import { CA_GUIDE, caGuideTitle } from '../lib/guides';
 
 const enacted = states.filter(isEnacted);
 const ruleKeys = ['max_watts_ac', 'utility_notification_required', 'utility_approval_required', 'landlord_provisions', 'hoa_provisions', 'certification_required', 'battery_allowed', 'net_metering_excluded'] as const;
@@ -59,6 +60,7 @@ const datasetLd = {
   <section class="hero">
     <h1>Is plug-in solar legal in your state?</h1>
     <p class="lede">Pick your state to see the law, the size limit, what you must tell your utility or landlord, and which kits are confirmed to qualify. Every rule links to the official source.</p>
+    <p><strong>New:</strong> <a href={CA_GUIDE}>{caGuideTitle()}</a></p>
   </section>
 
   <section id="tool" aria-labelledby="tool-h">

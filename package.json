@@ -15,7 +15,9 @@
     "linkcheck": "tsx scripts/linkcheck.ts",
     "check": "astro check",
     "compat-audit": "tsx scripts/compat-audit.ts",
-    "artifact": "ARTIFACT_BUILD=1 astro build && node scripts/build-artifact.mjs"
+    "artifact": "ARTIFACT_BUILD=1 astro build && node scripts/build-artifact.mjs",
+    "email:ca": "tsx scripts/email-ca.ts",
+    "ny:signed": "tsx scripts/apply-ny-signed.ts"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",

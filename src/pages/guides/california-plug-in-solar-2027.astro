@@ -1,0 +1,193 @@
+---
+/**
+ * California guide. Every legal statement comes from the CA record in data/states.json (SB 868, Chapter 985,
+ * Statutes of 2026, read from the Legislature's official data); every number from our data files.
+ * The title and countdown switch to "in effect" automatically when the site is rebuilt on or after the effective date.
+ */
+import Base from '../../layouts/Base.astro';
+import Disclaimer from '../../components/Disclaimer.astro';
+import AlertSignup from '../../components/AlertSignup.astro';
+import KitTable from '../../components/KitTable.astro';
+import LetterOffer from '../../components/LetterOffer.astro';
+import {
+  states, byCode, kits, kitAssess, mainBill, effectiveDate, effectiveText, fmtDate, priceFor, yieldFor, prices, yields, refKit, assumptions, BUILD_DATE, absUrl, siteName,
+} from '../../lib/data';
+import { verdictLabel } from '../../lib/compat';
+import { ruleValue } from '../../lib/labels';
+import { letterKinds } from '../../lib/offers';
+import { scenario, fmtUsd, fmtKwh } from '../../lib/calc';
+import { caGuideTitle, CA_GUIDE } from '../../lib/guides';
+
+const s = byCode.CA;
+const r = s.rules;
+const bill = mainBill(s)!;
+const eff = effectiveDate(s)!;
+const effTxt = effectiveText(s)!;
+const inEffect = eff <= BUILD_DATE;
+const title = caGuideTitle();
+const cap = r.max_watts_ac.value as number;
+const capTxt = `${cap.toLocaleString('en-US')} watts`;
+const dcTxt = r.max_watts_dc.value === 'not_specified' ? 'The law sets no separate limit on panel (DC) watts; the limit is on AC output.' : r.max_watts_dc.detail;
+const sunset = bill.sunset;
+const effBasisNote = bill.effective_date_basis === 'derived' ? bill.effective_date_note : null;
+
+// Kits: same model and labels as the rest of the site
+const assessed = kits.map((k) => ({ k, a: kitAssess(s, k) }));
+const confirmed = assessed.filter((x) => x.a.verdict === 'compatible');
+const likely = assessed.filter((x) => x.a.verdict === 'likely_compatible');
+const notYet = assessed.filter((x) => x.a.verdict !== 'compatible' && x.a.verdict !== 'likely_compatible');
+const notYetByLabel = [...new Set(notYet.map((x) => x.a.verdict))].map((v) => ({ v, n: notYet.filter((x) => x.a.verdict === v).length }));
+
+// Savings at California's EIA price, with the reference kit
+const price = priceFor('CA') as number;
+const y = yieldFor('CA');
+const W = refKit.panel_w_total as number;
+const COST = refKit.price_usd as number;
+const TYP = assumptions.self_consumption.typical_pct;
+const cases = [
+  { label: yields.scenario_definitions.ideal.label, yy: y.ideal },
+  { label: yields.scenario_definitions.vertical.label, yy: y.vertical },
+].filter((c): c is { label: string; yy: number } => typeof c.yy === 'number')
+  .map((c) => ({ label: c.label, typ: scenario(W, c.yy, price, TYP, COST), best: scenario(W, c.yy, price, 100, COST) }));
+// price rank among the 51 jurisdictions with a known price (1 = most expensive)
+const known = Object.entries(prices.states).filter((e): e is [string, number] => typeof e[1] === 'number').sort((a, b) => b[1] - a[1]);
+const rank = known.findIndex(([c]) => c === 'CA') + 1;
+const ord = (n: number) => `${n}${n % 100 >= 11 && n % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][n % 10] ?? 'th'}`;
+// states whose law does protect renters or HOA members (for contrast)
+const protecting = states.filter((x) => x.rules.landlord_provisions.value === 'protects_tenants' || x.rules.hoa_provisions.value === 'protects_owners').map((x) => x.name).sort();
+const list = (a: string[]) => a.join(', ').replace(/, ([^,]*)$/, ' and $1');
+const yrs = (n: number | null) => (n === null ? '—' : `${n.toFixed(1)} years`);
+
+const lawRef = `${bill.id} (${bill.chapter})`;
+const letter = letterKinds(s).length > 0;
+
+const faq: { q: string; a: string }[] = [
+  {
+    q: 'Is plug-in solar legal in California?',
+    a: inEffect
+      ? `Yes. ${lawRef} has been in effect since ${fmtDate(eff)}. A plug-in system that meets all of the law's conditions (up to ${capTxt} AC per dwelling, certified as a plug-in photovoltaic system, with a certified isolation feature) is exempt from utility interconnection rules.`
+      : `From ${fmtDate(eff)}, yes. ${lawRef} makes a plug-in system that meets all of the law's conditions (up to ${capTxt} AC per dwelling, certified as a plug-in photovoltaic system, with a certified isolation feature) exempt from utility interconnection rules. Until then, California has no plug-in solar law and your utility's interconnection rules apply.`,
+  },
+  {
+    q: 'Do I need a permit for plug-in solar in California?',
+    a: `SB 868 does not mention building permits. It deals with utilities: a qualifying device is exempt from all interconnection requirements, and your utility cannot require approval, fees or extra equipment. The device must meet the National Electrical Code and the California Electrical Code. If you plan to fix panels to a building, ask your city or county building department whether anything applies.`,
+  },
+  {
+    q: 'How many watts can a plug-in solar system have in California?',
+    a: `Up to ${capTxt} of AC output per dwelling, counting all plug-in devices together. ${r.max_watts_ac.detail} ${dcTxt}`,
+  },
+  {
+    q: 'Can my landlord say no to plug-in solar in California?',
+    a: `SB 868 does not mention landlords, tenants or HOAs, so it does not override your lease or your association's rules. Ask your landlord or HOA before you install anything.`,
+  },
+  {
+    q: 'Does plug-in solar work in an apartment?',
+    a: `The law is written for devices that plug into a building's electrical system through an outlet, with a limit of ${capTxt} per dwelling, so an apartment can qualify. In practice you need a sunny spot such as a balcony, an outlet you can reach, and your landlord's agreement, because the law does not cover landlords.`,
+  },
+  {
+    q: 'Will my utility pay me for the power I send back?',
+    a: `The law does not provide any payment for power sent to the grid, and it does not mention net metering. It does stop utilities from charging fees for the electricity the device feeds into your home's wiring. Our savings figures assume exported power earns nothing, so they count only the power you use at home.`,
+  },
+  {
+    q: 'Which plug-in solar kits are allowed in California?',
+    a: confirmed.length
+      ? `We have seen a complete-system certificate for: ${confirmed.map((x) => `${x.k.brand} ${x.k.model}`).join(', ')}. Check our kit table for the details.`
+      : `None that we can confirm yet. California requires certification as a complete plug-in photovoltaic system, and we have not seen that certificate for any kit we track. Ask the seller for the certificate before you buy.`,
+  },
+];
+
+const articleLd = {
+  '@context': 'https://schema.org', '@type': 'Article', headline: title, inLanguage: 'en-US',
+  datePublished: '2026-11-12', dateModified: s.last_checked, mainEntityOfPage: absUrl(CA_GUIDE),
+  about: { '@type': 'Legislation', name: `California ${bill.id}, ${bill.title}`, legislationIdentifier: bill.chapter, legislationDate: bill.signed_date, url: bill.url },
+  author: { '@type': 'Organization', name: siteName, url: absUrl('/') }, publisher: { '@id': `${absUrl('/')}#organization` },
+};
+const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+---
+<Base title={title} description={`${effTxt}: what California's plug-in solar law (${bill.id}) allows, the ${capTxt} limit, utility registration, renters and HOAs, which kits qualify, and what it could save.`} crumbs={[{ name: 'Guides', href: '/guides/' }, { name: 'California 2027', href: CA_GUIDE }]} jsonLd={[articleLd, faqLd]}>
+  <article class="prose">
+    <h1>{title}</h1>
+    <p class="lede"><span class="tag">{effTxt}</span> <span class="small muted">Checked {fmtDate(s.last_checked)} against the Legislature's official record.</span></p>
+    <p style="font-size:1.1rem">{s.summary_plain}</p>
+    <p class="small">The law: <a href={bill.url} rel="noopener">{bill.id}</a>, {bill.chapter}, signed {fmtDate(bill.signed_date)}. {effBasisNote}</p>
+  </article>
+
+  <AlertSignup state="CA" />
+
+  <article class="prose">
+    <h2 id="what-changes">{inEffect ? 'What changed on' : 'What changes on'} {fmtDate(eff)}</h2>
+    <ul>
+      <li><strong>No interconnection paperwork.</strong> A device that meets all of the law's conditions is exempt from every interconnection requirement of the state, the CPUC and utilities, including interconnection agreements (8531(a)).</li>
+      <li><strong>No approval and no fees.</strong> {r.utility_approval_required.detail}</li>
+      <li><strong>At most a simple registration.</strong> {r.utility_notification_required.detail}</li>
+      <li><strong>Only devices that meet every condition qualify.</strong> A device that misses any condition gets none of these exemptions (8531(d)).</li>
+    </ul>
+    {sunset && <p class="small">Later: {sunset.detail}</p>}
+
+    <h2 id="qualifies">What qualifies</h2>
+    <dl class="kv">
+      <dt>Size</dt><dd>{r.max_watts_ac.detail} {dcTxt}</dd>
+      <dt>Connection</dt><dd>Connects to and disconnects from the building's wiring through an outlet (a receptacle), to offset your own use (8530(c)(2)-(3)).</dd>
+      <dt>Certification</dt><dd>{r.certification_required.detail}</dd>
+      <dt>Batteries</dt><dd>{r.battery_allowed.detail}</dd>
+    </dl>
+
+    <h2 id="utility">Do you need to tell your utility?</h2>
+    <p><strong>{ruleValue('utility_notification_required', r.utility_notification_required.value)}.</strong> {r.utility_notification_required.detail} Your utility cannot make you wait for approval. {r.net_metering_excluded.detail} Check your utility's website for a registration form{inEffect ? '' : ` after ${fmtDate(eff)}`}.</p>
+
+    <h2 id="renters">Renters and HOAs</h2>
+    <p>{r.landlord_provisions.detail} {r.hoa_provisions.detail} {protecting.length > 0 && `Unlike the laws in ${list(protecting)}, `}California's law gives tenants and HOA members no protection, so your lease and your association's rules still decide. Ask before you install. See our <a href="/guides/renters/">renters guide</a>.</p>
+  </article>
+  {letter && <LetterOffer state={s} />}
+
+  <article class="prose">
+    <h2 id="kits">Which kits qualify in California</h2>
+    <p>We check each kit against California's rule with the same labels used across this site:</p>
+    <ul>
+      <li><strong>{verdictLabel.compatible}:</strong> {confirmed.length ? confirmed.map((x) => `${x.k.brand} ${x.k.model}`).join(', ') : `none yet`}.</li>
+      <li><strong>{verdictLabel.likely_compatible}:</strong> {likely.length ? likely.map((x) => `${x.k.brand} ${x.k.model}`).join(', ') : 'none (California asks for certification of the complete system, so an inverter certificate alone is not enough)'}.</li>
+      <li><strong>Not yet:</strong> {notYet.length} of {kits.length} kits we track ({notYetByLabel.map((g) => `${g.n} "${verdictLabel[g.v]}"`).join('; ')}).</li>
+    </ul>
+  </article>
+  <KitTable state={s} />
+
+  <article class="prose">
+    <h2 id="savings">What it could save in California</h2>
+    <p>California's average residential price is <strong>{price}¢/kWh</strong> (EIA, {prices.period}), the {ord(rank)} highest of the {known.length} states and DC in our data. The higher the price, the more each kilowatt-hour you make yourself is worth. For our reference kit, the {refKit.short_name} at ${COST.toLocaleString('en-US')} ({W} W of panels), using solar data for {yields.states.CA.location}:</p>
+  </article>
+  <div class="table-wrap">
+    <table class="stack">
+      <caption class="visually-hidden">Yearly output, savings and payback for the reference kit in California</caption>
+      <thead><tr><th scope="col">Panels</th><th scope="col">Yearly output</th><th scope="col">Typical ({TYP}% used at home)</th><th scope="col">Best case (100%)</th></tr></thead>
+      <tbody>{cases.map((c) => (
+        <tr>
+          <th scope="row">{c.label.charAt(0).toUpperCase() + c.label.slice(1)}</th>
+          <td data-label="Yearly output" class="num">{fmtKwh(c.typ.kwh)}</td>
+          <td data-label="Typical" class="num">{fmtUsd(c.typ.dollars)} a year · payback {yrs(c.typ.paybackYears)}</td>
+          <td data-label="Best case" class="num">{fmtUsd(c.best.dollars)} a year · payback {yrs(c.best.paybackYears)}</td>
+        </tr>
+      ))}</tbody>
+    </table>
+  </div>
+  <article class="prose">
+    <p class="small muted">"Typical" uses HTW Berlin's model for an 800 W system without a battery; exported power is assumed to earn nothing. Solar output: {yields.model}, {yields.common.losses_pct}% system losses. Real balconies face other directions and get shade. <a href="/#tool">Try your own numbers</a> · <a href="/guides/is-it-worth-it/">How we calculate</a>.</p>
+
+    <h2 id="before">{inEffect ? 'Before you buy and install' : `What to do before ${fmtDate(eff)}`}</h2>
+    <ol>
+      <li><strong>Check your outlet and its circuit.</strong> The device plugs into an outlet and must meet the National Electrical Code and the California Electrical Code. Find out what else runs on that circuit. If you are not sure it suits a solar device, ask a licensed electrician.</li>
+      <li><strong>Pick a kit and ask the seller for the certificate.</strong> California asks for certification as a complete plug-in photovoltaic system, plus a certified isolation feature. Ask for the certificate document itself, not a product-page claim, and check that it covers the complete system. Our <a href="/certification-watch/">Certification watch</a> tracks what we have seen.</li>
+      <li><strong>Talk to your landlord or HOA</strong> if you rent or live in a community with an association. The law does not cover them.</li>
+      <li><strong>Get the California alert</strong> below. We send one email when a complete certified kit is confirmed for California.</li>
+    </ol>
+
+    <h2 id="faq">Questions</h2>
+    {faq.map((f) => <><h3>{f.q}</h3><p>{f.a}</p></>)}
+  </article>
+
+  <AlertSignup id="alert-signup-end" state="CA" shared />
+
+  <article class="prose">
+    <p class="small muted">Source: California Legislature, {bill.id} chaptered text ({bill.chapter}), read from the Legislature's official data on {fmtDate(s.last_checked)}. Statements about the law cite Public Utilities Code sections 8530 to 8532 as added by the bill. See the <a href="/states/california/">California page</a> for every source and the rule table.</p>
+    <Disclaimer />
+  </article>
+</Base>

@@ -7,10 +7,12 @@
  *  - no `state` (guides): the visitor picks a state in our dropdown.
  *  - `deferred` (home tool): hidden until the tool reveals it for the chosen state.
  * MailerLite's script loads only when the box comes near the screen (or when the tool reveals it), never site-wide.
+ *  - `shared` (a second box on the same page): renders an empty slot. The page keeps ONE MailerLite form, and the
+ *    script moves it into whichever box is on screen, so there are never two copies (duplicate IDs, double handlers).
  */
 import { mailerlite, states, byCode } from '../lib/data';
-interface Props { id?: string; deferred?: boolean; state?: string }
-const { id = 'alert-signup', deferred = false, state } = Astro.props;
+interface Props { id?: string; deferred?: boolean; state?: string; shared?: boolean }
+const { id = 'alert-signup', deferred = false, state, shared = false } = Astro.props;
 const fixed = state ? byCode[state] : null;
 const sorted = [...states].sort((a, b) => a.name.localeCompare(b.name));
 ---
@@ -25,18 +27,32 @@ const sorted = [...states].sort((a, b) => a.name.localeCompare(b.name));
         {sorted.map((s) => <option value={s.code} selected={s.code === state}>{s.name}</option>)}
       </select>
     </div>
-    <div class="ml-embedded" data-form={mailerlite.form_id}></div>
+    {shared ? <div data-ml-slot></div> : <div data-ml-slot><div class="ml-embedded" data-form={mailerlite.form_id}></div></div>}
     <p class="small muted" style="margin:0.9rem 0 0">The form is provided by MailerLite. Showing it loads files from MailerLite's servers; your email goes to MailerLite only if you subscribe. <a href="/privacy/">Privacy</a>.</p>
   </section>
 )}
 {mailerlite && !deferred && (
   <script>
     import { loadMailerLite, wireStateField } from '../scripts/signup-loader';
-    document.querySelectorAll<HTMLElement>('section.signup[data-ml-mode="lazy"]').forEach((box) => {
-      const go = () => { loadMailerLite(box.dataset.mlAccount!); wireStateField(box); };
-      if (!('IntersectionObserver' in window)) return go();
-      const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: '600px 0px' });
-      io.observe(box);
-    });
+    const boxes = [...document.querySelectorAll<HTMLElement>('section.signup[data-ml-mode="lazy"]')];
+    const embed = boxes.map((b) => b.querySelector<HTMLElement>('.ml-embedded')).find(Boolean);
+    if (embed && boxes.length) {
+      const home = embed.closest<HTMLElement>('section.signup')!;
+      wireStateField(home); // wire while the form is still in its first box (fills fields[state] once MailerLite renders)
+      let started = false;
+      const show = (box: HTMLElement) => {
+        const slot = box.querySelector<HTMLElement>('[data-ml-slot]');
+        if (slot && !slot.contains(embed)) slot.appendChild(embed); // one form, moved to the box in view
+        if (!started) { started = true; loadMailerLite(home.dataset.mlAccount!); }
+      };
+      if (!('IntersectionObserver' in window)) show(home);
+      else {
+        const io = new IntersectionObserver((es) => {
+          const hit = es.filter((e) => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+          if (hit) show(hit.target as HTMLElement);
+        }, { rootMargin: '600px 0px' });
+        boxes.forEach((b) => io.observe(b));
+      }
+    }
   </script>
 )}

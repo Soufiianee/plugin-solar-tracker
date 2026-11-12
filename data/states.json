@@ -330,7 +330,11 @@
         "effective_date": "2027-01-01",
         "chapter": "Chapter 985, Statutes of 2026",
         "effective_date_basis": "derived",
-        "effective_date_note": "Derived: the law has no urgency or operative-date clause, so it takes effect January 1 of the following year under the California Constitution (art. IV, sec. 8(c))."
+        "effective_date_note": "Derived: the law has no urgency or operative-date clause, so it takes effect January 1 of the following year under the California Constitution (art. IV, sec. 8(c)).",
+        "sunset": {
+          "date": "2030-01-01",
+          "detail": "The utility exemptions in Section 8531 (no approval, no fees, no extra equipment, online registration only) are repealed on January 1, 2030 unless the Legislature extends them (8531(e)). From the same date, plug-in devices that do not meet the safety conditions may not be sold in California (8532)."
+        }
       }
     ],
     "rules": {
@@ -341,7 +345,7 @@
           {
             "title": "California Legislature public data (pubinfo_2025.zip): SB 868 chaptered version 20250SB86891CHP",
             "url": "https://downloads.leginfo.legislature.ca.gov/pubinfo_2025.zip",
-            "accessed": "2026-11-10",
+            "accessed": "2026-11-12",
             "type": "legislature_data",
             "note": "BILL_TBL lists SB 868 as Chaptered, Statutes of 2026, Chapter 985; chaptered and approved 2026-09-30."
           }
@@ -354,7 +358,7 @@
           {
             "title": "California Legislature public data (pubinfo_2025.zip): SB 868 chaptered version 20250SB86891CHP",
             "url": "https://downloads.leginfo.legislature.ca.gov/pubinfo_2025.zip",
-            "accessed": "2026-11-10",
+            "accessed": "2026-11-12",
             "type": "legislature_data",
             "note": "BILL_TBL lists SB 868 as Chaptered, Statutes of 2026, Chapter 985; chaptered and approved 2026-09-30."
           }
@@ -367,7 +371,7 @@
           {
             "title": "California Legislature public data (pubinfo_2025.zip): SB 868 chaptered version 20250SB86891CHP",
             "url": "https://downloads.leginfo.legislature.ca.gov/pubinfo_2025.zip",
-            "accessed": "2026-11-10",
+            "accessed": "2026-11-12",
             "type": "legislature_data",
             "note": "BILL_TBL lists SB 868 as Chaptered, Statutes of 2026, Chapter 985; chaptered and approved 2026-09-30."
           }
@@ -380,7 +384,7 @@
           {
             "title": "California Legislature public data (pubinfo_2025.zip): SB 868 chaptered version 20250SB86891CHP",
             "url": "https://downloads.leginfo.legislature.ca.gov/pubinfo_2025.zip",
-            "accessed": "2026-11-10",
+            "accessed": "2026-11-12",
             "type": "legislature_data",
             "note": "BILL_TBL lists SB 868 as Chaptered, Statutes of 2026, Chapter 985; chaptered and approved 2026-09-30."
           }
@@ -393,7 +397,7 @@
           {
             "title": "California Legislature public data (pubinfo_2025.zip): SB 868 chaptered version 20250SB86891CHP",
             "url": "https://downloads.leginfo.legislature.ca.gov/pubinfo_2025.zip",
-            "accessed": "2026-11-10",
+            "accessed": "2026-11-12",
             "type": "legislature_data",
             "note": "BILL_TBL lists SB 868 as Chaptered, Statutes of 2026, Chapter 985; chaptered and approved 2026-09-30."
           }
@@ -406,7 +410,7 @@
           {
             "title": "California Legislature public data (pubinfo_2025.zip): SB 868 chaptered version 20250SB86891CHP",
             "url": "https://downloads.leginfo.legislature.ca.gov/pubinfo_2025.zip",
-            "accessed": "2026-11-10",
+            "accessed": "2026-11-12",
             "type": "legislature_data",
             "note": "BILL_TBL lists SB 868 as Chaptered, Statutes of 2026, Chapter 985; chaptered and approved 2026-09-30."
           }
@@ -419,7 +423,7 @@
           {
             "title": "California Legislature public data (pubinfo_2025.zip): SB 868 chaptered version 20250SB86891CHP",
             "url": "https://downloads.leginfo.legislature.ca.gov/pubinfo_2025.zip",
-            "accessed": "2026-11-10",
+            "accessed": "2026-11-12",
             "type": "legislature_data",
             "note": "BILL_TBL lists SB 868 as Chaptered, Statutes of 2026, Chapter 985; chaptered and approved 2026-09-30."
           }
@@ -432,7 +436,7 @@
           {
             "title": "California Legislature public data (pubinfo_2025.zip): SB 868 chaptered version 20250SB86891CHP",
             "url": "https://downloads.leginfo.legislature.ca.gov/pubinfo_2025.zip",
-            "accessed": "2026-11-10",
+            "accessed": "2026-11-12",
             "type": "legislature_data",
             "note": "BILL_TBL lists SB 868 as Chaptered, Statutes of 2026, Chapter 985; chaptered and approved 2026-09-30."
           }
@@ -445,7 +449,7 @@
           {
             "title": "California Legislature public data (pubinfo_2025.zip): SB 868 chaptered version 20250SB86891CHP",
             "url": "https://downloads.leginfo.legislature.ca.gov/pubinfo_2025.zip",
-            "accessed": "2026-11-10",
+            "accessed": "2026-11-12",
             "type": "legislature_data",
             "note": "BILL_TBL lists SB 868 as Chaptered, Statutes of 2026, Chapter 985; chaptered and approved 2026-09-30."
           }
@@ -466,12 +470,12 @@
       {
         "title": "California Legislature public data (pubinfo_2025.zip): SB 868 chaptered version 20250SB86891CHP",
         "url": "https://downloads.leginfo.legislature.ca.gov/pubinfo_2025.zip",
-        "accessed": "2026-11-10",
+        "accessed": "2026-11-12",
         "type": "legislature_data",
         "note": "BILL_TBL lists SB 868 as Chaptered, Statutes of 2026, Chapter 985; chaptered and approved 2026-09-30."
       }
     ],
-    "last_checked": "2026-11-10",
+    "last_checked": "2026-11-12",
     "notes": "No urgency clause, so the statute takes effect January 1 of the year after enactment (Cal. Const. art. IV, sec. 8(c))."
   },
   {
@@ -3257,19 +3261,27 @@
         "rule_sources": []
       }
     },
-    "summary_plain": "New York's Legislature passed A9111-C, the \"Solar Up Now NY Act,\" on May 28, 2026. It would exempt plug-in devices up to 1,200 watts from interconnection and net metering rules. As of November 10, 2026 the bill had not been delivered to the governor, so it is not law.",
+    "summary_plain": "New York's Legislature passed A9111-C / S8512-C, the \"Solar Up Now NY Act,\" on May 28, 2026. It would exempt plug-in devices up to 1,200 watts from interconnection and net metering rules. As of November 12, 2026 the bill had not been delivered to Governor Hochul, so it is not law yet.",
     "watch_notes": "The bill must be delivered to Governor Hochul, who then has 10 days (excluding Sundays) to act, or 30 days after delivery if the Legislature has adjourned. If signed, it takes effect on the 90th day after it becomes law.",
     "next_key_date": null,
     "sources": [
       {
         "title": "New York State Assembly: A09111 (2025-2026) summary, actions and text",
         "url": "https://nyassembly.gov/leg/?default_fld=&leg_video=&bn=A09111&term=2025&Summary=Y&Actions=Y&Text=Y",
-        "accessed": "2026-11-11",
+        "accessed": "2026-11-12",
         "type": "legislature_bill_page"
+      },
+      {
+        "title": "New York State Senate: S8512C (2025-2026) bill status",
+        "url": "https://www.nysenate.gov/legislation/bills/2025/S8512",
+        "accessed": "2026-11-12",
+        "type": "legislature_bill_page",
+        "note": "Status tracker: Passed Senate and Passed Assembly marked; Delivered to Governor and Signed By Governor not marked (checked 2026-11-12)."
       }
     ],
-    "last_checked": "2026-11-11",
-    "notes": "Bill text: 1,200-watt nameplate output cap; takes effect on the ninetieth day after it becomes law (section 5). The governor timing rule is from the New York Constitution, art. IV, sec. 7 (general knowledge, not separately sourced)."
+    "last_checked": "2026-11-12",
+    "notes": "Bill text (A9111-C as passed): 1,200-watt AC inverter nameplate cap to the grid; complete-system listing or certification by an accredited NRTL; owner notifies the utility within 30 days of installing; exports uncompensated; takes effect on the ninetieth day after it becomes law (section 5). A ready-to-apply record for signing is in data/drafts/new-york-signed.json (scripts/apply-ny-signed.ts). The governor timing rule is from the New York Constitution, art. IV, sec. 7 (general knowledge, not separately sourced).",
+    "status_label": "Passed legislature, awaiting signature"
   },
   {
     "code": "NC",

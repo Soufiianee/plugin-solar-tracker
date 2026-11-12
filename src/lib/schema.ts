@@ -70,7 +70,7 @@ export const rules = z.object({
   max_watts_ac: wattRule,
   max_watts_dc: wattRule,
   battery_allowed: enumRule(['yes', 'no', 'not_addressed', 'unknown', NA]),
-  utility_notification_required: enumRule(['yes', 'no', 'utility_may_require', 'conditional', 'unknown', NA]),
+  utility_notification_required: enumRule(['yes', 'yes_after_install', 'no', 'utility_may_require', 'conditional', 'unknown', NA]),
   utility_approval_required: enumRule(['yes', 'no', 'unknown', NA]),
   landlord_provisions: enumRule(['protects_tenants', 'notice_rules_only', 'not_addressed', 'unknown', NA]).extend({ protection: protection.optional() }),
   hoa_provisions: enumRule(['protects_owners', 'covenants_preserved', 'not_addressed', 'unknown', NA]).extend({ protection: protection.optional() }),
@@ -115,6 +115,8 @@ export const bill = z.object({
   effective_date_basis: z.enum(['stated_in_law', 'derived', NA, 'unknown']),
   effective_date_note: z.string().optional(),
   chapter: z.string().optional(),
+  /** a date on which part of the law stops applying (repeal / sunset clause), with the section that says so */
+  sunset: z.object({ date: isoDate, detail: z.string().min(10) }).optional(),
   /** for dead bills: the official end of the session in which the bill died */
   session_end: z
     .object({ date: z.union([isoDate, UNKNOWN]), detail: z.string(), source: z.union([source, z.null()]) })

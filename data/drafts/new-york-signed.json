@@ -1,0 +1,129 @@
+{
+  "_about": "Draft New York record for the day the governor signs A9111-C / S8512-C. Rules were read from the passed text on 2026-11-12. Before applying: confirm the signing on nysenate.gov / nyassembly.gov (governor's action and chapter number), re-read the chaptered text if posted, and check that nothing changed (chapter amendments are common in New York). Apply with: npx tsx scripts/apply-ny-signed.ts --signed YYYY-MM-DD --chapter \"Chapter N of the Laws of 2026\".",
+  "code": "NY",
+  "effective_rule": {
+    "days_after_becoming_law": 90,
+    "basis": "Section 5: \"This act shall take effect on the ninetieth day after it shall have become a law.\""
+  },
+  "rules": {
+    "max_watts_ac": {
+      "value": 1200,
+      "detail": "A device supplies a maximum aggregate continuous AC inverter nameplate output of not more than 1,200 watts to the utility grid (Pub. Serv. Law 66-j(1)(j)(ii)).",
+      "rule_sources": [
+        {
+          "title": "A9111-C (passed both houses May 28, 2026), bill text on the New York State Assembly site",
+          "url": "https://nyassembly.gov/leg/?default_fld=&leg_video=&bn=A09111&term=2025&Summary=Y&Actions=Y&Text=Y",
+          "accessed": "2026-11-12",
+          "type": "legislature_bill_page",
+          "note": "Text as passed; replace with the chapter law once signed and posted."
+        }
+      ]
+    },
+    "max_watts_dc": {
+      "value": "not_specified",
+      "detail": "The law caps AC inverter output only.",
+      "rule_sources": [
+        {
+          "title": "A9111-C (passed both houses May 28, 2026), bill text on the New York State Assembly site",
+          "url": "https://nyassembly.gov/leg/?default_fld=&leg_video=&bn=A09111&term=2025&Summary=Y&Actions=Y&Text=Y",
+          "accessed": "2026-11-12",
+          "type": "legislature_bill_page",
+          "note": "Text as passed; replace with the chapter law once signed and posted."
+        }
+      ]
+    },
+    "battery_allowed": {
+      "value": "not_addressed",
+      "detail": "The law does not mention batteries.",
+      "rule_sources": [
+        {
+          "title": "A9111-C (passed both houses May 28, 2026), bill text on the New York State Assembly site",
+          "url": "https://nyassembly.gov/leg/?default_fld=&leg_video=&bn=A09111&term=2025&Summary=Y&Actions=Y&Text=Y",
+          "accessed": "2026-11-12",
+          "type": "legislature_bill_page",
+          "note": "Text as passed; replace with the chapter law once signed and posted."
+        }
+      ]
+    },
+    "utility_notification_required": {
+      "value": "yes_after_install",
+      "detail": "Within 30 days of installing, the owner must notify the utility using a simple form (name and contact details, service address and account number, device make, model and rated size). Utilities must post the form within 30 days of the law taking effect (66-j(7)(d)).",
+      "rule_sources": [
+        {
+          "title": "A9111-C (passed both houses May 28, 2026), bill text on the New York State Assembly site",
+          "url": "https://nyassembly.gov/leg/?default_fld=&leg_video=&bn=A09111&term=2025&Summary=Y&Actions=Y&Text=Y",
+          "accessed": "2026-11-12",
+          "type": "legislature_bill_page",
+          "note": "Text as passed; replace with the chapter law once signed and posted."
+        }
+      ]
+    },
+    "utility_approval_required": {
+      "value": "no",
+      "detail": "Utilities may not require approval, fees (including for feeding energy to the grid) or extra controls or equipment (66-j(7)(b)).",
+      "rule_sources": [
+        {
+          "title": "A9111-C (passed both houses May 28, 2026), bill text on the New York State Assembly site",
+          "url": "https://nyassembly.gov/leg/?default_fld=&leg_video=&bn=A09111&term=2025&Summary=Y&Actions=Y&Text=Y",
+          "accessed": "2026-11-12",
+          "type": "legislature_bill_page",
+          "note": "Text as passed; replace with the chapter law once signed and posted."
+        }
+      ]
+    },
+    "landlord_provisions": {
+      "value": "not_addressed",
+      "detail": "The law does not mention landlords or tenants.",
+      "rule_sources": [
+        {
+          "title": "A9111-C (passed both houses May 28, 2026), bill text on the New York State Assembly site",
+          "url": "https://nyassembly.gov/leg/?default_fld=&leg_video=&bn=A09111&term=2025&Summary=Y&Actions=Y&Text=Y",
+          "accessed": "2026-11-12",
+          "type": "legislature_bill_page",
+          "note": "Text as passed; replace with the chapter law once signed and posted."
+        }
+      ]
+    },
+    "hoa_provisions": {
+      "value": "not_addressed",
+      "detail": "The law does not mention HOAs or condominium boards.",
+      "rule_sources": [
+        {
+          "title": "A9111-C (passed both houses May 28, 2026), bill text on the New York State Assembly site",
+          "url": "https://nyassembly.gov/leg/?default_fld=&leg_video=&bn=A09111&term=2025&Summary=Y&Actions=Y&Text=Y",
+          "accessed": "2026-11-12",
+          "type": "legislature_bill_page",
+          "note": "Text as passed; replace with the chapter law once signed and posted."
+        }
+      ]
+    },
+    "certification_required": {
+      "value": "plug_in_system_certification",
+      "detail": "Listed or certified by an accredited nationally recognized testing laboratory as a complete plug-in photovoltaic system to a standard, installed per the state fire prevention and building code and the maker's instructions, with a feature that prevents energizing the building wiring or grid during an outage (66-j(1)(j)(iii)-(v)).",
+      "rule_sources": [
+        {
+          "title": "A9111-C (passed both houses May 28, 2026), bill text on the New York State Assembly site",
+          "url": "https://nyassembly.gov/leg/?default_fld=&leg_video=&bn=A09111&term=2025&Summary=Y&Actions=Y&Text=Y",
+          "accessed": "2026-11-12",
+          "type": "legislature_bill_page",
+          "note": "Text as passed; replace with the chapter law once signed and posted."
+        }
+      ]
+    },
+    "net_metering_excluded": {
+      "value": "yes",
+      "detail": "Devices are not subject to interconnection or net metering requirements; energy exported to the grid is uncompensated unless the owner voluntarily signs a net metering or other compensation agreement (66-j(7)(a)).",
+      "rule_sources": [
+        {
+          "title": "A9111-C (passed both houses May 28, 2026), bill text on the New York State Assembly site",
+          "url": "https://nyassembly.gov/leg/?default_fld=&leg_video=&bn=A09111&term=2025&Summary=Y&Actions=Y&Text=Y",
+          "accessed": "2026-11-12",
+          "type": "legislature_bill_page",
+          "note": "Text as passed; replace with the chapter law once signed and posted."
+        }
+      ]
+    }
+  },
+  "summary_plain_template": "New York's \"Solar Up Now NY Act\" (A9111-C / S8512-C, {chapter}) was signed on {signed}. From {effective}, plug-in devices up to 1,200 watts that are certified as complete plug-in systems are exempt from interconnection and net metering rules. You must tell your utility within 30 days of installing, and power sent to the grid earns nothing.",
+  "watch_notes_template": "The law takes effect {effective}, the ninetieth day after it became law. Utilities must post a simple notification form within 30 days of that date."
+}

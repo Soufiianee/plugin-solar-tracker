@@ -7,8 +7,9 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import type { ZodTypeAny } from 'zod';
 import {
-  statesFile, kitsFile, pricesFile, yieldFile, updatesFile, affiliatesFile, siteFile, assumptionsFile,
+  statesFile, kitsFile, pricesFile, yieldFile, updatesFile, affiliatesFile, siteFile, assumptionsFile, rules as rulesSchema,
 } from '../src/lib/schema.ts';
+import { applyNySigned } from '../src/lib/ny-draft.ts';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const load = (p: string) => JSON.parse(readFileSync(join(root, p), 'utf8'));
@@ -37,6 +38,20 @@ if (states) {
   for (const c of codes) {
     if (prices && !(c in prices.states)) errors.push(`electricity_prices: missing ${c}`);
     if (yields && !(c in yields.states)) errors.push(`solar_yield: missing ${c}`);
+  }
+}
+// New York signing draft: its rules must be valid, and a dry run of the switch must produce a valid file
+{
+  const draft = load('data/drafts/new-york-signed.json');
+  const rr = rulesSchema.safeParse(draft.rules);
+  if (!rr.success) for (const i of rr.error.issues) errors.push(`drafts/new-york-signed.json rules.${i.path.join('.')}: ${i.message}`);
+  if (states && rr.success) {
+    const ny = states.find((s: { code: string }) => s.code === 'NY');
+    if (ny && ny.status === 'bill_active') {
+      const trial = states.map((s: { code: string }) => (s.code === 'NY' ? applyNySigned(ny, draft, '2026-12-01', 'Chapter 0 of the Laws of 2026', '2026-12-01') : s));
+      const tr = statesFile.safeParse(trial);
+      if (!tr.success) for (const i of tr.error.issues) errors.push(`NY signing dry run ${i.path.join('.')}: ${i.message}`);
+    }
   }
 }
 if (kits && affiliates) {

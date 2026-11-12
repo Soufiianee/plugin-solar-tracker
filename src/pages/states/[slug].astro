@@ -9,7 +9,8 @@ import Disclaimer from '../../components/Disclaimer.astro';
 import AlertSignup from '../../components/AlertSignup.astro';
 import LetterOffer from '../../components/LetterOffer.astro';
 import RooftopBox from '../../components/RooftopBox.astro';
-import { states, byCode, isEnacted, statusLabel, effectiveDate, fmtDate, kits, kitVerdict, prices, priceFor } from '../../lib/data';
+import { states, byCode, isEnacted, statusLabel, effectiveDate, effectiveText, fmtDate, kits, kitVerdict, prices, priceFor } from '../../lib/data';
+import { STATE_GUIDES } from '../../lib/guides';
 import { neighbours } from '../../lib/geo';
 import { STAGE, ruleValue } from '../../lib/labels';
 import type { State } from '../../lib/schema';
@@ -22,6 +23,7 @@ const s = state;
 const enacted = isEnacted(s);
 const eff = effectiveDate(s);
 const r = s.rules;
+const guide = STATE_GUIDES[s.code];
 const nb = neighbours(s.code).map((c) => byCode[c]);
 const anyCompatible = kits.some((k) => kitVerdict(s, k) === 'compatible');
 const price = priceFor(s.code);
@@ -56,8 +58,9 @@ const VER: Record<string, string> = {
     {VER[s.verification] && <div class="note"><strong>{s.verification === 'secondary_only' ? 'Being verified.' : 'Note.'}</strong> {VER[s.verification]}</div>}
     <p class="prose" style="font-size:1.1rem">{s.summary_plain}</p>
     {s.page_note && <div class="note info"><strong>Note.</strong> {s.page_note}</div>}
+    {guide && <p class="note info"><strong>Guide:</strong> <a href={guide.href}>{guide.title()}</a></p>}
     {eff && (
-      <p><strong>Effective date:</strong> {fmtDate(eff)}
+      <p><strong>{effectiveText(s)}</strong>
         {s.bills.find((b) => b.effective_date_basis === 'derived') && <span class="small muted"> (derived from the law's effective-date clause)</span>}</p>
     )}
 
@@ -81,6 +84,7 @@ const VER: Record<string, string> = {
         </table></div>
         {s.bills.map((b) => b.effective_date_note && <p class="small muted">{b.effective_date_note}</p>)}
         {s.bills.map((b) => b.session_end && <p class="small muted">{b.session_end.detail}</p>)}
+        {s.bills.map((b) => b.sunset && <p class="small muted">{b.sunset.detail}</p>)}
       </section>
     )}
 

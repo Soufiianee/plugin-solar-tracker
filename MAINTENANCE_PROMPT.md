@@ -32,18 +32,24 @@ You maintain a US plug-in (balcony) solar tracker. The data lives in `data/*.jso
       - **New Mexico**: find the 2026 session-end record on nmlegis.gov.
       - **No-bill states** (AL, AR, KS, KY, LA, MS, MT, NE, NV, ND, SD, TN, TX, WI): run each legislature's own bill search for "plug-in solar", "portable solar", "balcony solar" and "portable solar generation device". Record the search URL and date in the source. Then set `verification` to `primary`.
    c. All other records older than 7 days.
-2. **Active bills**: NY A9111-C (delivery to the governor and her action), MA H.5175 (conference report), PA HB 1971 (session ends Nov 30, 2026), MI HB 5764 (session ends Dec 31, 2026), NC H1129 and S957. When a bill is signed:
+2. **New York, every week**: A9111-C / S8512-C passed both houses on May 28, 2026 and is waiting to be delivered to Governor Hochul. Check the status tracker on https://www.nysenate.gov/legislation/bills/2025/S8512 and the actions on nyassembly.gov (A09111). "Delivered to Governor" and "Signed By Governor" must be marked there; news reports alone are not enough.
+   - **Delivered, not yet acted on**: update `last_action` and `last_action_date` in the NY record and add a `bill_progress` update.
+   - **Signed**: re-read the text if a chapter version is posted and compare it with `data/drafts/new-york-signed.json` (fix the draft if anything changed). Then run `npm run ny:signed -- --signed YYYY-MM-DD --chapter "Chapter N of the Laws of 2026"`. It fills the nine rules, sets the effective date (the 90th day after signing), writes the summary and adds the `law_signed` update. Then validate, test, build, check /states/new-york/ and push.
+   - **Vetoed**: set `stage` to the veto, `status` to `bill_failed_or_dead`, remove `status_label`, and add a `bill_died` update.
+3. **Effective dates: rebuild on the day.** The site decides "Starts …" versus "In effect since …" when it is built (using the date in Hawaii, so it is never early anywhere in the US). Trigger a rebuild on each effective date: **January 1, 2027** (California SB 868, Virginia, Colorado's renter and HOA protections), **March 1, 2027** (New Jersey), and New York's date once it is signed. In Cloudflare Pages, use "Retry deployment" on the latest production deployment, or push the week's data update. On the same day, change that state's `status` in the data to `enacted_in_effect`, and add a `law_effective` update.
+   - **California, December 31**: run `npm run email:ca`, review `research/emails/2027-01-01-california.md`, and give it to the owner. Never send it yourself.
+4. **Other active bills**: MA H.5175 (conference report), PA HB 1971 (session ends Nov 30, 2026), MI HB 5764 (session ends Dec 31, 2026), NC H1129 and S957. When a bill is signed:
    - set `status` and `stage`;
    - fill all nine rules from the enacted text, with section pinpoints and `rule_sources`;
    - write `summary_plain` (2–3 sentences, specific numbers) and `watch_notes`;
    - add a `law_signed` update.
-3. **New sessions** (January): look for new or refiled bills in every state, starting with OR, WA, OK, MN, GA, IL, HI, MD (amendments) and the states above.
-4. **Certification watch**: for every kit in `data/kits.json`, check UL Product iQ (productiq.ulprospector.com), the CSA directory (directories.csagroup.org), Intertek's directory, and the maker's certificate downloads (for example, APsystems' certificate folder). Add new US plug-in kits from major brands. Re-check prices and set `price_checked_on`. If a **complete system** gets UL 3700, add a `kit_update` entry: it changes compatibility in VT, ME, NJ and CA.
-5. **Electricity prices**: download `https://www.eia.gov/electricity/data/eia861m/xls/sales_revenue.xlsx`. Recompute the 12-month residential average (total revenue / total sales) for the newest 12 months, and update `data/electricity_prices.json` (period, period_start, period_end, states, last_checked).
-6. **Solar yield**: if any value is `"unknown"`, run `NREL_API_KEY=… npm run yield`. The key may instead be injected by the network proxy as an `X-Api-Key` header; then set `NREL_API_KEY=proxy-injected` and `NODE_USE_ENV_PROXY=1`.
-7. Run `npm run validate`, `npm test`, `npm run build` and `npm run linkcheck -- --external`. Fix every validation error. Report dead source links in `research/LINKCHECK.md`; don't delete data silently.
-8. Commit with a message that lists every state and kit changed, then push.
-9. Print a short summary: what changed, what is still unknown and why, and the dates to watch next week.
+5. **New sessions** (January): look for new or refiled bills in every state, starting with OR, WA, OK, MN, GA, IL, HI, MD (amendments) and the states above.
+6. **Certification watch**: for every kit in `data/kits.json`, check UL Product iQ (productiq.ulprospector.com), the CSA directory (directories.csagroup.org), Intertek's directory, and the maker's certificate downloads (for example, APsystems' certificate folder). Add new US plug-in kits from major brands. Re-check prices and set `price_checked_on`. If a **complete system** gets UL 3700, add a `kit_update` entry: it changes compatibility in VT, ME, NJ and CA.
+7. **Electricity prices**: download `https://www.eia.gov/electricity/data/eia861m/xls/sales_revenue.xlsx`. Recompute the 12-month residential average (total revenue / total sales) for the newest 12 months, and update `data/electricity_prices.json` (period, period_start, period_end, states, last_checked).
+8. **Solar yield**: if any value is `"unknown"`, run `NREL_API_KEY=… npm run yield`. The key may instead be injected by the network proxy as an `X-Api-Key` header; then set `NREL_API_KEY=proxy-injected` and `NODE_USE_ENV_PROXY=1`.
+9. Run `npm run validate`, `npm test`, `npm run build` and `npm run linkcheck -- --external`. Fix every validation error. Report dead source links in `research/LINKCHECK.md`; don't delete data silently.
+10. Commit with a message that lists every state and kit changed, then push.
+11. Print a short summary: what changed, what is still unknown and why, and the dates to watch next week.
 
 ## Fetching notes from the first research run
 

@@ -118,3 +118,16 @@ Checked: **10 November 2026**. Everything below describes what was checked that 
 - **District of Columbia:** B26-0602. New entry: taken up at the November 10, 2026 Council legislative meeting, where an amendment (White) was voted on; LIMS status "Under Council Review". Not law: it still needs two Council votes, the Mayor and congressional review.
 
 **Other discrepancy noted:** Bright Saver lists Maine's effective date as 15 July 2026. The Maine Legislature's own homepage and Legislative Digest give **July 29, 2026** as the general effective date for non-emergency laws of the Second Regular Session, and LD 1730 (PL 2025, c. 644) has no emergency clause. We keep July 29.
+
+## 8. California and New York re-check (12 November 2026)
+
+**California SB 868: no change.** leginfo.legislature.ca.gov is not reachable from this research environment, so, as before, we read the Legislature's own bulk data (`downloads.leginfo.legislature.ca.gov/pubinfo_2025.zip`, last modified 9 November 2026) with HTTP range requests:
+
+- BILL_TBL: `202520260SB868`, status Chaptered, Chapter 985, Statutes of 2026.
+- BILL_HISTORY_TBL: enrolled and presented to the Governor August 31, 2026; "Approved by the Governor" and "Chaptered by Secretary of State. Chapter 985, Statutes of 2026" on September 30, 2026.
+- Chaptered text (version 20250SB86891CHP, majority vote, urgency: no): Pub. Util. Code 8530 to 8532. 8530(c)(1): up to 1,200 W aggregated AC per dwelling. 8530(c)(5)-(6): certified as a plug-in photovoltaic system by UL or an equivalent NRTL, plus a certified isolation feature. 8531(a)-(c): exempt from all interconnection requirements; no utility approval, fees or extra equipment; utilities may require a simple online registration (address, make, model, size). 8531(d): devices that miss any condition don't qualify. 8531(e): section 8531 is repealed January 1, 2030. 8532: from January 1, 2030, non-compliant plug-in devices may not be sold. Nothing on landlords, tenants, HOAs, batteries, net metering or building permits.
+- Effective January 1, 2027 (no urgency clause; Cal. Const. art. IV, sec. 8(c)); still marked "derived".
+
+Every value in our CA record matched. We added the 2030 sunset as a structured `sunset` field on the bill and updated the accessed dates.
+
+**New York A9111-C / S8512-C: unchanged, not delivered.** The Assembly page (A09111) lists "SAME AS S08512-C", with its last actions on May 28, 2026: passed Assembly, substituted for S8512C, passed Senate, returned to Assembly. The Senate's status tracker for S8512C marks "Passed Senate" and "Passed Assembly", but not "Delivered to Governor" or "Signed By Governor". The Senate bill is S8512-**C**. A request to us cited "S 8512A"; that is an earlier version. We read the passed text and prepared `data/drafts/new-york-signed.json`: 1,200 W AC nameplate to the grid; complete-system NRTL listing; owner notifies the utility within 30 days **after** installing (new rule value `yes_after_install`, because our "yes" label means before installing); no approval, fees or extra equipment; not subject to net metering, exports uncompensated; takes effect the 90th day after it becomes law.

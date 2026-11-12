@@ -14,8 +14,23 @@ import { statesFile, kitsFile, pricesFile, yieldFile, updatesFile, affiliatesFil
 import { assess, type CompatState, type Verdict, type Assessment } from './compat';
 import { scenario } from './calc';
 import { showRooftopBox } from './offers';
+import { todayIso, displayStatus, effectivePhrase } from './effective';
 
-export const states = statesFile.parse(statesRaw);
+/** Build date ("today" in Hawaii, the last US state to reach a date; see effective.ts). */
+export const BUILD_DATE = (() => {
+  // SITE_TODAY=YYYY-MM-DD simulates a build date (testing the effective-date switch); never set it in production
+  const o = process.env.SITE_TODAY;
+  if (o && !/^\d{4}-\d{2}-\d{2}$/.test(o)) throw new Error('SITE_TODAY must be YYYY-MM-DD');
+  return o || todayIso();
+})();
+/**
+ * States as shown on the site. A law stored as "passed, not yet in effect" is shown as "in effect" once its
+ * effective date has arrived at build time, so a rebuild on the effective date flips every page at once.
+ */
+export const states = statesFile.parse(statesRaw).map((s) => {
+  const eff = s.bills.find((b) => b.stage === 'signed_into_law')?.effective_date ?? null;
+  return { ...s, status: displayStatus(s.status, eff, BUILD_DATE) };
+});
 export const kits = kitsFile.parse(kitsRaw);
 export const prices = pricesFile.parse(pricesRaw);
 export const yields = yieldFile.parse(yieldRaw);
@@ -98,8 +113,11 @@ export function fmtDate(iso: string): string {
 }
 export const lastCheckedAll = () => states.map((s) => s.last_checked).sort()[0];
 
-/** Build date of the site, fixed per build (used for "days until" text rendered on the server). */
-export const BUILD_DATE = new Date().toISOString().slice(0, 10);
+/** "Starts January 1, 2027" / "In effect since January 1, 2027" for a state's law (null without a known date). */
+export function effectiveText(s: State): string | null {
+  const e = effectiveDate(s);
+  return e ? effectivePhrase(e, BUILD_DATE, fmtDate) : null;
+}
 export function daysBetween(fromIso: string, toIso: string) {
   return Math.round((Date.parse(toIso + 'T00:00:00Z') - Date.parse(fromIso + 'T00:00:00Z')) / 86400000);
 }
