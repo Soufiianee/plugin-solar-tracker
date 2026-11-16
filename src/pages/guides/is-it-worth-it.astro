@@ -2,6 +2,9 @@
 import Base from '../../layouts/Base.astro';
 import Disclaimer from '../../components/Disclaimer.astro';
 import AlertSignup from '../../components/AlertSignup.astro';
+import Byline from '../../components/Byline.astro';
+import { articleLd as article } from '../../lib/ld';
+import { paybackFindings, railingFindings } from '../../lib/findings';
 import { states, kits, isEnacted, priceFor, yieldFor, prices, yields, effectiveDate, fmtDate, BUILD_DATE, assumptions } from '../../lib/data';
 import { scenario, fmtUsd, fmtYears } from '../../lib/calc';
 
@@ -19,34 +22,34 @@ const rows = states.filter(isEnacted).sort((a, b) => a.name.localeCompare(b.name
   const run = (yy: number | 'unknown'): Case => (typeof yy === 'number' && typeof price === 'number' ? { typ: scenario(W, yy, price, TYP, COST), best: scenario(W, yy, price, 100, COST) } : null);
   return { s, price, ideal: run(y.ideal), vertical: run(y.vertical) };
 });
-const ideals = rows.filter((r) => r.ideal);
-const fastest = [...ideals].sort((a, b) => a.ideal!.typ.paybackYears! - b.ideal!.typ.paybackYears!)[0];
-const slowest = [...ideals].sort((a, b) => b.ideal!.typ.paybackYears! - a.ideal!.typ.paybackYears!)[0];
+// Short-answer extremes come from src/lib/findings.ts, the same figures as /data/ and /press/.
+const PF = paybackFindings();
+const rowFor = (code?: string) => rows.find((r) => r.s.code === code);
+const fastest = rowFor(PF.tilted?.best.state.code);
+const slowest = rowFor(PF.tilted?.worst.state.code);
 // vertical columns appear only when every state in the table has the figure (no "pending" cells)
 const showVertical = rows.length > 0 && rows.every((r) => r.vertical);
 // Railing (vertical) figures for the short answer, all computed from the data.
-const ratioPct = (code: string) => {
-  const y = yieldFor(code);
-  return typeof y.ideal === 'number' && typeof y.vertical === 'number' ? Math.round((y.vertical / y.ideal) * 100) : null;
-};
-const ratios = rows.map((r) => ratioPct(r.s.code)).filter((x): x is number => x !== null);
-const verts = rows.filter((r) => r.vertical);
-const vFast = [...verts].sort((a, b) => a.vertical!.typ.paybackYears! - b.vertical!.typ.paybackYears!)[0];
-const vSlow = [...verts].sort((a, b) => b.vertical!.typ.paybackYears! - a.vertical!.typ.paybackYears!)[0];
+const RF = railingFindings().lawStates;
+const vFast = rowFor(PF.railing?.best.state.code);
+const vSlow = rowFor(PF.railing?.worst.state.code);
 const cell = (c: NonNullable<Case>['typ']) => `${fmtUsd(c.dollars)} a year · ${fmtYears(c.paybackYears!)}`;
-const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headline: 'Is plug-in solar worth it? Real numbers by state', dateModified: prices.last_checked };
+// "Updated" = newest check date among the inputs of this page
+const updated = [prices.last_checked, yields.last_checked, assumptions.last_checked, ex.price_checked_on ?? ''].sort().reverse()[0];
+const articleLd = article({ headline: 'Is plug-in solar worth it? Real numbers by state', path: '/guides/is-it-worth-it/', dateModified: updated });
 ---
 <Base title="Is plug-in solar worth it? Real numbers by state" description={`What a ${W} W plug-in solar kit could save in each state with a plug-in law, using EIA electricity prices and NREL solar data, and how long it takes to pay back.`} crumbs={[{ name: 'Guides', href: '/guides/' }, { name: 'Is it worth it?', href: '/guides/is-it-worth-it/' }]} jsonLd={[articleLd]}>
   <article class="prose">
     <h1>Is plug-in solar worth it?</h1>
+    <Byline updated={updated} />
     <p style="font-size:1.1rem">It depends on three numbers: what you pay for electricity, how much sun your panels get, and what the kit costs. Here they are for each state with a plug-in law.</p>
 
     <h2>The short answer</h2>
     {fastest && slowest ? (
       <p>For an {W} W kit costing {fmtUsd(COST)}, with panels tilted toward the sun and a typical share of the power used at home ({TYP}%), payback ranges from about <strong>{(fastest.ideal!.typ.paybackYears!).toFixed(1)} years in {fastest.s.name}</strong> to about <strong>{(slowest.ideal!.typ.paybackYears!).toFixed(1)} years in {slowest.s.name}</strong>. If you used every kilowatt-hour yourself (the best case), it would be {fastest.ideal!.best.paybackYears!.toFixed(1)} and {slowest.ideal!.best.paybackYears!.toFixed(1)} years. The gap between states is mostly the price of electricity: {fastest.s.name} averages {fastest.price}¢ per kWh, {slowest.s.name} {slowest.price}¢.</p>
     ) : <p>We are still adding solar data for these states.</p>}
-    {showVertical && vFast && vSlow && ratios.length > 0 && (
-      <p>Panels hung flat on a balcony railing produce about {Math.min(...ratios)}–{Math.max(...ratios)}% of what tilted panels make in these states, so at the typical share payback stretches to about <strong>{vFast.vertical!.typ.paybackYears!.toFixed(1)} years in {vFast.s.name}</strong> and <strong>{vSlow.vertical!.typ.paybackYears!.toFixed(1)} years in {vSlow.s.name}</strong>. <a href="/guides/railing-vs-tilted/">Railing vs tilted panels, state by state</a>.</p>
+    {showVertical && vFast && vSlow && RF && (
+      <p>Panels hung flat on a balcony railing produce about {RF.min}–{RF.max}% of what tilted panels make in these states, so at the typical share payback stretches to about <strong>{vFast.vertical!.typ.paybackYears!.toFixed(1)} years in {vFast.s.name}</strong> and <strong>{vSlow.vertical!.typ.paybackYears!.toFixed(1)} years in {vSlow.s.name}</strong>. <a href="/guides/railing-vs-tilted/">Railing vs tilted panels, state by state</a>.</p>
     )}
 
     <h2>Our example</h2>
@@ -93,7 +96,7 @@ const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headli
     <h2>Is it legal where you live?</h2>
     <p>Savings mean little if the system isn't allowed. {rows.filter((r) => effectiveDate(r.s) && effectiveDate(r.s)! > BUILD_DATE).map((r) => `${r.s.name} (from ${fmtDate(effectiveDate(r.s)!)})`).join(', ')} have laws that are not in effect yet{rows.some((r) => r.s.verification === 'secondary_only') ? `, and ${rows.filter((r) => r.s.verification === 'secondary_only').map((r) => r.s.name).join(', ')} reportedly signed one that we are still verifying` : ''}. Several states require a specific safety certification, and no complete kit has shown us that certificate yet. <a href="/certification-watch/">See Certification watch</a>.</p>
 
-    <h2>How we worked it out</h2>
+    <h2 id="method">How we worked it out</h2>
     <p>Yearly savings = panel watts ÷ 1,000 × yearly output per kW × price. Payback = kit cost ÷ yearly savings.</p>
     <ul class="small">
       <li>Prices: {prices.source.title}, residential average for {prices.period}.</li>

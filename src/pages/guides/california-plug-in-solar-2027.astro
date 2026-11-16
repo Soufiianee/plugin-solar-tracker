@@ -10,13 +10,16 @@ import AlertSignup from '../../components/AlertSignup.astro';
 import KitTable from '../../components/KitTable.astro';
 import LetterOffer from '../../components/LetterOffer.astro';
 import {
-  states, byCode, kits, kitAssess, mainBill, effectiveDate, effectiveText, fmtDate, priceFor, yieldFor, prices, yields, refKit, assumptions, BUILD_DATE, absUrl, siteName,
+  states, byCode, kits, kitAssess, mainBill, effectiveDate, effectiveText, fmtDate, priceFor, yieldFor, prices, yields, refKit, assumptions, BUILD_DATE,
 } from '../../lib/data';
 import { verdictLabel } from '../../lib/compat';
 import { ruleValue } from '../../lib/labels';
 import { letterKinds } from '../../lib/offers';
 import { scenario, fmtUsd, fmtKwh } from '../../lib/calc';
 import { caGuideTitle, CA_GUIDE } from '../../lib/guides';
+import Byline from '../../components/Byline.astro';
+import { articleLd as article } from '../../lib/ld';
+import { priceRank, ordinal } from '../../lib/findings';
 
 const s = byCode.CA;
 const r = s.rules;
@@ -49,10 +52,10 @@ const cases = [
   { label: yields.scenario_definitions.vertical.label, yy: y.vertical },
 ].filter((c): c is { label: string; yy: number } => typeof c.yy === 'number')
   .map((c) => ({ label: c.label, typ: scenario(W, c.yy, price, TYP, COST), best: scenario(W, c.yy, price, 100, COST) }));
-// price rank among the 51 jurisdictions with a known price (1 = most expensive)
-const known = Object.entries(prices.states).filter((e): e is [string, number] => typeof e[1] === 'number').sort((a, b) => b[1] - a[1]);
-const rank = known.findIndex(([c]) => c === 'CA') + 1;
-const ord = (n: number) => `${n}${n % 100 >= 11 && n % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][n % 10] ?? 'th'}`;
+// price rank among the jurisdictions with a known price (1 = most expensive), shared with /data/
+const { rank: rank0, of: priceCount } = priceRank('CA');
+const rank = rank0 ?? 0;
+const ord = ordinal;
 // states whose law does protect renters or HOA members (for contrast)
 const protecting = states.filter((x) => x.rules.landlord_provisions.value === 'protects_tenants' || x.rules.hoa_provisions.value === 'protects_owners').map((x) => x.name).sort();
 const list = (a: string[]) => a.join(', ').replace(/, ([^,]*)$/, ' and $1');
@@ -96,17 +99,16 @@ const faq: { q: string; a: string }[] = [
   },
 ];
 
-const articleLd = {
-  '@context': 'https://schema.org', '@type': 'Article', headline: title, inLanguage: 'en-US',
-  datePublished: '2026-11-12', dateModified: s.last_checked, mainEntityOfPage: absUrl(CA_GUIDE),
-  about: { '@type': 'Legislation', name: `California ${bill.id}, ${bill.title}`, legislationIdentifier: bill.chapter, legislationDate: bill.signed_date, url: bill.url },
-  author: { '@type': 'Organization', name: siteName, url: absUrl('/') }, publisher: { '@id': `${absUrl('/')}#organization` },
-};
+const articleLd = article({
+  headline: title, path: CA_GUIDE, datePublished: '2026-11-12', dateModified: s.last_checked,
+  extra: { about: { '@type': 'Legislation', name: `California ${bill.id}, ${bill.title}`, legislationIdentifier: bill.chapter, legislationDate: bill.signed_date, url: bill.url } },
+});
 const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
 <Base title={title} description={`${effTxt}: what California's plug-in solar law (${bill.id}) allows, the ${capTxt} limit, utility registration, renters and HOAs, which kits qualify, and what it could save.`} crumbs={[{ name: 'Guides', href: '/guides/' }, { name: 'California 2027', href: CA_GUIDE }]} jsonLd={[articleLd, faqLd]}>
   <article class="prose">
     <h1>{title}</h1>
+    <Byline updated={s.last_checked} />
     <p class="lede"><span class="tag">{effTxt}</span> <span class="small muted">Checked {fmtDate(s.last_checked)} against the Legislature's official record.</span></p>
     <p style="font-size:1.1rem">{s.summary_plain}</p>
     <p class="small">The law: <a href={bill.url} rel="noopener">{bill.id}</a>, {bill.chapter}, signed {fmtDate(bill.signed_date)}. {effBasisNote}</p>
@@ -153,7 +155,7 @@ const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity
 
   <article class="prose">
     <h2 id="savings">What it could save in California</h2>
-    <p>California's average residential price is <strong>{price}¢/kWh</strong> (EIA, {prices.period}), the {ord(rank)} highest of the {known.length} states and DC in our data. The higher the price, the more each kilowatt-hour you make yourself is worth. For our reference kit, the {refKit.short_name} at ${COST.toLocaleString('en-US')} ({W} W of panels), using solar data for {yields.states.CA.location}:</p>
+    <p>California's average residential price is <strong>{price}¢/kWh</strong> (EIA, {prices.period}), the {ord(rank)} highest of the {priceCount === 51 ? '50 states and DC' : `${priceCount} states with data`}. The higher the price, the more each kilowatt-hour you make yourself is worth. For our reference kit, the {refKit.short_name} at ${COST.toLocaleString('en-US')} ({W} W of panels), using solar data for {yields.states.CA.location}:</p>
   </article>
   <div class="table-wrap">
     <table class="stack">

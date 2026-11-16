@@ -1,18 +1,47 @@
 ---
 import Base from '../layouts/Base.astro';
-import { states, isEnacted, siteName, site } from '../lib/data';
+import { states, kits, isEnacted, siteName, site, absUrl, prices, yields, fmtDate, lastCheckedAll } from '../lib/data';
+import { organizationNode, editorNode, editorName, ORG_ID } from '../lib/ld';
 const name = siteName;
+const lawCount = states.filter(isEnacted).length;
+const aboutLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'AboutPage', '@id': `${absUrl('/about/')}#page`, url: absUrl('/about/'), name: `About ${name}`, mainEntity: { '@id': ORG_ID }, inLanguage: 'en-US' },
+    organizationNode(),
+    editorNode(),
+  ],
+};
 ---
-<Base title="About" description={`${name} tracks US plug-in (balcony) solar laws and kit certification, checked against official sources.`} crumbs={[{ name: 'About', href: '/about/' }]}>
+<Base title="About" description={`${name} is an independent site run by ${editorName}, an independent researcher. It tracks US plug-in (balcony) solar laws and kit certification, checked against official sources.`} crumbs={[{ name: 'About', href: '/about/' }]} jsonLd={[aboutLd]}>
   <article class="prose">
     <h1>About {name}</h1>
-    <p>Plug-in solar, also called balcony solar, means a small solar panel that plugs into an ordinary outlet. {states.filter(isEnacted).length} states have now passed laws that say when you can use one without a utility interconnection agreement. Each law is different: size limits, notices to utilities and landlords, and the safety certification a kit needs.</p>
-    <p>This site answers one question: is plug-in solar legal where you live, what are the rules, and which kits qualify? We keep a state-by-state record of the laws and a record of which kits have the certificates those laws require. Every fact links to its official source.</p>
+    <p style="font-size:1.1rem"><strong>{name}</strong> is an independent site run by <strong>{editorName}</strong>, an independent researcher.</p>
+
+    <h2>What the site does</h2>
+    <p>Plug-in solar, also called balcony solar, means a small solar system that plugs into an ordinary outlet. {lawCount} states have now signed laws that say when you can use one without a utility interconnection agreement. Each law is different: size limits, notices to utilities and landlords, and the safety certification a kit needs.</p>
+    <p>The site answers three questions for all 50 states and DC: is plug-in solar legal where you live, what are the rules, and which kits qualify? It also estimates what a kit could save, state by state. We track {kits.length} kits and the certificates behind them.</p>
+
+    <h2>How every fact is checked</h2>
+    <ul>
+      <li><strong>State laws</strong> come from official legislature texts: bill pages, enrolled and chaptered laws, governors' signing records and utility commission pages. Trackers and news only give us leads.</li>
+      <li><strong>Kit certification</strong> counts only when we have seen a certifier's directory entry or a certificate document. A maker's claim is shown as a claim.</li>
+      <li><strong>Solar output</strong> comes from {yields.model}, run for each state capital.</li>
+      <li><strong>Electricity prices</strong> are U.S. EIA residential averages ({prices.period}).</li>
+      <li><strong>Check dates on every page.</strong> Each state page, kit page and guide shows the date we last checked it, and every source shows the date we accessed it. The oldest state record was checked {fmtDate(lastCheckedAll())}.</li>
+    </ul>
+    <p>When we cannot confirm a fact, we say "unknown" instead of guessing. The full method is on <a href="/how-we-verify/">how we verify</a>.</p>
+
     <h2>Independence</h2>
-    <p>We are an independent information site. We are not a government agency, a utility, or a solar company, and we are not affiliated with any of them. We may later earn commissions from some retailer links. Those links will be marked, and they will never change what we publish about a law or a kit. See our <a href="/disclosure/">disclosure</a>.</p>
+    <p>We are not a government agency, a utility or a solar company, and we are not affiliated with any of them. Some retailer links may earn us a commission. Those links are labelled "Sponsored", and affiliate links never change a rating or a verdict. Brands cannot pay for a verdict. See our <a href="/disclosure/">disclosure</a>.</p>
+
+    <h2>Corrections</h2>
+    <p>If we get something wrong, we fix it and log the fix with its date. Read the <a href="/corrections/">corrections policy</a>.</p>
+
     <h2>Contact</h2>
-    <p>Corrections, questions and press: <strong>{site.CONTACT_EMAIL}</strong>. For a correction, please include the page and a link to the official source. See the <a href="/contact/">contact page</a>.</p>
+    <p>Corrections, questions and press: <strong>{site.CONTACT_EMAIL}</strong>. Journalists: see <a href="/press/">for journalists</a> and our <a href="/data/">data downloads</a>.</p>
+
     <h2>What we are not</h2>
-    <p>We do not give legal or electrical advice. Read the <a href="/disclaimer/">disclaimer</a> and <a href="/how-we-verify/">how we verify</a>.</p>
+    <p>We do not give legal or electrical advice. Read the <a href="/disclaimer/">disclaimer</a>.</p>
   </article>
 </Base>

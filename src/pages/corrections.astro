@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import { updates, byCode, fmtDate, site } from '../lib/data';
+const days = site.CORRECTIONS_REVIEW_DAYS;
+const corrections = updates.filter((u) => u.kind === 'data_correction');
+---
+<Base title="Corrections policy" description={`How to report an error on this site, how fast we review it (within ${days} days), and how every correction is logged with its date.`} crumbs={[{ name: 'Corrections', href: '/corrections/' }]}>
+  <article class="prose">
+    <h1>Corrections policy</h1>
+    <p style="font-size:1.1rem">This site exists to be right. When we get something wrong, we fix it in the open.</p>
+
+    <h2 id="report">How to report an error</h2>
+    <p>Email <strong>{site.CONTACT_EMAIL}</strong> with:</p>
+    <ol>
+      <li>the page (its address) and the statement you think is wrong;</li>
+      <li>a link to a source that shows the correct fact. For a law, that means the legislature's bill page or the law text, a governor's record or a utility commission page. For a kit, the certifier's directory entry or a certificate.</li>
+    </ol>
+    <p>We cannot act on a correction without a source we can check. News stories and trackers help us look, but we confirm every fix on a primary source.</p>
+
+    <h2 id="review">How fast we review</h2>
+    <p>We review every correction request within <strong>{days} days</strong>, and sooner when a law is about to take effect or a bill has a vote scheduled. We reply to say whether we changed the page, and why.</p>
+
+    <h2 id="log">How corrections are logged</h2>
+    <p>Every correction is listed on the <a href="/updates/">updates page</a> (and in its <a href="/updates/rss.xml">RSS feed</a>) with the date, what changed and the source we used. The page itself shows its new check date. We do not quietly edit facts.</p>
+
+    <h2 id="logged">Corrections so far</h2>
+    {corrections.length ? (
+      <ul>
+        {corrections.map((u) => (
+          <li><time datetime={u.date}>{fmtDate(u.date)}</time>{u.state && <> · <a href={`/states/${byCode[u.state].slug}/`}>{byCode[u.state].name}</a></>}: <strong>{u.title}</strong>. {u.body} <a href={u.source.url} rel="noopener" class="small">Source</a></li>
+        ))}
+      </ul>
+    ) : <p>No corrections logged yet.</p>}
+    <p class="small muted">Method changes (a new data source or a new way of estimating) are logged on the updates page too, marked "Method change".</p>
+  </article>
+</Base>

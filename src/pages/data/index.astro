@@ -1,0 +1,81 @@
+---
+/**
+ * Data page for journalists and other sites. Every finding is computed (src/lib/findings.ts, src/lib/press.ts);
+ * the CSVs are generated at build time from the same functions (src/lib/datasets.ts).
+ */
+import Base from '../../layouts/Base.astro';
+import { BUILD_DATE, fmtDate, prices, yields, siteName, site } from '../../lib/data';
+import { verdictLabel } from '../../lib/compat';
+import { kitFindings, dataLastChecked } from '../../lib/findings';
+import { keyFindings, citation } from '../../lib/press';
+import { STATES_CSV, KITS_CSV, statesCsvRows, kitsCsvRows, statesCsv, kitsCsv, datasetLd, LICENSE, ATTRIBUTION } from '../../lib/datasets';
+
+const title = `US plug-in solar: state laws, kits and savings data (updated ${fmtDate(BUILD_DATE)})`;
+const findings = keyFindings();
+const K = kitFindings();
+const cite = citation();
+const kb = (s: string) => `${Math.max(1, Math.round(Buffer.byteLength(s, 'utf8') / 1024))} KB`;
+const downloads = [
+  { id: 'states-csv', d: STATES_CSV, rows: statesCsvRows().length, unit: 'states and DC', size: kb(statesCsv()) },
+  { id: 'kit-audit-csv', d: KITS_CSV, rows: kitsCsvRows().length, unit: 'state-by-kit checks', size: kb(kitsCsv()) },
+];
+---
+<Base title={title} description={`Key findings and CSV downloads (CC BY 4.0) on US plug-in (balcony) solar: which states have signed laws, which kits are certified, and savings and payback by state. Updated ${fmtDate(BUILD_DATE)}.`} crumbs={[{ name: 'Data', href: '/data/' }]} jsonLd={downloads.map((x) => datasetLd(x.d, x.id))}>
+  <article class="prose">
+    <h1>{title}</h1>
+    <p style="font-size:1.1rem">Free data on plug-in (balcony) solar in all 50 states and DC, built from official legislature texts, certificates we have seen, {yields.model} and EIA electricity prices. Use it, quote it and link to it, with credit.</p>
+    <p class="small muted">Page and files rebuilt {fmtDate(BUILD_DATE)}. Newest record checked {fmtDate(dataLastChecked())}. Each state row carries its own check date.</p>
+
+    <h2 id="findings">Key findings</h2>
+    <ol class="findings">
+      {findings.map((f) => (
+        <li id={f.id}><strong>{f.title}.</strong> {f.text} <a href={f.method.href} class="small">{f.method.label}</a></li>
+      ))}
+    </ol>
+
+    <h3 id="labels">Kit audit: labels by count</h3>
+    <p>Every state with a plug-in law ({K.stateCount}) checked against every kit we track ({K.kitCount}), with the same labels as the rest of the site.</p>
+  </article>
+  <div class="table-wrap" style="margin:0.5rem 0 1rem">
+    <table>
+      <caption class="visually-hidden">Number of state-by-kit checks with each label</caption>
+      <thead><tr><th scope="col">Label</th><th scope="col" class="num">Checks</th></tr></thead>
+      <tbody>
+        {K.labelCounts.map((x) => <tr><th scope="row">{verdictLabel[x.verdict]}</th><td class="num">{x.n}</td></tr>)}
+      </tbody>
+      <tfoot><tr><th scope="row">Total</th><td class="num">{K.pairs.length}</td></tr></tfoot>
+    </table>
+  </div>
+  <article class="prose">
+    <p class="small">UL 3700 status of the {K.kitCount} kits: {K.ul3700.certified} certified (certificate seen), {K.ul3700.claimed} claimed by the maker, {K.ul3700.not_certified} not certified, {K.ul3700.unknown} unknown. A certificate can cover one component or the complete system; {K.completeSystemKits.length} {K.completeSystemKits.length === 1 ? 'kit has' : 'kits have'} one for the complete system.</p>
+
+    <h2 id="downloads">Downloads</h2>
+    <p>Both files are generated from our data each time the site is built, so they always match the pages. Licensed <a href={LICENSE.url} rel="license noopener">{LICENSE.name}</a>: you may reuse them, including commercially, with the credit "<strong>{ATTRIBUTION}</strong>".</p>
+  </article>
+  {downloads.map((x) => (
+    <section class="card" id={x.id} style="margin:0.8rem 0">
+      <h3 style="margin-top:0">{x.d.name}</h3>
+      <p>{x.d.description}</p>
+      <p><a class="btn" href={x.d.path} download>Download CSV</a> <span class="small muted">{x.rows} rows ({x.unit}) · {x.d.header.length} columns · {x.size} · UTF-8</span></p>
+      <details class="small"><summary>Columns</summary><p><code>{x.d.header.join(', ')}</code></p></details>
+    </section>
+  ))}
+  <article class="prose">
+    <p class="small">Notes: values the data files hold as "unknown" or "not_applicable" stay that way in the CSV. Savings use the EIA residential price for {prices.period}, the state capital's solar output, and assume exported power earns nothing. Railing means panels hung vertically (90°) facing south.</p>
+
+    <h2 id="cite">Cite this data</h2>
+    <figure class="card cite">
+      <blockquote><p>{cite.full}</p></blockquote>
+      <figcaption class="small">Short credit: <strong>{cite.short}</strong>, with a link to <a href="/data/">this page</a>.</figcaption>
+    </figure>
+
+    <h2 id="method">Method</h2>
+    <ul>
+      <li><a href="/how-we-verify/">How we verify</a>: primary sources only, "unknown" when we cannot confirm a fact.</li>
+      <li><a href="/guides/is-it-worth-it/#method">How we estimate savings</a> and <a href="/guides/railing-vs-tilted/#method">how we model railing panels</a>.</li>
+      <li><a href="/corrections/">Corrections policy</a> and the <a href="/updates/">updates log</a>.</li>
+    </ul>
+    <p>Questions or a correction: <strong>{site.CONTACT_EMAIL}</strong>. Journalists: see <a href="/press/">for journalists</a>.</p>
+    <p class="small muted">{siteName} is information, not legal or electrical advice.</p>
+  </article>
+</Base>

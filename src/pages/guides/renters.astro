@@ -2,6 +2,8 @@
 import Base from '../../layouts/Base.astro';
 import Disclaimer from '../../components/Disclaimer.astro';
 import AlertSignup from '../../components/AlertSignup.astro';
+import Byline from '../../components/Byline.astro';
+import { articleLd as article } from '../../lib/ld';
 import { letterKinds } from '../../lib/offers';
 import { states, isEnacted, effectiveDate, fmtDate, lastCheckedAll, BUILD_DATE } from '../../lib/data';
 
@@ -11,11 +13,14 @@ const silent = enacted.filter((s) => s.rules.landlord_provisions.value === 'not_
 const withNotice = protects.filter((s) => typeof s.rules.landlord_provisions.protection?.notice_days === 'number');
 const noticeList = withNotice.map((s) => `${s.name} (${s.rules.landlord_provisions.protection!.notice_days} days)`).join(', ').replace(/, ([^,]*)$/, ' and $1');
 const unknown = enacted.filter((s) => s.rules.landlord_provisions.value === 'unknown');
-const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headline: 'Plug-in solar for renters: what your landlord can and can\'t do', dateModified: lastCheckedAll() };
+// "Updated" = newest check date among the state records on this page
+const updated = enacted.map((s) => s.last_checked).sort().reverse()[0];
+const articleLd = article({ headline: 'Plug-in solar for renters: what your landlord can and can\'t do', path: '/guides/renters/', dateModified: updated });
 ---
 <Base title="Plug-in solar for renters: what your landlord can and can't do" description={`Which state plug-in solar laws protect renters (${protects.map((s) => s.name).join(', ')}), what notice you must give, and what to do where the law is silent.`} crumbs={[{ name: 'Guides', href: '/guides/' }, { name: 'Renters', href: '/guides/renters/' }]} jsonLd={[articleLd]}>
   <article class="prose">
     <h1>Plug-in solar for renters</h1>
+    <Byline updated={updated} />
     <p style="font-size:1.1rem">Plug-in solar suits renters: it plugs into an outlet and can move with you. Whether your landlord can say no depends on your state.</p>
 
     <h2>States where the law protects renters</h2>

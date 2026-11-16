@@ -1,0 +1,8 @@
+---
+/** "By Soufiane L. · Updated <date>" on guides; the name links to /about/. */
+import { fmtDate } from '../lib/data';
+import { editorName } from '../lib/ld';
+interface Props { updated: string }
+const { updated } = Astro.props;
+---
+<p class="byline small">By <a href="/about/" rel="author">{editorName}</a> · Updated <time datetime={updated}>{fmtDate(updated)}</time></p>

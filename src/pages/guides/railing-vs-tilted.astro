@@ -2,6 +2,9 @@
 import Base from '../../layouts/Base.astro';
 import Disclaimer from '../../components/Disclaimer.astro';
 import AlertSignup from '../../components/AlertSignup.astro';
+import Byline from '../../components/Byline.astro';
+import { articleLd as article } from '../../lib/ld';
+import { railingFindings } from '../../lib/findings';
 import { states, yields, isEnacted, fmtDate } from '../../lib/data';
 
 const KIT_W = 800; // same panel size as the "Is it worth it?" guide
@@ -13,17 +16,20 @@ const rows = [...states].sort((a, b) => a.name.localeCompare(b.name)).flatMap((s
   if (typeof t !== 'number' || typeof v !== 'number') return [];
   return [{ s, loc: y.location, t, v, pct: Math.round((v / t) * 100), kitT: Math.round((KIT_W / 1000) * t), kitV: Math.round((KIT_W / 1000) * v) }];
 });
-const byPct = [...rows].sort((a, b) => a.pct - b.pct);
-const least = byPct[byPct.length - 1];
-const most = byPct[0];
+// Ranges come from src/lib/findings.ts, the same figures as /data/ and /press/.
+const RF = railingFindings();
+const least = { s: RF.all!.maxState, pct: RF.all!.max }; // smallest loss
+const most = { s: RF.all!.minState, pct: RF.all!.min }; // largest loss
 const lawRows = rows.filter((r) => isEnacted(r.s));
-const lawMin = Math.min(...lawRows.map((r) => r.pct));
-const lawMax = Math.max(...lawRows.map((r) => r.pct));
-const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headline: 'Balcony railing vs tilted panels: how much do you lose?', dateModified: yields.last_checked };
+const lawMin = RF.lawStates!.min;
+const lawMax = RF.lawStates!.max;
+const updated = yields.last_checked;
+const articleLd = article({ headline: 'Balcony railing vs tilted panels: how much do you lose?', path: '/guides/railing-vs-tilted/', dateModified: updated });
 ---
 <Base title="Balcony railing vs tilted panels: how much do you lose?" description={`Panels hung flat on a railing make ${most.pct}–${least.pct}% of what tilted panels make, depending on the state. Per-state figures from NREL PVWatts.`} crumbs={[{ name: 'Guides', href: '/guides/' }, { name: 'Railing vs tilted', href: '/guides/railing-vs-tilted/' }]} jsonLd={[articleLd]}>
   <article class="prose">
     <h1>Balcony railing vs tilted panels: how much do you lose?</h1>
+    <Byline updated={updated} />
     <p style="font-size:1.1rem">Hanging panels flat on a balcony railing is often the only option in an apartment. It works, but you get less power than from panels tilted toward the sun.</p>
 
     <h2>The short answer</h2>
@@ -68,7 +74,7 @@ const articleLd = { '@context': 'https://schema.org', '@type': 'Article', headli
     </ul>
     <p>See also: <a href="/guides/is-it-worth-it/">Is plug-in solar worth it?</a></p>
 
-    <h2>How we worked it out</h2>
+    <h2 id="method">How we worked it out</h2>
     <ul class="small">
       <li>Solar output: {yields.model}, run for each state capital with {yields.common.losses_pct}% system losses, {defs.ideal.label} and {defs.vertical.label} (<a href="https://developer.nlr.gov/docs/solar/pvwatts/v8/" rel="noopener">PVWatts documentation</a>).</li>
       <li>The {KIT_W} W kit figures are panel watts ÷ 1,000 × output per kW, before any inverter limit.</li>

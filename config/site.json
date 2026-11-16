@@ -3,6 +3,8 @@
   "SITE_ALTERNATE_NAME": "Plug-in Solar Tracker",
   "BASE_URL": "https://balconysolarrules.com",
   "CONTACT_EMAIL": "contact@balconysolarrules.com",
+  "EDITOR_NAME": "Soufiane L.",
+  "CORRECTIONS_REVIEW_DAYS": 7,
   "MAILERLITE": {
     "account": "2784312",
     "form_id": "o2Ywz2"

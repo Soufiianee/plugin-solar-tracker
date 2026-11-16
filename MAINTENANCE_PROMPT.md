@@ -12,7 +12,7 @@ You maintain a US plug-in (balcony) solar tracker. The data lives in `data/*.jso
 2. Never guess. If you can't confirm a fact, set it to `"unknown"` and explain why in `notes`. Never invent dates, wattages, certifications, prices or URLs.
 3. Kit certification: `certified` only with a certifier directory entry (UL Product iQ, CSA, Intertek, TÜV) or a certificate document. Record the `scope`: `component` or `complete_system`. Product-page claims are `pending_or_claimed`.
 4. Don't get around bot checks or login walls. If a site blocks you, record that and move on.
-5. Every change gets an entry in `data/updates.json`: date, state, kind, title, body, source. Update `last_checked` on every record you re-verify, even if nothing changed.
+5. Every change gets an entry in `data/updates.json`: date, state, kind, title, body, source. Use kind `data_correction` only when we fix something we had wrong (it is listed on /corrections/ and tagged "Correction"); use `method_change` for a new data source or method. Update `last_checked` on every record you re-verify, even if nothing changed.
 6. Mark derived dates with `effective_date_basis: "derived"` and explain them in `effective_date_note`.
 
 ## Steps

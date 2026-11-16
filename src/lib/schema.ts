@@ -278,7 +278,8 @@ export const yieldFile = z.object({
 export const update = z.object({
   date: isoDate,
   state: z.union([z.string().regex(/^[A-Z]{2}$/), z.null()]),
-  kind: z.enum(['law_signed', 'law_effective', 'bill_progress', 'bill_died', 'data_correction', 'kit_update', 'site']),
+  /** data_correction = we fixed something we had wrong (listed on /corrections/); method_change = a new method or data source */
+  kind: z.enum(['law_signed', 'law_effective', 'bill_progress', 'bill_died', 'data_correction', 'method_change', 'kit_update', 'site']),
   title: z.string().min(5),
   body: z.string().min(10),
   source: source,
@@ -309,6 +310,10 @@ export const siteFile = z.object({
   SITE_ALTERNATE_NAME: z.string(),
   /** empty = no contact page and no footer link */
   CONTACT_EMAIL: z.string(),
+  /** the editor's public name (first name and initial only), used in bylines and Person structured data */
+  EDITOR_NAME: z.string().min(2),
+  /** days within which we review a correction request (shown on /corrections/) */
+  CORRECTIONS_REVIEW_DAYS: z.number().int().positive(),
   /** MailerLite embedded form; empty account or form_id = signup hidden everywhere */
   MAILERLITE: z.object({ account: z.string().regex(/^\d*$/), form_id: z.string().regex(/^[A-Za-z0-9]*$/) }),
   /** MailerLite form for the /partners/ interest form (its own "Partners" group); empty = no form, email only */

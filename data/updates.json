@@ -15,7 +15,7 @@
   {
     "date": "2026-11-10",
     "state": null,
-    "kind": "data_correction",
+    "kind": "method_change",
     "title": "Solar output added for every state, including vertical railing panels",
     "body": "NREL PVWatts figures are now available for all 50 states and DC in two cases: panels tilted at 20° facing south, and panels hung vertically on a south-facing railing. Savings estimates now show both.",
     "source": {
@@ -42,7 +42,7 @@
   {
     "date": "2026-11-10",
     "state": null,
-    "kind": "data_correction",
+    "kind": "method_change",
     "title": "Savings now show a typical case alongside the best case",
     "body": "Estimates now show a typical share of output used at home (69%), from HTW Berlin's plug-in solar model for an 800 W system without a battery in a 3,000 kWh/yr home, next to the 100% best case. The calculator lets you change the share.",
     "source": {
@@ -56,7 +56,7 @@
   {
     "date": "2026-11-10",
     "state": null,
-    "kind": "data_correction",
+    "kind": "method_change",
     "title": "Electricity prices now use a rolling 12-month average",
     "body": "State electricity prices now use EIA's residential average for September 2025 – August 2026 (12 months), total revenue divided by total sales, replacing the January-August 2026 figure.",
     "source": {

@@ -9,7 +9,7 @@ const unknownStates = states.filter((s) => s.status === 'unknown').map((s) => s.
     <h1>How we verify</h1>
     <p>This site exists to be right, not to be first. These are the rules we follow.</p>
 
-    <h2>State laws</h2>
+    <h2 id="state-laws">State laws</h2>
     <ol>
       <li><strong>Primary sources only.</strong> Every legal fact (status, bill number, dates, size limit, battery rules, utility notice, landlord and HOA rules, certification, net metering) must come from the legislature's bill page, the enacted or chaptered text, a governor's signing record, or a state utility commission page.</li>
       <li><strong>Trackers and news find leads; they are not evidence.</strong> When a tracker and the law disagree, the law wins, and we log the conflict.</li>
@@ -33,7 +33,7 @@ const unknownStates = states.filter((s) => s.status === 'unknown').map((s) => s.
     </ul>
     <p>In every state the kit's stated output must be within the legal limit. If the seller doesn't state the output but the panels alone are under the limit, the kit cannot exceed it. Specs and prices come from the maker's or seller's own pages, with the date we checked. An output we calculated from the parts is labelled "estimated".</p>
 
-    <h2>Savings estimates</h2>
+    <h2 id="savings">Savings estimates</h2>
     <p>Electricity prices are U.S. EIA residential averages for {prices.period}: total revenue divided by total sales, from Form EIA-861M. Solar output comes from {yields.model}, run for each state capital in two cases: 20° tilt facing south, and vertical (90°) facing south. Where a figure is missing, we show no estimate.</p>
     <p>Savings depend on how much of the output you use at home, because exports usually earn nothing. We show a <strong>best case</strong> (100%) and a <strong>typical</strong> case ({assumptions.self_consumption.typical_pct}%). The typical case comes from HTW Berlin's Stecker-Solar-Simulator: 800 W, no battery, a home using 3,000 kWh a year. That is well below every US state's average household use. The model uses German weather and household patterns, so treat it as a guide.</p>
 
@@ -41,7 +41,7 @@ const unknownStates = states.filter((s) => s.status === 'unknown').map((s) => s.
     <p>We re-check every record at least weekly. We check sooner when a bill has a vote scheduled or a law is about to take effect. Each page shows the date it was last checked. Every change is logged on the <a href="/updates/">updates page</a> and in its RSS feed.</p>
     <p class="small muted">Records last checked: {fmtDate(states.map((s) => s.last_checked).sort()[0])} (oldest state record) · {kits.length} kits tracked.</p>
 
-    <h2>Corrections</h2>
-    <p>If you find an error, we want to know. Corrections are logged on the updates page with the source we used.</p>
+    <h2 id="corrections">Corrections</h2>
+    <p>If you find an error, we want to know. Corrections are logged on the updates page with the date and the source we used. See the <a href="/corrections/">corrections policy</a>.</p>
   </article>
 </Base>

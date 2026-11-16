@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { site, siteName, absUrl } from '../lib/data';
+import { organizationNode, editorNode } from '../lib/ld';
 
 interface Crumb { name: string; href: string }
 interface Props {
@@ -30,7 +31,8 @@ const origin = site.BASE_URL;
 const siteLd = {
   '@context': 'https://schema.org',
   '@graph': [
-    { '@type': 'Organization', '@id': `${origin}/#organization`, name: siteName, alternateName: site.SITE_ALTERNATE_NAME, url: `${origin}/`, email: site.CONTACT_EMAIL, logo: `${origin}/favicon.svg` },
+    organizationNode(),
+    editorNode(),
     { '@type': 'WebSite', '@id': `${origin}/#website`, name: siteName, alternateName: site.SITE_ALTERNATE_NAME, url: `${origin}/`, inLanguage: 'en-US', publisher: { '@id': `${origin}/#organization` } },
   ],
 };
@@ -92,6 +94,9 @@ const siteLd = {
         <li><a href="/guides/">Guides</a></li>
         <li><a href="/how-we-verify/">How we verify</a></li>
         <li><a href="/updates/">Updates</a></li>
+        <li><a href="/corrections/">Corrections</a></li>
+        <li><a href="/data/">Data</a></li>
+        <li><a href="/press/">For journalists</a></li>
         <li><a href="/disclaimer/">Disclaimer</a></li>
         <li><a href="/privacy/">Privacy</a></li>
         <li><a href="/disclosure/">Disclosure</a></li>

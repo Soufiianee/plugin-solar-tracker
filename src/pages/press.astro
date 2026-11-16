@@ -1,0 +1,37 @@
+---
+/** For journalists: story angles and quote-ready facts, all computed from the data (src/lib/press.ts). */
+import Base from '../layouts/Base.astro';
+import { BUILD_DATE, fmtDate, siteName, site } from '../lib/data';
+import { editorName } from '../lib/ld';
+import { storyAngles, quoteFacts, citation } from '../lib/press';
+
+const angles = storyAngles();
+const facts = quoteFacts();
+const cite = citation();
+---
+<Base title="For journalists" description={`Story angles, quote-ready facts and free data (CC BY 4.0) on US plug-in (balcony) solar laws, certified kits and savings. Contact ${site.CONTACT_EMAIL}.`} crumbs={[{ name: 'For journalists', href: '/press/' }]}>
+  <article class="prose">
+    <h1>For journalists</h1>
+    <p style="font-size:1.1rem">{siteName} tracks plug-in solar laws in all 50 states and DC against official sources, with free data you can quote and link. Every figure below is computed from our <a href="/data/">data page</a>; updated {fmtDate(BUILD_DATE)}.</p>
+
+    <h2 id="angles">Story angles</h2>
+  </article>
+  {angles.map((a) => (
+    <section class="card" style="margin:0.8rem 0">
+      <h3 style="margin-top:0">{a.title}</h3>
+      <p>{a.text}</p>
+      <p class="small" style="margin:0">{a.links.map((l, i) => <>{i > 0 && ' · '}<a href={l.href}>{l.label}</a></>)}</p>
+    </section>
+  ))}
+  <article class="prose">
+    <h2 id="facts">Quote-ready facts</h2>
+    <ol>
+      {facts.map((f) => <li>{f}</li>)}
+    </ol>
+    <p class="small">Please credit "<strong>{cite.short}</strong>" and link to <a href="/data/">the data page</a>, which shows the method behind each number. Facts change as laws pass: check the date above, or ask us.</p>
+
+    <h2 id="contact">Contact</h2>
+    <p><strong>{editorName}</strong>, editor<br /><strong>{site.CONTACT_EMAIL}</strong></p>
+    <p>We can confirm a figure, point you to the official source behind any rule, or explain how a state's law works. We do not give legal or electrical advice. About us: <a href="/about/">about {siteName}</a> · <a href="/how-we-verify/">how we verify</a> · <a href="/corrections/">corrections policy</a>.</p>
+  </article>
+</Base>
