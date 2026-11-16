@@ -4,7 +4,7 @@
     "typical_pct": 69,
     "label_typical": "typical (smaller household)",
     "explanation": "Share of a plug-in system's output used at home rather than sent to the grid. Without a battery, power produced while nothing is running flows to the grid, which these laws generally do not pay for.",
-    "method": "HTW Berlin Stecker-Solar-Simulator (web app, accessed 2026-11-10), 800 W system, no battery, panels vertical (90°) facing south, no shade, German weather and household load profiles. 'Nutzungsgrad' (share of solar output used on site) = avoided grid purchase / generation: 2,100 kWh/yr household 311/552 kWh = 56%; 3,000 kWh/yr 381/552 kWh = 69%; 5,000 kWh/yr 488/552 kWh = 88%. We use the 3,000 kWh case as 'typical' because it is under half the average US household's use (10,499 kWh/yr, EIA Form 861M, Sep 2025-Aug 2026) and below every state's average (lowest: California, 6,082 kWh/yr), so it leans conservative for most US homes.",
+    "method": "HTW Berlin Stecker-Solar-Simulator (web app, accessed 2026-11-10), 800 W system, no battery, panels vertical (90°) facing south, no shade, German weather and household load profiles. 'Nutzungsgrad' (share of solar output used on site) = avoided grid purchase / generation: 2,100 kWh/yr household 311/552 kWh = 56%; 3,000 kWh/yr 381/552 kWh = 69%; 5,000 kWh/yr 488/552 kWh = 88%. We use the 3,000 kWh case as 'typical' because it is under half the average US residential customer's use and below every state's average, per EIA's Electric Sales, Revenue, and Average Price, Table 5.a (2024 data), so it leans conservative for most US homes.",
     "runs": [
       {
         "household_kwh": 2100,
@@ -40,6 +40,13 @@
         "accessed": "2026-11-10",
         "type": "government_data",
         "note": "Average residential use per customer computed as 12-month sales / average customers."
+      },
+      {
+        "title": "U.S. EIA, Electric Sales, Revenue, and Average Price, Table 5.a: 2024 Average Monthly Bill - Residential (average monthly consumption by state)",
+        "url": "https://www.eia.gov/electricity/sales_revenue_price/",
+        "accessed": "2026-11-16",
+        "type": "government_data",
+        "note": "Data for 2024, released October 7, 2025. File: https://www.eia.gov/electricity/sales_revenue_price/xls/table_5A.xlsx"
       }
     ]
   },
@@ -48,5 +55,5 @@
     "reference_kit": "ecoflow-stream-microinverter-2x400w",
     "note": "Editorial threshold set by the site owner (November 2026). Payback uses the reference kit's listed price, the ideal-tilt yield and the typical share used at home."
   },
-  "last_checked": "2026-11-10"
+  "last_checked": "2026-11-16"
 }

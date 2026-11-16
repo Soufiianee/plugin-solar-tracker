@@ -38,6 +38,12 @@ export const updates = updatesFile.parse(updatesRaw).sort((a, b) => b.date.local
 export const affiliates = affiliatesFile.parse(affiliatesRaw);
 export const assumptions = assumptionsFile.parse(assumptionsRaw);
 export const site = siteFile.parse(siteRaw);
+/** Household size (kWh/yr) of the HTW Berlin run behind the "typical" share, e.g. "3,000". */
+export const typicalHouseholdKwh = (() => {
+  const r = assumptions.self_consumption.runs.find((x) => x.pct === assumptions.self_consumption.typical_pct);
+  if (!r) throw new Error('assumptions.self_consumption: no run matches typical_pct');
+  return r.household_kwh.toLocaleString('en-US');
+})();
 /** Display name (config/site.json SITE_NAME is the single source). */
 export const siteName = site.SITE_NAME;
 /** Off in the claude.ai Artifact copy (ARTIFACT_BUILD=1), whose host blocks third-party scripts. */

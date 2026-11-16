@@ -1,5 +1,19 @@
 [
   {
+    "date": "2026-11-16",
+    "state": null,
+    "kind": "data_correction",
+    "title": "Removed an unconfirmed figure for average US household electricity use",
+    "body": "The \"Is it worth it?\" guide said average US household use is 10,499 kWh a year. That figure was our own calculation from monthly EIA data; EIA does not publish it, so we removed it. The guide's point stands on EIA's own 2024 table: the 3,000 kWh home in our typical case uses less than the average residential customer in every state.",
+    "source": {
+      "title": "U.S. EIA, Electric Sales, Revenue, and Average Price, Table 5.a: 2024 Average Monthly Bill - Residential (average monthly consumption by state)",
+      "url": "https://www.eia.gov/electricity/sales_revenue_price/",
+      "accessed": "2026-11-16",
+      "type": "government_data",
+      "note": "Data for 2024, released October 7, 2025. File: https://www.eia.gov/electricity/sales_revenue_price/xls/table_5A.xlsx"
+    }
+  },
+  {
     "date": "2026-11-10",
     "state": "DC",
     "kind": "bill_progress",

@@ -5,7 +5,7 @@ import AlertSignup from '../../components/AlertSignup.astro';
 import Byline from '../../components/Byline.astro';
 import { articleLd as article } from '../../lib/ld';
 import { paybackFindings, railingFindings } from '../../lib/findings';
-import { states, kits, isEnacted, priceFor, yieldFor, prices, yields, effectiveDate, fmtDate, BUILD_DATE, assumptions } from '../../lib/data';
+import { states, kits, isEnacted, priceFor, yieldFor, prices, yields, effectiveDate, fmtDate, BUILD_DATE, assumptions, typicalHouseholdKwh } from '../../lib/data';
 import { scenario, fmtUsd, fmtYears } from '../../lib/calc';
 
 // Worked example: a real kit from our data (EcoFlow STREAM Microinverter + 2 x 400 W panels).
@@ -55,7 +55,7 @@ const articleLd = article({ headline: 'Is plug-in solar worth it? Real numbers b
     <h2>Our example</h2>
     <p>We use a real product from our kit list: the <a href={`/kits/${ex.slug}/`}>{ex.brand} {ex.model}</a>, {W} W of panels, listed at {fmtUsd(COST)} on {fmtDate(ex.price_checked_on!)}. We assume you earn nothing for power sent to the grid: most of these laws exclude plug-in systems from net metering, and the rest do not promise any payment. So what matters is how much of the output you use at home:</p>
     <ul>
-      <li><strong>Typical ({TYP}%)</strong>: from HTW Berlin's plug-in solar model for an 800 W system without a battery, in a home using 3,000 kWh a year. That is well below every US state's average household use, so most homes will use at least this share.</li>
+      <li><strong>Typical ({TYP}%)</strong>: from HTW Berlin's plug-in solar model for an 800 W system without a battery, in a home using {typicalHouseholdKwh} kWh a year. That is well below every US state's average household use, so most homes will use at least this share.</li>
       <li><strong>Best case (100%)</strong>: you use every kilowatt-hour yourself, for example because something always runs in the daytime.</li>
     </ul>
     <p>Panels are assumed tilted at 20° facing south, as on a sunny patio{showVertical ? ', with a second case for panels hung vertically on a south-facing railing' : ''}.</p>
@@ -101,7 +101,8 @@ const articleLd = article({ headline: 'Is plug-in solar worth it? Real numbers b
     <ul class="small">
       <li>Prices: {prices.source.title}, residential average for {prices.period}.</li>
       <li>Solar output: {yields.model}, run for each state capital with {yields.common.losses_pct}% system losses (<a href="https://developer.nlr.gov/docs/solar/pvwatts/v8/" rel="noopener">PVWatts documentation</a>).</li>
-      <li>Share used at home: HTW Berlin, Stecker-Solar-Simulator: 800 W, no battery, vertical, facing south, German weather and household patterns. It gave {sc.runs.map((r) => `${r.pct}% at ${r.household_kwh.toLocaleString('en-US')} kWh/yr`).join(', ')} (<a href="https://solar.htw-berlin.de/rechner/stecker-solar-simulator/" rel="noopener">simulator</a>, <a href="https://solar.htw-berlin.de/wp-content/uploads/ORTH-2024-Stecker-Solar-Simulator-Dokumentation.pdf" rel="noopener">method</a>). Average US household use is 10,499 kWh/yr (EIA Form 861M).</li>
+      <li>Share used at home: HTW Berlin, Stecker-Solar-Simulator: 800 W, no battery, vertical, facing south, German weather and household patterns. It gave {sc.runs.map((r) => `${r.pct}% at ${r.household_kwh.toLocaleString('en-US')} kWh/yr`).join(', ')} (<a href="https://solar.htw-berlin.de/rechner/stecker-solar-simulator/" rel="noopener">simulator</a>, <a href="https://solar.htw-berlin.de/wp-content/uploads/ORTH-2024-Stecker-Solar-Simulator-Dokumentation.pdf" rel="noopener">method</a>).</li>
+      <li>Household use: every state's average residential customer uses more than the {typicalHouseholdKwh} kWh home in our typical case (<a href="https://www.eia.gov/electricity/sales_revenue_price/" rel="noopener">EIA, Electric Sales, Revenue, and Average Price, Table 5.a</a>, 2024 data).</li>
       <li>No incentives, no payment for exports, no change in electricity prices, and no inverter clipping.</li>
     </ul>
     <p class="small muted">Numbers update automatically when we refresh prices or solar data. Last price update: {fmtDate(prices.last_checked)}.</p>

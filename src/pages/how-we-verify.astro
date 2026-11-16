@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { states, kits, prices, yields, fmtDate, assumptions } from '../lib/data';
+import { states, kits, prices, yields, fmtDate, assumptions, typicalHouseholdKwh } from '../lib/data';
 const counts = { primary: states.filter((s) => s.verification === 'primary').length, other: states.filter((s) => s.verification !== 'primary').length };
 const unknownStates = states.filter((s) => s.status === 'unknown').map((s) => s.name);
 ---
@@ -35,7 +35,7 @@ const unknownStates = states.filter((s) => s.status === 'unknown').map((s) => s.
 
     <h2 id="savings">Savings estimates</h2>
     <p>Electricity prices are U.S. EIA residential averages for {prices.period}: total revenue divided by total sales, from Form EIA-861M. Solar output comes from {yields.model}, run for each state capital in two cases: 20° tilt facing south, and vertical (90°) facing south. Where a figure is missing, we show no estimate.</p>
-    <p>Savings depend on how much of the output you use at home, because exports usually earn nothing. We show a <strong>best case</strong> (100%) and a <strong>typical</strong> case ({assumptions.self_consumption.typical_pct}%). The typical case comes from HTW Berlin's Stecker-Solar-Simulator: 800 W, no battery, a home using 3,000 kWh a year. That is well below every US state's average household use. The model uses German weather and household patterns, so treat it as a guide.</p>
+    <p>Savings depend on how much of the output you use at home, because exports usually earn nothing. We show a <strong>best case</strong> (100%) and a <strong>typical</strong> case ({assumptions.self_consumption.typical_pct}%). The typical case comes from HTW Berlin's Stecker-Solar-Simulator: 800 W, no battery, a home using {typicalHouseholdKwh} kWh a year. That is well below every US state's average household use. The model uses German weather and household patterns, so treat it as a guide.</p>
 
     <h2>Update schedule</h2>
     <p>We re-check every record at least weekly. We check sooner when a bill has a vote scheduled or a law is about to take effect. Each page shows the date it was last checked. Every change is logged on the <a href="/updates/">updates page</a> and in its RSS feed.</p>
