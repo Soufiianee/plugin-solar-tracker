@@ -20,7 +20,7 @@ const V: Record<string, Record<string, string>> = {
   certification_required: {
     ul_3700_or_equivalent: 'UL 3700 (or comparable)',
     plug_in_system_certification: 'Certified as a complete plug-in system',
-    nrtl_certified_generic: 'Certified by UL or an equivalent lab',
+    nrtl_certified_generic: 'Certified by a nationally recognized testing lab (no standard named)',
     nrtl_and_ul_1741: 'UL or equivalent lab, plus UL 1741',
   },
   net_metering_excluded: { yes: 'Excluded', no: 'Allowed', not_addressed: 'Not mentioned in the law' },
