@@ -13,7 +13,7 @@ describe('notice letter: only states whose data confirms the protection', () => 
   it('never offers a letter for a state without an enacted law', () => {
     for (const s of states.filter((x) => !isEnacted(x))) expect(letterKinds(s)).toEqual([]);
   });
-  it('offers nothing for New Hampshire (details not confirmed on a primary source)', () => {
+  it('offers nothing for New Hampshire (its law does not mention renters or HOAs)', () => {
     expect(letterKinds(byCode.NH)).toEqual([]);
   });
   it('Virginia gets no HOA letter: its law keeps HOA rules in force', () => {

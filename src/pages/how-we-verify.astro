@@ -1,8 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
-import { states, kits, prices, yields, fmtDate, assumptions, typicalHouseholdKwh } from '../lib/data';
+import { states, kits, prices, yields, fmtDate, assumptions, typicalHouseholdKwh, isEnacted, byCode } from '../lib/data';
+import { needsSystemCert, ONE_DEVICE_STATES } from '../lib/compat';
+import { andList } from '../lib/findings';
 const counts = { primary: states.filter((s) => s.verification === 'primary').length, other: states.filter((s) => s.verification !== 'primary').length };
 const unknownStates = states.filter((s) => s.status === 'unknown').map((s) => s.name);
+// Which law states fall under each kit rule, from each law's certification rule
+const lawStates = states.filter(isEnacted).sort((a, b) => a.name.localeCompare(b.name));
+const req = (s: (typeof states)[number]) => s.rules.certification_required.value;
+const strict = lawStates.filter((s) => needsSystemCert(req(s))).map((s) => s.name);
+const labListed = lawStates.filter((s) => req(s) !== 'unknown' && !needsSystemCert(req(s))).map((s) => s.name);
+const oneDevice = ONE_DEVICE_STATES.map((c) => byCode[c].name).sort();
 ---
 <Base title="How we verify" description="Our method: every legal fact comes from a legislature bill page, enacted text, governor record or utility commission. Kits count as certified only with a certificate." crumbs={[{ name: 'How we verify', href: '/how-we-verify/' }]}>
   <article class="prose">
@@ -28,8 +36,8 @@ const unknownStates = states.filter((s) => s.status === 'unknown').map((s) => s.
     </ul>
     <p>We also record what a certificate covers: a single component, such as the inverter, or the complete system you plug in. State laws come in two kinds, and we judge kits differently for each.</p>
     <ul>
-      <li><strong>UL 3700 or complete-system states</strong> (Vermont, Maine, New Jersey, California): a kit is <strong>compatible</strong> only with a certificate for the complete system. A certificate for one part is shown as <strong>"Component certificate only: check with seller"</strong>. Maine also allows a system configured per the National Electrical Code. We don't judge that route; ask a licensed electrician.</li>
-      <li><strong>Lab-listed states</strong> (Utah, Maryland, Colorado, Connecticut, Virginia): the law asks for certification by UL or an equivalent lab without naming a standard. If we have seen a lab certificate for the kit's inverter, we show <strong>"Likely compatible: confirm with seller"</strong>. If the maker only claims a listing, we show <strong>"Listing claimed, no certificate seen"</strong>. Connecticut also names UL 1741. Connecticut and Maryland allow one device or system per meter, so kits with several inverters carry a "check device count" note.</li>
+      <li><strong>UL 3700 or complete-system states</strong> ({andList(strict)}): a kit is <strong>compatible</strong> only with a certificate for the complete system. A certificate for one part is shown as <strong>"Component certificate only: check with seller"</strong>. Maine also allows a system configured per the National Electrical Code. We don't judge that route; ask a licensed electrician.</li>
+      <li><strong>Lab-listed states</strong> ({andList(labListed)}): the law asks for certification by UL or an equivalent lab without naming a standard. New Hampshire's law asks for certification by a nationally recognized testing laboratory to "nationally recognized safety standards" and names none, so it is judged the same way as Colorado's "listed by a nationally recognized testing laboratory". If we have seen a lab certificate for the kit's inverter, we show <strong>"Likely compatible: confirm with seller"</strong>. If the maker only claims a listing, we show <strong>"Listing claimed, no certificate seen"</strong>. Connecticut also names UL 1741. {andList(oneDevice)} allow one device or system per meter, so kits with several inverters carry a "check device count" note.</li>
     </ul>
     <p>In every state the kit's stated output must be within the legal limit. If the seller doesn't state the output but the panels alone are under the limit, the kit cannot exceed it. Specs and prices come from the maker's or seller's own pages, with the date we checked. An output we calculated from the parts is labelled "estimated".</p>
 

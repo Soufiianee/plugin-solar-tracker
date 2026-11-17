@@ -25,8 +25,9 @@ Checked: **10 November 2026**. Everything below describes what was checked that 
 | 1 | Oregon | YourSolarPlug: HB 4080 "Law Passed", effective July 2026 | OLIS: still in House Committee on Climate, Energy, and Environment | Dead (`bill_failed_or_dead`) |
 | 2 | Colorado tiers | YourSolarPlug: 395 W anywhere; up to 1,920 W "with a licensed electrician and dedicated circuit" | Act: 1,920 W cap to the grid; 391 W exemption from rewiring-related listing rules; no electrician requirement | Act |
 | 3 | Maine electrician | YourSolarPlug: "Requires a licensed electrician" | PL 2025 c.644: no electrician up to 420 W; electrician plus dedicated circuit for 420–1,200 W | Act |
-| 4 | New Hampshire dates | Exact Solar: signed May 28, effective July 27, 2026 | Mirror of Chapter 262 final text: approved July 2, 2026; remainder effective January 1, 2027 | Mirror is the better copy, but it is not primary, so rules stay `unknown` |
+| 4 | New Hampshire dates | Exact Solar: signed May 28, effective July 27, 2026 | Mirror of Chapter 262 final text: approved July 2, 2026; remainder effective January 1, 2027 | Resolved 2026-11-17: the chaptered text (262:7, II) and the RSA pages say approved July 2, 2026, effective January 1, 2027 |
 | 5 | Maryland 391 W | Exact Solar: under 391 W "exempt from UL certification" | 7-321(f): exempt only from listing provisions that would require alterations to premises, wiring or panels | Act |
+| 7 | New Hampshire effective date | SB 540 docket on gc.nh.gov: "Remainder Effective 07/02/2026" | Chapter 262:7, II and RSA pages: sections 1, 2, 4 and 5 effective January 1, 2027; section 3 (RSA 155-A:16) only on the DOE commissioner's certification (262:6) | January 1, 2027 (chaptered text wins over the docket) |
 | 6 | Maryland effective date | YourSolarPlug: October 2026 | Chapter 353: Section 1 (which holds 7-321) takes effect July 1, 2026 | July 1, 2026 |
 | 7 | New York bill numbers | YourSolarPlug: "SUNNY Act (S7717)"; Plug-In Solar Guide: A 9111 / S 10099; Exact Solar: S 8512 / A 9111 | Assembly page: A9111-C, "same as S08512-C", short title "Solar Up Now NY Act" | A9111-C / S8512-C |
 | 8 | New York status | Third Act: NY has "joined Utah in passing" | Passed both houses 5/28/2026; no delivery to the governor recorded | `bill_active`, not law |
@@ -60,14 +61,14 @@ Checked: **10 November 2026**. Everything below describes what was checked that 
 | Nov–Dec 2026 | IL, OH, MI, NC | Fall or lame-duck sessions; confirm IL and OH bills once their sites load |
 | 31 Dec 2026 | CO | PUC must revise rules for meter collar adapters |
 | 31 Dec 2026 | MI | Session ends; HB 5764 dies if not passed |
-| 1 Jan 2027 | CA, VA, NH | Laws take effect (NH unverified) |
+| 1 Jan 2027 | CA, VA, NH | Laws take effect |
 | 1 Jan 2027 | CO | Renter and HOA protections and the 391 W UL-listing sales rule start |
 | Jan 2027 | most states | New sessions convene; expect refiled bills in OR, WA, OK, MN, GA and others |
 | 1 Mar 2027 | NJ | Garden State Balcony Solar Act takes effect (just outside the 90-day window) |
 
 ## 5. Facts we are least sure about
 
-1. **New Hampshire (all facts).** Based on a mirror and news reports, not the state's site.
+1. **New Hampshire (source access).** Since 2026-11-17 the record is primary: the admin research agent read the bill status page, the Chapter 262 text and the RSA pages on gc.nh.gov. gc.nh.gov still gives an empty reply to our build environment (and gencourt.state.nh.us redirects there), so the build agent could not re-fetch those pages or confirm the RSA URLs itself. The direct URL of the chaptered PDF was not available to us; the bill status page links to it. Battery and net-metering rules are held as `unknown` because that reading did not cover them.
 2. **Colorado effective date, August 12, 2026.** Correct only if no referendum petition was filed. We did not check with the Secretary of State.
 3. **New Jersey effective date, March 1, 2027.** We computed it from "six months after the date of enactment" (approved September 1, 2026). The chapter-law PDF was not posted yet, so we used the 3rd reprint, which is the version both houses passed.
 4. **California effective date, January 1, 2027.** Comes from the constitutional default for non-urgency statutes; the chaptered text has no operative-date clause.
@@ -131,3 +132,12 @@ Checked: **10 November 2026**. Everything below describes what was checked that 
 Every value in our CA record matched. We added the 2030 sunset as a structured `sunset` field on the bill and updated the accessed dates.
 
 **New York A9111-C / S8512-C: unchanged, not delivered.** The Assembly page (A09111) lists "SAME AS S08512-C", with its last actions on May 28, 2026: passed Assembly, substituted for S8512C, passed Senate, returned to Assembly. The Senate's status tracker for S8512C marks "Passed Senate" and "Passed Assembly", but not "Delivered to Governor" or "Signed By Governor". The Senate bill is S8512-**C**. A request to us cited "S 8512A"; that is an earlier version. We read the passed text and prepared `data/drafts/new-york-signed.json`: 1,200 W AC nameplate to the grid; complete-system NRTL listing; owner notifies the utility within 30 days **after** installing (new rule value `yes_after_install`, because our "yes" label means before installing); no approval, fees or extra equipment; not subject to net metering, exports uncompensated; takes effect the 90th day after it becomes law.
+
+
+## New Hampshire, full record (2026-11-17)
+
+- **Source of the facts:** our admin research agent read SB 540-FN (2026) on gc.nh.gov on 2026-11-17: bill status, Chapter 262 (Laws of 2026, approved July 2, 2026), and RSA 362-A:10, 362-A:1-a (IV-a), 374:1-b and 155-A:16. The build agent tried gc.nh.gov again from the build environment: empty reply (the host answers nothing to automated requests from here); gencourt.state.nh.us only redirects to gc.nh.gov. Sources on the site carry this note.
+- **Discrepancy:** the docket says "Remainder Effective 07/02/2026"; Chapter 262:7, II and the RSA pages say January 1, 2027 for sections 1, 2, 4 and 5, and 262:6 makes section 3 (building code, RSA 155-A:16) depend on the DOE commissioner's certification that a nationally recognized standard exists. We use January 1, 2027.
+- **Certification:** RSA 362-A:10, I asks for certification "by a nationally recognized testing laboratory to meet nationally recognized safety standards applicable to distributed energy resources and plug-in solar generation systems" and names no standard. It is treated as lab-listed (`nrtl_certified_generic`), like Colorado. One plug-in system per metered customer (IV), so multi-inverter kits get the "check device count" caveat, as in CT and MD.
+- **Not law:** a Canary Media report quotes the sponsor (Sen. David Watters) saying landlords and HOAs keep their authority. The law does not mention them; the site says only "not addressed".
+- **Not yet confirmed:** battery storage and net metering for plug-in systems (held as `unknown`). Chapter 262:5 adds UL and IEEE to the interconnection standards in RSA 362-A:9, X(a).

@@ -1,5 +1,19 @@
 [
   {
+    "date": "2026-11-17",
+    "state": "NH",
+    "kind": "data_update",
+    "title": "New Hampshire: full record, law starts January 1, 2027",
+    "body": "SB 540-FN became Chapter 262, Laws of 2026, signed July 2, 2026. From January 1, 2027, each metered customer may use one plug-in solar system of up to 1,200 W AC, certified by a nationally recognized testing laboratory, with no utility approval, interconnection agreement or fees. The law does not mention renters or HOAs. Battery and net-metering rules are not yet confirmed.",
+    "source": {
+      "title": "New Hampshire General Court: SB 540-FN (2026) bill status and docket, with the Chapter 262 text",
+      "url": "https://gc.nh.gov/bill_status/billinfo.aspx?id=1317",
+      "accessed": "2026-11-17",
+      "type": "legislature_bill_page",
+      "note": "Text read on this official page by our research on 2026-11-17. gc.nh.gov does not answer automated requests from our build environment, so the build agent could not re-fetch it. The docket's \"Remainder Effective 07/02/2026\" conflicts with the chaptered text (262:7, II: January 1, 2027); we use the chaptered text."
+    }
+  },
+  {
     "date": "2026-11-16",
     "state": null,
     "kind": "data_correction",

@@ -17,6 +17,7 @@
     "compat-audit": "tsx scripts/compat-audit.ts",
     "artifact": "ARTIFACT_BUILD=1 astro build && node scripts/build-artifact.mjs",
     "email:ca": "tsx scripts/email-ca.ts",
+    "email:nh": "tsx scripts/email-nh.ts",
     "ny:signed": "tsx scripts/apply-ny-signed.ts"
   },
   "devDependencies": {

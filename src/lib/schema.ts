@@ -70,7 +70,8 @@ export const rules = z.object({
   max_watts_ac: wattRule,
   max_watts_dc: wattRule,
   battery_allowed: enumRule(['yes', 'no', 'not_addressed', 'unknown', NA]),
-  utility_notification_required: enumRule(['yes', 'yes_after_install', 'no', 'utility_may_require', 'conditional', 'unknown', NA]),
+  /** optional = the law lets the utility set up a way to notify it, for information only (NH) */
+  utility_notification_required: enumRule(['yes', 'yes_after_install', 'no', 'utility_may_require', 'optional', 'conditional', 'unknown', NA]),
   utility_approval_required: enumRule(['yes', 'no', 'unknown', NA]),
   landlord_provisions: enumRule(['protects_tenants', 'notice_rules_only', 'not_addressed', 'unknown', NA]).extend({ protection: protection.optional() }),
   hoa_provisions: enumRule(['protects_owners', 'covenants_preserved', 'not_addressed', 'unknown', NA]).extend({ protection: protection.optional() }),
@@ -278,8 +279,9 @@ export const yieldFile = z.object({
 export const update = z.object({
   date: isoDate,
   state: z.union([z.string().regex(/^[A-Z]{2}$/), z.null()]),
-  /** data_correction = we fixed something we had wrong (listed on /corrections/); method_change = a new method or data source */
-  kind: z.enum(['law_signed', 'law_effective', 'bill_progress', 'bill_died', 'data_correction', 'method_change', 'kit_update', 'site']),
+  /** data_correction = we fixed something we had wrong (listed on /corrections/); method_change = a new method or data source;
+   *  data_update = new facts added to a record (not a correction) */
+  kind: z.enum(['law_signed', 'law_effective', 'bill_progress', 'bill_died', 'data_correction', 'data_update', 'method_change', 'kit_update', 'site']),
   title: z.string().min(5),
   body: z.string().min(10),
   source: source,

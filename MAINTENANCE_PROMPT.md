@@ -25,7 +25,7 @@ You maintain a US plug-in (balcony) solar tracker. The data lives in `data/*.jso
       - **Hawaii** (SB 2902, HB 2486): capitol.hawaii.gov. It returned 403.
       - **Delaware** (SB 270): legis.delaware.gov. It returned an error page.
       - **Arizona** (HB 2843): azleg.gov. The bill overview did not load.
-      - **New Hampshire** (SB 540, Chapter 262): gc.nh.gov. It was unreachable. If the owner pasted text from it, verify that text against anything you can reach. Then set the rule values, change `verification` to `primary`, and remove `status_label`.
+      - **New Hampshire** (SB 540, Chapter 262): record is primary since 2026-11-17, but gc.nh.gov does not answer the build environment. Try it weekly: confirm the RSA URLs in the record load, look for the chaptered PDF's direct URL, and confirm the battery and net-metering rules (held as unknown).
       - **Rhode Island** (H 7269, S 2359): status lookup on status.rilegislature.gov.
       - **DC** (B26-0602 GRID Act): read the committee print on lims.dccouncil.gov and confirm the plug-in provisions. Track the first and final Council votes.
       - **West Virginia** (HB 5648): confirm the official title and that it contains plug-in rules.

@@ -162,3 +162,10 @@ bills.nhliberty.org  documents.ncsl.org  sd11.senate.ca.gov  www.gov.ca.gov  cer
 - **Bylines**: the four guides show "By Soufiane L. · Updated <date>" linking to /about/; Article `author` is the Person. "Updated" is the newest check date of the data each guide uses.
 - The "Is it worth it?", "Railing vs tilted" and California guides now take their headline ranges and the price rank from `src/lib/findings.ts`, so they always match /data/. Fixed the California guide's "of the 51 states and DC" (51 already includes DC).
 - QA: build 0 errors; 73 tests (14 new: findings recomputed independently from the raw JSON, CSV generation, built pages match); 3,580 internal links, 0 broken; Lighthouse mobile 100/100/100/100 on /about/, /data/, /press/, /corrections/, /, /states/vermont/ and /guides/is-it-worth-it/.
+
+## Update (session 6): New Hampshire full record, 17 November 2026
+
+- **NH record** now primary: SB 540-FN, Chapter 262, Laws of 2026, signed July 2, 2026, in effect January 1, 2027 (the build-date switch flips it, as for California). 1,200 W AC, one system per metered customer, no utility approval, interconnection review or fees, optional wattage notice only if the utility sets up a way, NRTL certification to nationally recognized standards (no standard named), renters and HOAs not addressed. Battery and net-metering rules held as unknown. Docket vs chaptered-text date conflict recorded in research/RESEARCH_NOTES.md.
+- **Sources:** gc.nh.gov bill status and RSA 362-A:10, 362-A:1-a, 374:1-b, 155-A:16 pages, read by the admin research agent on 2026-11-17. gc.nh.gov gives an empty reply to the build environment, so the build agent could not re-fetch them; each source says so.
+- **Kits:** NH is judged as lab-listed (like Colorado), with the one-device caveat (like CT and MD). New update kind `data_update`; Jan 1 email draft for NH key-dates subscribers (`npm run email:nh`, research/emails/2027-01-01-new-hampshire.md). How we verify now builds its state lists from the data.
+- QA: 80 tests (7 new for NH), 3,583 internal links, 0 broken.

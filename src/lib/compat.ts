@@ -4,8 +4,8 @@
  * Two kinds of state law:
  *  - STRICT ("UL 3700 or complete-system" states: VT, ME, NJ, CA). Only a UL 3700 certificate for the
  *    complete system makes a kit compatible. A UL 3700 certificate for a component is "check with seller".
- *  - LAB-LISTED (UT, MD, CO, CT, VA): the law asks for certification by UL or an equivalent lab without naming
- *    UL 3700 (CT also names UL 1741). A lab certificate we have SEEN for the kit's inverter gives
+ *  - LAB-LISTED (UT, MD, CO, CT, VA, NH): the law asks for certification by UL or an equivalent lab (NH: a
+ *    nationally recognized testing laboratory) without naming UL 3700 (CT also names UL 1741). A lab certificate we have SEEN for the kit's inverter gives
  *    "likely compatible: confirm with seller"; a maker's claim without a certificate is shown as a claim.
  *
  * Size: the kit's stated AC output must be within the state's limit. If output is not stated but the kit's
@@ -85,7 +85,10 @@ export const needsSystemCert = (req: CertReq) => req === 'ul_3700_or_equivalent'
 const ONE_DEVICE: Record<string, string> = {
   CT: 'Connecticut allows one device behind each meter',
   MD: 'Maryland allows one system per electric meter',
+  NH: 'New Hampshire allows one plug-in system per metered customer',
 };
+/** States whose law allows one device or system per meter (shown on /how-we-verify/). */
+export const ONE_DEVICE_STATES = Object.keys(ONE_DEVICE);
 
 export function assess(state: CompatState, kit: CompatKit): Assessment {
   const caveats: string[] = [];

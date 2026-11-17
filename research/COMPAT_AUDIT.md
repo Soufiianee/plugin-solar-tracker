@@ -1,6 +1,6 @@
 # Compatibility audit (live model)
 
-Generated 2026-11-10 by `npm run compat-audit`. This is what the site shows.
+Generated 2026-11-17 by `npm run compat-audit`. This is what the site shows.
 
 Codes: **OK** Compatible · **LIKELY** Likely compatible: confirm with seller · **COMPONENT** Component certificate only: check with seller · **CLAIMED** Listing claimed, no certificate seen · **3700-CLAIM** UL 3700 claimed, no certificate seen · **NO** Not certified · **NONE** No certification evidence found · **OUT?** Output not stated by seller · **OVER** Over this state’s size limit · **RULES?** State rules not yet verified. `*` = "check device count" caveat (one device/system per meter).
 
@@ -8,16 +8,16 @@ Codes: **OK** Compatible · **LIKELY** Likely compatible: confirm with seller ·
 
 | Kit | CA | CO | CT | MD | ME | NH | NJ | UT | VA | VT |
 |---|---|---|---|---|---|---|---|---|---|---|
-| APsystems EZ1-LV plug-in microinverter | COMPONENT | LIKELY | LIKELY | LIKELY | COMPONENT | RULES? | COMPONENT | LIKELY | LIKELY | COMPONENT |
-| EcoFlow STREAM Microinverter | NONE | CLAIMED | CLAIMED | CLAIMED | NONE | RULES? | NONE | CLAIMED | CLAIMED | NONE |
-| EcoFlow STREAM Microinverter + 2 x 400W Rigid Solar Panels | NONE | CLAIMED | CLAIMED | CLAIMED | NONE | RULES? | NONE | CLAIMED | CLAIMED | NONE |
-| EcoFlow STREAM Ultra | NONE | NONE | NONE | NONE | NONE | RULES? | NONE | NONE | NONE | NONE |
-| Hoymiles HiFlow Pro LV HMS-391-1WM-LV | 3700-CLAIM | CLAIMED | CLAIMED | CLAIMED | 3700-CLAIM | RULES? | 3700-CLAIM | CLAIMED | CLAIMED | 3700-CLAIM |
-| Hoymiles HiFlow Pro LV HMS-420-1WM-LV | 3700-CLAIM | CLAIMED | CLAIMED | CLAIMED | 3700-CLAIM | RULES? | 3700-CLAIM | CLAIMED | CLAIMED | 3700-CLAIM |
-| Bright Saver Balcony Solar Kit, 180 W | NO | CLAIMED | CLAIMED | CLAIMED | NO | RULES? | NO | CLAIMED | CLAIMED | NO |
-| Bright Saver Balcony Solar Kit, 360 W | NO | CLAIMED | CLAIMED* | CLAIMED* | NO | RULES? | NO | CLAIMED | CLAIMED | NO |
-| CraftStrom 800 Watt Plug&Play Solar | NONE | CLAIMED | CLAIMED* | CLAIMED* | NONE | RULES? | NONE | CLAIMED | CLAIMED | NONE |
-| CraftStrom 1200 Watt Plug&Play Solar | NONE | CLAIMED | CLAIMED* | CLAIMED* | NONE | RULES? | NONE | CLAIMED | CLAIMED | NONE |
+| APsystems EZ1-LV plug-in microinverter | COMPONENT | LIKELY | LIKELY | LIKELY | COMPONENT | LIKELY | COMPONENT | LIKELY | LIKELY | COMPONENT |
+| EcoFlow STREAM Microinverter | NONE | CLAIMED | CLAIMED | CLAIMED | NONE | CLAIMED | NONE | CLAIMED | CLAIMED | NONE |
+| EcoFlow STREAM Microinverter + 2 x 400W Rigid Solar Panels | NONE | CLAIMED | CLAIMED | CLAIMED | NONE | CLAIMED | NONE | CLAIMED | CLAIMED | NONE |
+| EcoFlow STREAM Ultra | NONE | NONE | NONE | NONE | NONE | NONE | NONE | NONE | NONE | NONE |
+| Hoymiles HiFlow Pro LV HMS-391-1WM-LV | 3700-CLAIM | CLAIMED | CLAIMED | CLAIMED | 3700-CLAIM | CLAIMED | 3700-CLAIM | CLAIMED | CLAIMED | 3700-CLAIM |
+| Hoymiles HiFlow Pro LV HMS-420-1WM-LV | 3700-CLAIM | CLAIMED | CLAIMED | CLAIMED | 3700-CLAIM | CLAIMED | 3700-CLAIM | CLAIMED | CLAIMED | 3700-CLAIM |
+| Bright Saver Balcony Solar Kit, 180 W | NO | CLAIMED | CLAIMED | CLAIMED | NO | CLAIMED | NO | CLAIMED | CLAIMED | NO |
+| Bright Saver Balcony Solar Kit, 360 W | NO | CLAIMED | CLAIMED* | CLAIMED* | NO | CLAIMED* | NO | CLAIMED | CLAIMED | NO |
+| CraftStrom 800 Watt Plug&Play Solar | NONE | CLAIMED | CLAIMED* | CLAIMED* | NONE | CLAIMED* | NONE | CLAIMED | CLAIMED | NONE |
+| CraftStrom 1200 Watt Plug&Play Solar | NONE | CLAIMED | CLAIMED* | CLAIMED* | NONE | CLAIMED* | NONE | CLAIMED | CLAIMED | NONE |
 
 ## Rule per state
 
@@ -26,7 +26,7 @@ Codes: **OK** Compatible · **LIKELY** Likely compatible: confirm with seller ·
 - **CT** (lab-listed): Must be certified by UL or an equivalent NRTL and meet UL 1741, plus the State Building Code, NEC and IEEE 1547 (Sec. 9(a)(5)-(7)).
 - **MD** (lab-listed): Must be certified by Underwriters Laboratory or an equivalent NRTL (7-321(a)(4)). A system with output to the outlet of 391 watts or less is exempt from listing provisions that would require alterations to the premises, wiring or panels (7-321(f)).
 - **ME** (UL 3700 / complete-system): Eligible systems are listed or certified to UL 3700, to a comparable NRTL standard, or configured per the National Electrical Code adopted by the Electricians' Examining Board (3475(1)(A)). Inverters must shut off within 0.2 seconds if power is disrupted.
-- **NH** (not verified): Not confirmed on a primary source. The mirror copy of Chapter 262 says: certified by an NRTL to nationally recognized safety standards for DERs and plug-in systems (362-A:10, I).
+- **NH** (lab-listed): The system must be certified by a nationally recognized testing laboratory to meet nationally recognized safety standards applicable to distributed energy resources and plug-in solar generation systems. No specific UL standard is named (RSA 362-A:10, I).
 - **NJ** (UL 3700 / complete-system): Listed or certified to UL 3700, a comparable standard, or a combination of standards covering plug-in safety and grid-parallel operation, by an NRTL (Sec. 2(a)). Devices of 400 watts or less to the outlet are exempt from provisions requiring alterations (Sec. 2(e)).
 - **UT** (lab-listed): Device must be certified by Underwriters Laboratories or an equivalent nationally recognized testing laboratory, meet the most recent National Electrical Code, and connect through a standard 120-volt outlet (54-15-102(13)). No specific standard is named.
 - **VA** (lab-listed): Certified by an NRTL (29 C.F.R. 1910.7) or equivalent and compliant with the NEC. Devices with 391 watts or less to the outlet are exempt from listing provisions that would require alterations (56-596.7(A)).
@@ -55,7 +55,7 @@ Codes: **OK** Compatible · **LIKELY** Likely compatible: confirm with seller ·
 | CT | APsystems EZ1-LV plug-in microinverter | 900 | **Likely compatible: confirm with seller** | UL 1741 certified (component) [evidence](https://usa.apsystems.com/document/ez1-certifications/) | — |
 | MD | APsystems EZ1-LV plug-in microinverter | 900 | **Likely compatible: confirm with seller** | UL 3700 certified (component) [evidence](https://usa.apsystems.com/document/ez1-certifications/) | — |
 | ME | APsystems EZ1-LV plug-in microinverter | 900 | **Component certificate only: check with seller** | UL 3700 certified (component) [evidence](https://usa.apsystems.com/document/ez1-certifications/) | — |
-| NH | APsystems EZ1-LV plug-in microinverter | 900 | **State rules not yet verified** | — | — |
+| NH | APsystems EZ1-LV plug-in microinverter | 900 | **Likely compatible: confirm with seller** | UL 3700 certified (component) [evidence](https://usa.apsystems.com/document/ez1-certifications/) | — |
 | NJ | APsystems EZ1-LV plug-in microinverter | 900 | **Component certificate only: check with seller** | UL 3700 certified (component) [evidence](https://usa.apsystems.com/document/ez1-certifications/) | — |
 | UT | APsystems EZ1-LV plug-in microinverter | 900 | **Likely compatible: confirm with seller** | UL 3700 certified (component) [evidence](https://usa.apsystems.com/document/ez1-certifications/) | — |
 | VA | APsystems EZ1-LV plug-in microinverter | 900 | **Likely compatible: confirm with seller** | UL 3700 certified (component) [evidence](https://usa.apsystems.com/document/ez1-certifications/) | — |
@@ -65,7 +65,7 @@ Codes: **OK** Compatible · **LIKELY** Likely compatible: confirm with seller ·
 | CT | EcoFlow STREAM Microinverter | 1200 | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://us.ecoflow.com/products/stream-microinverter) | — |
 | MD | EcoFlow STREAM Microinverter | 1200 | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://us.ecoflow.com/products/stream-microinverter) | — |
 | ME | EcoFlow STREAM Microinverter | 1200 | **No certification evidence found** | — | — |
-| NH | EcoFlow STREAM Microinverter | 1200 | **State rules not yet verified** | — | — |
+| NH | EcoFlow STREAM Microinverter | 1200 | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://us.ecoflow.com/products/stream-microinverter) | — |
 | NJ | EcoFlow STREAM Microinverter | 1200 | **No certification evidence found** | — | — |
 | UT | EcoFlow STREAM Microinverter | 1200 | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://us.ecoflow.com/products/stream-microinverter) | — |
 | VA | EcoFlow STREAM Microinverter | 1200 | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://us.ecoflow.com/products/stream-microinverter) | — |
@@ -75,7 +75,7 @@ Codes: **OK** Compatible · **LIKELY** Likely compatible: confirm with seller ·
 | CT | EcoFlow STREAM Microinverter + 2 x 400W Rigid Solar Panels | 1200 | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://us.ecoflow.com/products/stream-microinverter) | — |
 | MD | EcoFlow STREAM Microinverter + 2 x 400W Rigid Solar Panels | 1200 | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://us.ecoflow.com/products/stream-microinverter) | — |
 | ME | EcoFlow STREAM Microinverter + 2 x 400W Rigid Solar Panels | 1200 | **No certification evidence found** | — | — |
-| NH | EcoFlow STREAM Microinverter + 2 x 400W Rigid Solar Panels | 1200 | **State rules not yet verified** | — | — |
+| NH | EcoFlow STREAM Microinverter + 2 x 400W Rigid Solar Panels | 1200 | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://us.ecoflow.com/products/stream-microinverter) | — |
 | NJ | EcoFlow STREAM Microinverter + 2 x 400W Rigid Solar Panels | 1200 | **No certification evidence found** | — | — |
 | UT | EcoFlow STREAM Microinverter + 2 x 400W Rigid Solar Panels | 1200 | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://us.ecoflow.com/products/stream-microinverter) | — |
 | VA | EcoFlow STREAM Microinverter + 2 x 400W Rigid Solar Panels | 1200 | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://us.ecoflow.com/products/stream-microinverter) | — |
@@ -85,7 +85,7 @@ Codes: **OK** Compatible · **LIKELY** Likely compatible: confirm with seller ·
 | CT | EcoFlow STREAM Ultra | 800 | **No certification evidence found** | — | — |
 | MD | EcoFlow STREAM Ultra | 800 | **No certification evidence found** | — | — |
 | ME | EcoFlow STREAM Ultra | 800 | **No certification evidence found** | — | — |
-| NH | EcoFlow STREAM Ultra | 800 | **State rules not yet verified** | — | — |
+| NH | EcoFlow STREAM Ultra | 800 | **No certification evidence found** | — | — |
 | NJ | EcoFlow STREAM Ultra | 800 | **No certification evidence found** | — | — |
 | UT | EcoFlow STREAM Ultra | 800 | **No certification evidence found** | — | — |
 | VA | EcoFlow STREAM Ultra | 800 | **No certification evidence found** | — | — |
@@ -95,7 +95,7 @@ Codes: **OK** Compatible · **LIKELY** Likely compatible: confirm with seller ·
 | CT | Hoymiles HiFlow Pro LV HMS-391-1WM-LV | 391 | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://www.hoymiles.com/uploadfile/1/202607/76ba93c782.pdf) | — |
 | MD | Hoymiles HiFlow Pro LV HMS-391-1WM-LV | 391 | **Listing claimed, no certificate seen** | UL 3700 pending_or_claimed (component) [evidence](https://www.hoymiles.com/product-release/hoymiles-introduces-hiflow-pro-the-first-ul-3700-compliant-plug-in-microinverter-in-the-us-to-boost-diy-solar.html) | — |
 | ME | Hoymiles HiFlow Pro LV HMS-391-1WM-LV | 391 | **UL 3700 claimed, no certificate seen** | UL 3700 pending_or_claimed (component) [evidence](https://www.hoymiles.com/product-release/hoymiles-introduces-hiflow-pro-the-first-ul-3700-compliant-plug-in-microinverter-in-the-us-to-boost-diy-solar.html) | — |
-| NH | Hoymiles HiFlow Pro LV HMS-391-1WM-LV | 391 | **State rules not yet verified** | — | — |
+| NH | Hoymiles HiFlow Pro LV HMS-391-1WM-LV | 391 | **Listing claimed, no certificate seen** | UL 3700 pending_or_claimed (component) [evidence](https://www.hoymiles.com/product-release/hoymiles-introduces-hiflow-pro-the-first-ul-3700-compliant-plug-in-microinverter-in-the-us-to-boost-diy-solar.html) | — |
 | NJ | Hoymiles HiFlow Pro LV HMS-391-1WM-LV | 391 | **UL 3700 claimed, no certificate seen** | UL 3700 pending_or_claimed (component) [evidence](https://www.hoymiles.com/product-release/hoymiles-introduces-hiflow-pro-the-first-ul-3700-compliant-plug-in-microinverter-in-the-us-to-boost-diy-solar.html) | — |
 | UT | Hoymiles HiFlow Pro LV HMS-391-1WM-LV | 391 | **Listing claimed, no certificate seen** | UL 3700 pending_or_claimed (component) [evidence](https://www.hoymiles.com/product-release/hoymiles-introduces-hiflow-pro-the-first-ul-3700-compliant-plug-in-microinverter-in-the-us-to-boost-diy-solar.html) | — |
 | VA | Hoymiles HiFlow Pro LV HMS-391-1WM-LV | 391 | **Listing claimed, no certificate seen** | UL 3700 pending_or_claimed (component) [evidence](https://www.hoymiles.com/product-release/hoymiles-introduces-hiflow-pro-the-first-ul-3700-compliant-plug-in-microinverter-in-the-us-to-boost-diy-solar.html) | — |
@@ -105,7 +105,7 @@ Codes: **OK** Compatible · **LIKELY** Likely compatible: confirm with seller ·
 | CT | Hoymiles HiFlow Pro LV HMS-420-1WM-LV | 420 | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://www.hoymiles.com/uploadfile/1/202607/76ba93c782.pdf) | — |
 | MD | Hoymiles HiFlow Pro LV HMS-420-1WM-LV | 420 | **Listing claimed, no certificate seen** | UL 3700 pending_or_claimed (component) [evidence](https://www.hoymiles.com/product-release/hoymiles-introduces-hiflow-pro-the-first-ul-3700-compliant-plug-in-microinverter-in-the-us-to-boost-diy-solar.html) | — |
 | ME | Hoymiles HiFlow Pro LV HMS-420-1WM-LV | 420 | **UL 3700 claimed, no certificate seen** | UL 3700 pending_or_claimed (component) [evidence](https://www.hoymiles.com/product-release/hoymiles-introduces-hiflow-pro-the-first-ul-3700-compliant-plug-in-microinverter-in-the-us-to-boost-diy-solar.html) | — |
-| NH | Hoymiles HiFlow Pro LV HMS-420-1WM-LV | 420 | **State rules not yet verified** | — | — |
+| NH | Hoymiles HiFlow Pro LV HMS-420-1WM-LV | 420 | **Listing claimed, no certificate seen** | UL 3700 pending_or_claimed (component) [evidence](https://www.hoymiles.com/product-release/hoymiles-introduces-hiflow-pro-the-first-ul-3700-compliant-plug-in-microinverter-in-the-us-to-boost-diy-solar.html) | — |
 | NJ | Hoymiles HiFlow Pro LV HMS-420-1WM-LV | 420 | **UL 3700 claimed, no certificate seen** | UL 3700 pending_or_claimed (component) [evidence](https://www.hoymiles.com/product-release/hoymiles-introduces-hiflow-pro-the-first-ul-3700-compliant-plug-in-microinverter-in-the-us-to-boost-diy-solar.html) | — |
 | UT | Hoymiles HiFlow Pro LV HMS-420-1WM-LV | 420 | **Listing claimed, no certificate seen** | UL 3700 pending_or_claimed (component) [evidence](https://www.hoymiles.com/product-release/hoymiles-introduces-hiflow-pro-the-first-ul-3700-compliant-plug-in-microinverter-in-the-us-to-boost-diy-solar.html) | — |
 | VA | Hoymiles HiFlow Pro LV HMS-420-1WM-LV | 420 | **Listing claimed, no certificate seen** | UL 3700 pending_or_claimed (component) [evidence](https://www.hoymiles.com/product-release/hoymiles-introduces-hiflow-pro-the-first-ul-3700-compliant-plug-in-microinverter-in-the-us-to-boost-diy-solar.html) | — |
@@ -115,7 +115,7 @@ Codes: **OK** Compatible · **LIKELY** Likely compatible: confirm with seller ·
 | CT | Bright Saver Balcony Solar Kit, 180 W | unknown | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://www.hoymiles.com/uploadfile/1/202607/76ba93c782.pdf) | Output not stated, but its panels total 180 W, so it cannot exceed the limit. |
 | MD | Bright Saver Balcony Solar Kit, 180 W | unknown | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://www.hoymiles.com/uploadfile/1/202607/76ba93c782.pdf) | Output not stated, but its panels total 180 W, so it cannot exceed the limit. |
 | ME | Bright Saver Balcony Solar Kit, 180 W | unknown | **Not certified** | UL 3700 not_certified (complete_system) [evidence](https://www.brightsaver.org/balcony-solar-kits) | Output not stated, but its panels total 180 W, so it cannot exceed the limit. |
-| NH | Bright Saver Balcony Solar Kit, 180 W | unknown | **State rules not yet verified** | — | — |
+| NH | Bright Saver Balcony Solar Kit, 180 W | unknown | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://www.hoymiles.com/uploadfile/1/202607/76ba93c782.pdf) | Output not stated, but its panels total 180 W, so it cannot exceed the limit. |
 | NJ | Bright Saver Balcony Solar Kit, 180 W | unknown | **Not certified** | UL 3700 not_certified (complete_system) [evidence](https://www.brightsaver.org/balcony-solar-kits) | Output not stated, but its panels total 180 W, so it cannot exceed the limit. |
 | UT | Bright Saver Balcony Solar Kit, 180 W | unknown | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://www.hoymiles.com/uploadfile/1/202607/76ba93c782.pdf) | Output not stated, but its panels total 180 W, so it cannot exceed the limit. |
 | VA | Bright Saver Balcony Solar Kit, 180 W | unknown | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://www.hoymiles.com/uploadfile/1/202607/76ba93c782.pdf) | Output not stated, but its panels total 180 W, so it cannot exceed the limit. |
@@ -125,7 +125,7 @@ Codes: **OK** Compatible · **LIKELY** Likely compatible: confirm with seller ·
 | CT | Bright Saver Balcony Solar Kit, 360 W | unknown | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://www.hoymiles.com/uploadfile/1/202607/76ba93c782.pdf) | Output not stated, but its panels total 360 W, so it cannot exceed the limit. Check device count: Connecticut allows one device behind each meter; this product has an unstated number of inverters. |
 | MD | Bright Saver Balcony Solar Kit, 360 W | unknown | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://www.hoymiles.com/uploadfile/1/202607/76ba93c782.pdf) | Output not stated, but its panels total 360 W, so it cannot exceed the limit. Check device count: Maryland allows one system per electric meter; this product has an unstated number of inverters. |
 | ME | Bright Saver Balcony Solar Kit, 360 W | unknown | **Not certified** | UL 3700 not_certified (complete_system) [evidence](https://www.brightsaver.org/balcony-solar-kits) | Output not stated, but its panels total 360 W, so it cannot exceed the limit. |
-| NH | Bright Saver Balcony Solar Kit, 360 W | unknown | **State rules not yet verified** | — | — |
+| NH | Bright Saver Balcony Solar Kit, 360 W | unknown | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://www.hoymiles.com/uploadfile/1/202607/76ba93c782.pdf) | Output not stated, but its panels total 360 W, so it cannot exceed the limit. Check device count: New Hampshire allows one plug-in system per metered customer; this product has an unstated number of inverters. |
 | NJ | Bright Saver Balcony Solar Kit, 360 W | unknown | **Not certified** | UL 3700 not_certified (complete_system) [evidence](https://www.brightsaver.org/balcony-solar-kits) | Output not stated, but its panels total 360 W, so it cannot exceed the limit. |
 | UT | Bright Saver Balcony Solar Kit, 360 W | unknown | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://www.hoymiles.com/uploadfile/1/202607/76ba93c782.pdf) | Output not stated, but its panels total 360 W, so it cannot exceed the limit. |
 | VA | Bright Saver Balcony Solar Kit, 360 W | unknown | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://www.hoymiles.com/uploadfile/1/202607/76ba93c782.pdf) | Output not stated, but its panels total 360 W, so it cannot exceed the limit. |
@@ -135,7 +135,7 @@ Codes: **OK** Compatible · **LIKELY** Likely compatible: confirm with seller ·
 | CT | CraftStrom 800 Watt Plug&Play Solar | 700 (est.) | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://craftstrom.com/product/800-watt-plugplay-solar/) | Check device count: Connecticut allows one device behind each meter; this product has 2 inverters. |
 | MD | CraftStrom 800 Watt Plug&Play Solar | 700 (est.) | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://craftstrom.com/product/800-watt-plugplay-solar/) | Check device count: Maryland allows one system per electric meter; this product has 2 inverters. |
 | ME | CraftStrom 800 Watt Plug&Play Solar | 700 (est.) | **No certification evidence found** | — | — |
-| NH | CraftStrom 800 Watt Plug&Play Solar | 700 (est.) | **State rules not yet verified** | — | — |
+| NH | CraftStrom 800 Watt Plug&Play Solar | 700 (est.) | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://craftstrom.com/product/800-watt-plugplay-solar/) | Check device count: New Hampshire allows one plug-in system per metered customer; this product has 2 inverters. |
 | NJ | CraftStrom 800 Watt Plug&Play Solar | 700 (est.) | **No certification evidence found** | — | — |
 | UT | CraftStrom 800 Watt Plug&Play Solar | 700 (est.) | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://craftstrom.com/product/800-watt-plugplay-solar/) | — |
 | VA | CraftStrom 800 Watt Plug&Play Solar | 700 (est.) | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://craftstrom.com/product/800-watt-plugplay-solar/) | — |
@@ -145,7 +145,7 @@ Codes: **OK** Compatible · **LIKELY** Likely compatible: confirm with seller ·
 | CT | CraftStrom 1200 Watt Plug&Play Solar | 1050 (est.) | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://craftstrom.com/product/1200-watt-plugplay-solar/) | Check device count: Connecticut allows one device behind each meter; this product has 3 inverters. |
 | MD | CraftStrom 1200 Watt Plug&Play Solar | 1050 (est.) | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://craftstrom.com/product/1200-watt-plugplay-solar/) | Check device count: Maryland allows one system per electric meter; this product has 3 inverters. |
 | ME | CraftStrom 1200 Watt Plug&Play Solar | 1050 (est.) | **No certification evidence found** | — | — |
-| NH | CraftStrom 1200 Watt Plug&Play Solar | 1050 (est.) | **State rules not yet verified** | — | — |
+| NH | CraftStrom 1200 Watt Plug&Play Solar | 1050 (est.) | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://craftstrom.com/product/1200-watt-plugplay-solar/) | Check device count: New Hampshire allows one plug-in system per metered customer; this product has 3 inverters. |
 | NJ | CraftStrom 1200 Watt Plug&Play Solar | 1050 (est.) | **No certification evidence found** | — | — |
 | UT | CraftStrom 1200 Watt Plug&Play Solar | 1050 (est.) | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://craftstrom.com/product/1200-watt-plugplay-solar/) | — |
 | VA | CraftStrom 1200 Watt Plug&Play Solar | 1050 (est.) | **Listing claimed, no certificate seen** | UL 1741 pending_or_claimed (component) [evidence](https://craftstrom.com/product/1200-watt-plugplay-solar/) | — |
