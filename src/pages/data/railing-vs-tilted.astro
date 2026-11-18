@@ -1,0 +1,68 @@
+---
+/** Railing vs tilted data summary for journalists. Every number from data/solar_yield.json at build time. */
+import Base from '../../layouts/Base.astro';
+import { states, yields, isEnacted, fmtDate, BUILD_DATE, site, absUrl } from '../../lib/data';
+import { railingFindings, railingPct, paybackFindings } from '../../lib/findings';
+import { RAILING_CSV, railingCsvRows, datasetLd, LICENSE, ATTRIBUTION } from '../../lib/datasets';
+import { citation } from '../../lib/press';
+
+const R = railingFindings();
+const P = paybackFindings();
+const defs = yields.scenario_definitions;
+const rows = [...states].sort((a, b) => a.name.localeCompare(b.name)).map((s) => {
+  const y = yields.states[s.code];
+  return { s, loc: y.location, t: y.scenarios.ideal.kwh_per_kw_year, v: y.scenarios.vertical.kwh_per_kw_year, pct: railingPct(s.code), law: isEnacted(s) };
+});
+const src = yields.states[rows[0].s.code].scenarios.ideal.source;
+const all = R.all!; const law = R.lawStates!;
+const cite = citation();
+const title = `Balcony railing vs tilted solar panels: output by state (updated ${fmtDate(BUILD_DATE)})`;
+---
+<Base title={title} description={`Panels hung vertically on a railing make ${all.min}–${all.max}% of the output of panels tilted at 20°, depending on the state (NREL PVWatts v8, every state capital). Table, method and CSV download.`} crumbs={[{ name: 'Data', href: '/data/' }, { name: 'Railing vs tilted', href: '/data/railing-vs-tilted/' }]} jsonLd={[datasetLd(RAILING_CSV, 'download')]}>
+  <article class="prose">
+    <h1>{title}</h1>
+    <h2 id="summary">Summary</h2>
+    <p style="font-size:1.1rem">Solar panels hung vertically on a south-facing balcony railing make <strong>{all.min}–{all.max}%</strong> of what the same panels make tilted at {defs.ideal.tilt_deg}°, depending on the state. The smallest loss is in {all.maxState.name} ({all.max}%) and the largest in {all.minState.name} ({all.min}%). In the {law.n} states with a plug-in solar law, the range is {law.min}–{law.max}%.</p>
+    {P.railing && <p>For the {P.W} W reference kit at {P.sharePct}% of output used at home, that stretches payback in the plug-in-law states to {P.railing.best.years.toFixed(1)}–{P.railing.worst.years.toFixed(1)} years on a railing, against {P.tilted!.best.years.toFixed(1)}–{P.tilted!.worst.years.toFixed(1)} years tilted (<a href="/data/#payback">payback finding</a>).</p>}
+    <p class="small muted">Rebuilt {fmtDate(BUILD_DATE)} · solar data checked {fmtDate(yields.last_checked)}.</p>
+  </article>
+
+  <div class="table-wrap" style="margin:1rem 0">
+    <table class="stack">
+      <caption class="visually-hidden">Yearly output per kW of panels, tilted vs railing, by state capital</caption>
+      <thead><tr><th scope="col">State (location)</th><th scope="col">Tilted {defs.ideal.tilt_deg}° (kWh per kW a year)</th><th scope="col">Railing {defs.vertical.tilt_deg}° (kWh per kW a year)</th><th scope="col">Railing as % of tilted</th></tr></thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr>
+            <th scope="row"><a href={`/states/${r.s.slug}/`}>{r.s.name}</a><span class="small muted"><br />{r.loc}{r.law && ' · plug-in law'}</span></th>
+            <td data-label={`Tilted ${defs.ideal.tilt_deg}°`} class="num">{typeof r.t === 'number' ? r.t.toLocaleString('en-US') : 'Unknown'}</td>
+            <td data-label={`Railing ${defs.vertical.tilt_deg}°`} class="num">{typeof r.v === 'number' ? r.v.toLocaleString('en-US') : 'Unknown'}</td>
+            <td data-label="Railing as % of tilted" class="num"><strong>{r.pct === null ? 'Unknown' : `${r.pct}%`}</strong></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <article class="prose">
+    <h2 id="method">Method</h2>
+    <ul>
+      <li>Model: {yields.model}, run once per state at the state capital ({rows.length} locations).</li>
+      <li>Two cases, both facing south (azimuth {defs.ideal.azimuth_deg}°): {defs.ideal.label} and {defs.vertical.label}.</li>
+      <li>{yields.common.system_capacity_kw_dc} kW of panels, {yields.common.array_type}, {yields.common.module_type} modules, {yields.common.losses_pct}% system losses. Figures are kWh per kW of panels per year, before any inverter limit.</li>
+      <li>Railing as % of tilted = railing output ÷ tilted output, rounded to a whole percent.</li>
+      <li>Limits: one location per state; no shade; south-facing only. East- or west-facing balconies and shade cut output further.</li>
+    </ul>
+
+    <h2 id="sources">Sources</h2>
+    <ul>
+      <li><a href={src!.url} rel="noopener">{yields.model}: API documentation</a> (accessed {fmtDate(src!.accessed)}). Each row's exact query is stored with the data.</li>
+      <li>Plug-in law status: our <a href="/states/">state records</a>, read from each legislature's own texts (<a href="/how-we-verify/">how we verify</a>).</li>
+    </ul>
+
+    <h2 id="download">Download</h2>
+    <p><a class="btn" href={RAILING_CSV.path} download>Download CSV</a> <span class="small muted">{railingCsvRows().length} rows · {RAILING_CSV.header.length} columns · UTF-8 · generated at build time</span></p>
+    <p>Licensed <a href={LICENSE.url} rel="license noopener">{LICENSE.name}</a>. Credit: "<strong>{ATTRIBUTION}</strong>". More data: <a href="/data/">all downloads and key findings</a> · <a href="/guides/railing-vs-tilted/">plain-English guide</a>.</p>
+    <p class="small">Cite: {cite.short}, {title}, {absUrl('/data/railing-vs-tilted/')}. Questions: <strong>{site.CONTACT_EMAIL}</strong>.</p>
+  </article>
+</Base>

@@ -169,3 +169,10 @@ bills.nhliberty.org  documents.ncsl.org  sd11.senate.ca.gov  www.gov.ca.gov  cer
 - **Sources:** gc.nh.gov bill status and RSA 362-A:10, 362-A:1-a, 374:1-b, 155-A:16 pages, read by the admin research agent on 2026-11-17. gc.nh.gov gives an empty reply to the build environment, so the build agent could not re-fetch them; each source says so.
 - **Kits:** NH is judged as lab-listed (like Colorado), with the one-device caveat (like CT and MD). New update kind `data_update`; Jan 1 email draft for NH key-dates subscribers (`npm run email:nh`, research/emails/2027-01-01-new-hampshire.md). How we verify now builds its state lists from the data.
 - QA: 80 tests (7 new for NH), 3,583 internal links, 0 broken.
+
+## Update (session 7): press prep follow-up, 18 November 2026
+
+- **/about/**: run and written by Soufiane Lqadi (owner's instruction; `EDITOR_NAME` in config/site.json, so bylines, /press/ and Person schema match). Research method spelled out: statutes, the kit audit and every label (from src/lib/compat.ts), savings sources (EIA, NREL PVWatts v8, HTW Berlin), schedule (daily rebuild, weekly checks), no paid placement. Contact by email only.
+- **/data/railing-vs-tilted/**: new journalist data page: summary, table for every state capital, method, sources, CSV `/data/railing-vs-tilted.csv` built at build time (CC BY 4.0), Dataset JSON-LD.
+- **/press/**: "Key facts and dates" section built from data: signed-law count, each upcoming effective date (CA, NH, VA Jan 1 2027; NJ Mar 1 2027), and the kit certification fact; links to the data pages and About.
+- Sitemap and footer include the new page. QA: 83 tests, 3,761 internal links, 0 broken; Lighthouse mobile 100 ×4 on /about/, /data/railing-vs-tilted/, /press/.

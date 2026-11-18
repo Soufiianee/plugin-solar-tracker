@@ -3,10 +3,10 @@
  * Every cell comes from the data files through the same functions the site uses. Licensed CC BY 4.0.
  * Unknown or not-applicable values keep the data files' own words ("unknown", "not_applicable").
  */
-import { states, prices, assumptions, refKit, siteName, site, absUrl, isEnacted, statusLabel, effectiveDate, mainBill, yieldFor, BUILD_DATE } from './data';
+import { states, prices, assumptions, refKit, siteName, site, absUrl, isEnacted, statusLabel, effectiveDate, mainBill, yieldFor, BUILD_DATE, yields } from './data';
 import { ruleValue } from './labels';
 import { verdictLabel, verdictHelp, needsSystemCert } from './compat';
-import { savingsFor, kitAudit } from './findings';
+import { savingsFor, kitAudit, railingPct } from './findings';
 import type { State } from './schema';
 
 export const LICENSE = { name: 'CC BY 4.0', url: 'https://creativecommons.org/licenses/by/4.0/' };
@@ -97,3 +97,19 @@ export function datasetLd(d: { path: string; name: string; description: string; 
     creditText: ATTRIBUTION,
   };
 }
+
+// ---------- railing (vertical 90°) vs tilted (20°), one row per state capital ----------
+export const RAILING_CSV = {
+  path: '/data/railing-vs-tilted.csv',
+  name: 'US plug-in solar: balcony railing (vertical) vs tilted panel output by state',
+  description: 'One row per state and DC: modelled yearly output per kW of panels at the state capital for panels tilted at 20° and hung vertically (90°) on a railing, both facing south, and railing output as a percentage of tilted, from NREL PVWatts v8.',
+  header: ['state_code', 'state', 'location', 'lat', 'lon', 'tilted_20deg_kwh_per_kw_year', 'railing_90deg_kwh_per_kw_year', 'railing_pct_of_tilted', 'has_plug_in_law', 'model', 'solar_data_last_checked', 'source', 'license'],
+};
+export function railingCsvRows(): Cell[][] {
+  return sortedStates().map((s) => {
+    const y = yields.states[s.code];
+    const p = railingPct(s.code);
+    return [s.code, s.name, y.location, y.lat, y.lon, num(y.scenarios.ideal.kwh_per_kw_year), num(y.scenarios.vertical.kwh_per_kw_year), p ?? 'unknown', isEnacted(s) ? 'yes' : 'no', yields.model, yields.last_checked, ATTRIBUTION, LICENSE.name];
+  });
+}
+export const railingCsv = () => toCsv(RAILING_CSV.header, railingCsvRows());

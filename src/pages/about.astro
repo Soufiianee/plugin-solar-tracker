@@ -1,9 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
-import { states, kits, isEnacted, siteName, site, absUrl, prices, yields, fmtDate, lastCheckedAll } from '../lib/data';
+import { states, kits, isEnacted, siteName, site, absUrl, prices, yields, fmtDate, lastCheckedAll, assumptions } from '../lib/data';
+import { verdictLabel, verdictHelp, VERDICT_ORDER } from '../lib/compat';
 import { organizationNode, editorNode, editorName, ORG_ID } from '../lib/ld';
 const name = siteName;
 const lawCount = states.filter(isEnacted).length;
+const labels = VERDICT_ORDER.filter((v) => v !== 'no_state_law');
+const htw = assumptions.self_consumption.sources[0];
 const aboutLd = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -16,30 +19,37 @@ const aboutLd = {
 <Base title="About" description={`${name} is an independent site run by ${editorName}, an independent researcher. It tracks US plug-in (balcony) solar laws and kit certification, checked against official sources.`} crumbs={[{ name: 'About', href: '/about/' }]} jsonLd={[aboutLd]}>
   <article class="prose">
     <h1>About {name}</h1>
-    <p style="font-size:1.1rem"><strong>{name}</strong> is an independent site run by <strong>{editorName}</strong>, an independent researcher.</p>
+    <p style="font-size:1.1rem"><strong>{name}</strong> is an independent site run by <strong>{editorName}</strong>, an independent researcher, who writes and checks everything on it.</p>
 
     <h2>What the site does</h2>
     <p>Plug-in solar, also called balcony solar, means a small solar system that plugs into an ordinary outlet. {lawCount} states have now signed laws that say when you can use one without a utility interconnection agreement. Each law is different: size limits, notices to utilities and landlords, and the safety certification a kit needs.</p>
     <p>The site answers three questions for all 50 states and DC: is plug-in solar legal where you live, what are the rules, and which kits qualify? It also estimates what a kit could save, state by state. We track {kits.length} kits and the certificates behind them.</p>
 
-    <h2>How every fact is checked</h2>
-    <ul>
-      <li><strong>State laws</strong> come from official legislature texts: bill pages, enrolled and chaptered laws, governors' signing records and utility commission pages. Trackers and news only give us leads.</li>
-      <li><strong>Kit certification</strong> counts only when we have seen a certifier's directory entry or a certificate document. A maker's claim is shown as a claim.</li>
-      <li><strong>Solar output</strong> comes from {yields.model}, run for each state capital.</li>
-      <li><strong>Electricity prices</strong> are U.S. EIA residential averages ({prices.period}).</li>
-      <li><strong>Check dates on every page.</strong> Each state page, kit page and guide shows the date we last checked it, and every source shows the date we accessed it. The oldest state record was checked {fmtDate(lastCheckedAll())}.</li>
+    <h2>The research method</h2>
+    <h3>State laws: read from the statutes themselves</h3>
+    <p>Every rule on a state page (size limit, utility notice, renter and HOA rules, certification) is read from the enacted or chaptered law, the legislature's bill page, a governor's signing record or a utility commission page, and links to the section it comes from. Trackers and news only give us leads. When we cannot confirm a fact on an official source, we say "unknown" instead of guessing.</p>
+    <h3>The kit certification audit</h3>
+    <p>We check every kit we track ({kits.length}) against every state law. A certificate counts only when we have seen the certifier's directory entry or the certificate itself; a maker's claim is shown as a claim. Each state-and-kit pair gets one label:</p>
+    <ul class="small">
+      {labels.map((v) => <li><strong>{verdictLabel[v]}</strong>: {verdictHelp[v]}</li>)}
     </ul>
-    <p>When we cannot confirm a fact, we say "unknown" instead of guessing. The full method is on <a href="/how-we-verify/">how we verify</a>.</p>
+    <h3>The savings model</h3>
+    <ul>
+      <li><strong>Electricity prices</strong>: U.S. EIA residential averages, {prices.period} ({prices.source.title}).</li>
+      <li><strong>Solar output</strong>: {yields.model}, run for each state capital, for panels tilted at {yields.scenario_definitions.ideal.tilt_deg}° and hung vertically on a railing.</li>
+      <li><strong>Share of output used at home</strong>: {assumptions.self_consumption.typical_pct}% in the typical case, from <a href={htw.url} rel="noopener">{htw.title}</a>; 100% in the best case. Power sent to the grid is assumed to earn nothing.</li>
+    </ul>
+    <h3>How often we check</h3>
+    <p>The site is rebuilt every day, so laws switch to "in effect" on their effective date. Every record is re-checked against its sources at least once a week, and sooner when a bill has a vote scheduled or a law is about to take effect. Each state page, kit page and guide shows the date we last checked it, and every source shows the date we accessed it; the oldest state record was checked {fmtDate(lastCheckedAll())}. Full detail: <a href="/how-we-verify/">how we verify</a>.</p>
 
     <h2>Independence</h2>
-    <p>We are not a government agency, a utility or a solar company, and we are not affiliated with any of them. Some retailer links may earn us a commission. Those links are labelled "Sponsored", and affiliate links never change a rating or a verdict. Brands cannot pay for a verdict. See our <a href="/disclosure/">disclosure</a>.</p>
+    <p>We are not a government agency, a utility or a solar company, and we are not affiliated with any of them. There is no paid placement: no brand can pay for a label, a rating or a position in a list. Some retailer links may earn us a commission. Those links are labelled "Sponsored", and they never change a rating or a verdict. See our <a href="/disclosure/">disclosure</a>.</p>
 
     <h2>Corrections</h2>
     <p>If we get something wrong, we fix it and log the fix with its date. Read the <a href="/corrections/">corrections policy</a>.</p>
 
     <h2>Contact</h2>
-    <p>Corrections, questions and press: <strong>{site.CONTACT_EMAIL}</strong>. Journalists: see <a href="/press/">for journalists</a> and our <a href="/data/">data downloads</a>.</p>
+    <p>Corrections, questions and press, all by email only: <strong>{site.CONTACT_EMAIL}</strong>. Journalists: see <a href="/press/">for journalists</a> and our <a href="/data/">data downloads</a>.</p>
 
     <h2>What we are not</h2>
     <p>We do not give legal or electrical advice. Read the <a href="/disclaimer/">disclaimer</a>.</p>

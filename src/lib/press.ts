@@ -2,7 +2,7 @@
  * Press sentences for /data/ and /press/. Each is built from src/lib/findings.ts, so no figure is typed by hand.
  * Every finding carries the link to its method.
  */
-import { fmtDate, BUILD_DATE, siteName, absUrl, site, mainBill } from './data';
+import { fmtDate, BUILD_DATE, siteName, absUrl, site, mainBill, effectiveDate } from './data';
 import { fmtUsd } from './calc';
 import { verdictLabel, needsSystemCert } from './compat';
 import { ruleValue } from './labels';
@@ -118,4 +118,22 @@ export function citation() {
     full: `${siteName}. (${year}). US plug-in solar: state laws, kits and savings data (updated ${fmtDate(BUILD_DATE)}) [Data set]. ${absUrl('/data/')}. Licensed under CC BY 4.0.`,
     short: `Source: ${siteName} (${new URL(site.BASE_URL).host})`,
   };
+}
+
+/** Dated key facts for /press/: signed-law count, each law's effective date, kit certification, all from the data. */
+export function keyDates(): { date: string | null; text: string; href: string }[] {
+  const L = lawFindings();
+  const K = kitFindings();
+  const out: { date: string | null; text: string; href: string }[] = [];
+  out.push({ date: BUILD_DATE, text: `${L.signed.length} states have signed a plug-in solar law (${andList(L.signed.map((s) => s.name))}); ${L.inEffect.length} are in effect.`, href: '/data/#laws' });
+  const dated = L.signed.map((s) => ({ s, eff: effectiveDate(s), bill: mainBill(s) })).filter((x) => x.eff && x.eff > BUILD_DATE).sort((a, b) => a.eff!.localeCompare(b.eff!) || a.s.name.localeCompare(b.s.name));
+  for (const x of dated) out.push({ date: x.eff, text: `${x.s.name}'s law (${x.bill?.id}) takes effect on ${fmtDate(x.eff!)}.`, href: `/states/${x.s.slug}/` });
+  out.push({
+    date: BUILD_DATE,
+    text: K.compatiblePairs.length === 0
+      ? `No complete certified kit is confirmed in any state yet: none of the ${K.kitCount} kits we track has a certificate covering the complete system.`
+      : `${K.compatiblePairs.length} state-and-kit pairs are confirmed compatible.`,
+    href: '/data/#kits',
+  });
+  return out;
 }

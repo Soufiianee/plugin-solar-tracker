@@ -190,3 +190,34 @@ describe.skipIf(!built)('built /data/ and /press/ pages match the data', () => {
     for (const d of ds) expect(d.license).toBe('https://creativecommons.org/licenses/by/4.0/');
   });
 });
+
+import { railingCsv, RAILING_CSV } from '../src/lib/datasets';
+import { keyDates } from '../src/lib/press';
+describe('railing vs tilted CSV and press key dates', () => {
+  it('railing CSV: 51 rows, values and percentages from solar_yield.json', () => {
+    const [h, ...body] = parseCsv(railingCsv());
+    expect(h).toEqual(RAILING_CSV.header);
+    expect(body).toHaveLength(51);
+    for (const r of body) {
+      expect(r).toHaveLength(h.length);
+      expect(r[5]).toBe(String(Y[r[0]].scenarios.ideal.kwh_per_kw_year));
+      expect(r[6]).toBe(String(Y[r[0]].scenarios.vertical.kwh_per_kw_year));
+      expect(r[7]).toBe(String(pct(r[0])));
+      expect(r[8]).toBe(law.some((s) => s.code === r[0]) ? 'yes' : 'no');
+    }
+  });
+  it('key dates list every signed law not yet in effect, with its effective date', () => {
+    const kd = keyDates();
+    expect(kd[0].text).toContain(`${law.length} states have signed`);
+    const upcoming = law.filter((s) => effOf(s) && effOf(s) > BUILD_DATE);
+    for (const s of upcoming) expect(kd.some((d) => d.date === effOf(s) && d.text.startsWith(s.name))).toBe(true);
+    expect(kd.at(-1)!.text).toMatch(/No complete certified kit is confirmed in any state yet/);
+  });
+});
+describe.skipIf(!existsSync('dist/data/railing-vs-tilted.csv'))('built railing page', () => {
+  it('built CSV is the generated CSV, and the summary range is on the page', () => {
+    expect(readFileSync('dist/data/railing-vs-tilted.csv', 'utf8')).toBe(railingCsv());
+    const R = railingFindings();
+    expect(readFileSync('dist/data/railing-vs-tilted/index.html', 'utf8')).toContain(`${R.all!.min}–${R.all!.max}%`);
+  });
+});

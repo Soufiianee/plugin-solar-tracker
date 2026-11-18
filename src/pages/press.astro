@@ -3,16 +3,23 @@
 import Base from '../layouts/Base.astro';
 import { BUILD_DATE, fmtDate, siteName, site } from '../lib/data';
 import { editorName } from '../lib/ld';
-import { storyAngles, quoteFacts, citation } from '../lib/press';
+import { storyAngles, quoteFacts, citation, keyDates } from '../lib/press';
 
 const angles = storyAngles();
 const facts = quoteFacts();
 const cite = citation();
+const dates = keyDates();
 ---
 <Base title="For journalists" description={`Story angles, quote-ready facts and free data (CC BY 4.0) on US plug-in (balcony) solar laws, certified kits and savings. Contact ${site.CONTACT_EMAIL}.`} crumbs={[{ name: 'For journalists', href: '/press/' }]}>
   <article class="prose">
     <h1>For journalists</h1>
     <p style="font-size:1.1rem">{siteName} tracks plug-in solar laws in all 50 states and DC against official sources, with free data you can quote and link. Every figure below is computed from our <a href="/data/">data page</a>; updated {fmtDate(BUILD_DATE)}.</p>
+
+    <h2 id="key-dates">Key facts and dates</h2>
+    <ul>
+      {dates.map((d) => <li>{d.date && <><time datetime={d.date}>{fmtDate(d.date)}</time>: </>}{d.text} <a href={d.href} class="small">Details</a></li>)}
+    </ul>
+    <p class="small">Data pages: <a href="/data/">key findings and downloads</a> · <a href="/data/railing-vs-tilted/">railing vs tilted panels, by state</a>. Who we are: <a href="/about/">about {siteName}</a>.</p>
 
     <h2 id="angles">Story angles</h2>
   </article>

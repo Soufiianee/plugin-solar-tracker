@@ -312,7 +312,7 @@ export const siteFile = z.object({
   SITE_ALTERNATE_NAME: z.string(),
   /** empty = no contact page and no footer link */
   CONTACT_EMAIL: z.string(),
-  /** the editor's public name (first name and initial only), used in bylines and Person structured data */
+  /** the editor's public name, used in bylines, /about/, /press/ and Person structured data (no phone, no personal email, no address) */
   EDITOR_NAME: z.string().min(2),
   /** days within which we review a correction request (shown on /corrections/) */
   CORRECTIONS_REVIEW_DAYS: z.number().int().positive(),

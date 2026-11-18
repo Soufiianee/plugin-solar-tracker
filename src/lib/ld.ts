@@ -11,7 +11,7 @@ export const organizationNode = () => ({
   email: site.CONTACT_EMAIL, logo: absUrl('/favicon.svg'), founder: { '@id': EDITOR_ID }, publishingPrinciples: absUrl('/how-we-verify/'),
   correctionsPolicy: absUrl('/corrections/'),
 });
-/** Name only (first name and initial): no surname, address, photo or social profiles. */
+/** Name only: no address, phone, personal email, photo or social profiles. */
 export const editorNode = () => ({
   '@type': 'Person', '@id': EDITOR_ID, name: editorName, jobTitle: 'Editor', description: 'Independent researcher',
   url: absUrl('/about/'), worksFor: { '@id': ORG_ID },
